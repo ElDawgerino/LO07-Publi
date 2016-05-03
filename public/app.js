@@ -60,7 +60,7 @@ app.controller('Register', [
       }
 }]);
 
-app.controller('Login',[
+app.controller('Login', [
   '$scope',
   '$http',
   '$state',
