@@ -21,7 +21,7 @@ app.config([
       url: '/login',
       templateUrl: 'login',
       controller: 'Login'
-    })
+    });
 
     $urlRouterProvider.otherwise('home');
 }]);
