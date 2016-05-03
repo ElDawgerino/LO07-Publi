@@ -23,10 +23,9 @@ $app->post('/api/login', function ($request, $response, $args) {
 $app->post('/api/logout', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    $username = $request_params["username"];
-    $password = $request_params["password"];
+    $token = $request_params["token"];
 
-    return $response->withJson(user_management::login($username, $password));
+    return $response->withJson(user_management::logout($token));
 });
 
 $app->post('/register', function ($request, $response, $args) {

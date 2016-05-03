@@ -60,7 +60,6 @@ app.controller('Register', [
       }
 }]);
 
-<<<<<<< HEAD
 app.controller('Login',[
     '$scope',
     '$http',
