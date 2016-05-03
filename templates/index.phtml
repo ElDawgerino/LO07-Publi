@@ -1,8 +1,10 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Slim 3</title>
+        <title>LO07-publi</title>
         <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <script src="public/app.js"></script>
         <style>
             body {
                 margin: 50px 0 0 0;
@@ -25,13 +27,9 @@
         </style>
     </head>
     <body>
-        <h1>Slim</h1>
-        <div>a microframework for PHP</div>
-
-        <?php if (isset($name)) : ?>
-            <h2>Hello <?= htmlspecialchars($name); ?>!</h2>
-        <?php else: ?>
-            <p>Try <a href="/SlimFramework">/SlimFramework</a>
-        <?php endif; ?>
+      <div ng-app="LO07-publi" ng-controller="Home">
+        <h1>LO07-public</h1>
+        <div>{{text}}</div>
+      </div>
     </body>
 </html>
