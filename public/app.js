@@ -17,6 +17,12 @@ app.config([
       controller: 'Register'
     });
 
+    $stateProvider.state('login', {
+      url: '/login',
+      templateUrl: 'login',
+      controller: 'Login'
+    })
+
     $urlRouterProvider.otherwise('home');
 }]);
 
@@ -24,12 +30,16 @@ app.controller('Home', [
 '$scope',
 '$state',
 function($scope, $state){
-  
+
   $scope.text = 'Une application web de gestion du publication!';
 
   $scope.register = function(){
     $state.go("register");
   };
+
+  $scope.login = function(){
+    $state.go("login");
+  }
 }]);
 
 
@@ -38,7 +48,6 @@ app.controller('Register', [
     '$http',
     '$state',
     function($scope, $http, $state){
-
 
       $scope.equipes = ["CREIDD", "ERA", "GAMMA3", "LASMIS", "LM2S", "LNIO", "LOSI", "Tech-CICO"];
 
@@ -49,4 +58,20 @@ app.controller('Register', [
       $scope.register = function(){
         //TODO : envoyer les données du formulaire au serveur
       }
+}]);
+
+app.controller('Login',[
+  '$scope',
+  '$state',
+  '$http',
+  function($scope, $http, $state){
+
+    $scope.annuler = function(){
+      $state.go("home");
+    };
+
+    $scope.logIn = function(){
+      //TODO : envoyer les données du formulaire au serveur
+    };
+
 }]);

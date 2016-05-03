@@ -34,7 +34,8 @@
       <script type="text/ng-template" id="home">
         <h1>LO07-publi</h1>
         <div>{{text}}</div>
-        <button ng-click="register()">S'inscrire</button>
+        <button ng-click="register()">Inscription</button>
+        <button ng-click="login()">Connexion</button>
       </script>
 
       <script type="text/ng-template" id="register">
@@ -44,7 +45,7 @@
           <input type="text" id="prenom" ng-model="prenom"> <br> <br>
           <label for="nom">Nom : </label>
           <input type="text" id="nom" ng-model="nom"> <br> <br>
-          <label for="login">Login : </label>
+          <label for="login">Identifiant : </label>
           <input type="text" id="login" ng-model="login"> <br> <br>
           <label for="password">Mot de passe : </label>
           <input type="password" id="password" ng-model="password"> <br> <br>
@@ -56,5 +57,16 @@
           <button ng-click="annuler()">Annuler</button>
         </form>
       </script>
+
+      <script type="text/ng-template" id="login">
+        <h1>Connexion</h1>
+        <form>
+          <label for="login">Identifiant : </label>
+          <input type="text" id="login" ng-model="login">
+          <label for="password">Mot de passe :</label>
+          <input type="password" id="password" ng-model="password">
+          <button ng-click="logIn()">Connexion</button>
+          <button ng-click="annuler()">Annuler</button>
+        </form>
     </body>
 </html>
