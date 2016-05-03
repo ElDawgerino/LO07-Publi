@@ -27,19 +27,38 @@ app.config([
 }]);
 
 app.controller('Home', [
-'$scope',
-'$state',
-function($scope, $state){
+    '$scope',
+    '$http',
+    '$state',
+    function($scope, $http, $state){
 
-  $scope.text = 'Une application web de gestion du publication!';
+        $scope.text = 'Une application web de gestion du publication!';
 
-  $scope.register = function(){
-    $state.go("register");
-  };
+        $scope.register = function(){
+            $state.go("register");
+        };
 
-  $scope.login = function(){
-    $state.go("login");
-  }
+        $scope.login = function(){
+            $state.go("login");
+        };
+
+        $scope.logout = function(){
+            //TODO: Mettre ça dans un autre fichier JS
+            $http.post('api/logout', { token: "fake_token" }).then( //TODO: Utiliser le vrai token (voir note TODO plus bas pour + d'info)
+                function(response){
+                    //The request is successful
+                    console.log("Logout request OK");
+                    console.log("Received data from server :");
+                    console.log(response.data); //TODO: A supprimer
+                    //TODO:
+                    //Retirer le token de la variable de session !
+                },
+                function(response){
+                    //The request is not successful
+                }
+            );
+        }
+
 }]);
 
 
@@ -71,7 +90,8 @@ app.controller('Login',[
         };
 
         $scope.logIn = function(){
-            $http.post('api/login', { username: "test1", password: "angular" }).then(
+            //TODO: Mettre ça dans un autre fichier JS
+            $http.post('api/login', { username: "test1", password: "angular" }).then( //TODO: Utiliser les vraies données du formulaire
                 function(response){
                     //The request is successful
                     console.log("Login request OK");
