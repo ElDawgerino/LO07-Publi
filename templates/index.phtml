@@ -4,6 +4,7 @@
         <title>LO07-publi</title>
         <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
         <script src="public/app.js"></script>
         <style>
             body {
@@ -26,10 +27,34 @@
             }
         </style>
     </head>
-    <body>
-      <div ng-app="LO07-publi" ng-controller="Home">
+    <body ng-app="LO07-publi">
+
+      <ui-view></ui-view>
+
+      <script type="text/ng-template" id="home">
         <h1>LO07-publi</h1>
         <div>{{text}}</div>
-      </div>
+        <button ng-click="register()">S'inscrire</button>
+      </script>
+
+      <script type="text/ng-template" id="register">
+        <h1>Inscription</h1>
+        <form>
+          <label for="prenom">Prénom : </label>
+          <input type="text" id="prenom" ng-model="prenom"> <br> <br>
+          <label for="nom">Nom : </label>
+          <input type="text" id="nom" ng-model="nom"> <br> <br>
+          <label for="login">Login : </label>
+          <input type="text" id="login" ng-model="login"> <br> <br>
+          <label for="password">Mot de passe : </label>
+          <input type="password" id="password" ng-model="password"> <br> <br>
+          <label for="organisation">Organisation : </label>
+          <input type="text" id="organisation" ng-model="organisation"> <br> <br>
+          <label for="equipe">Equipe : </label>
+          <select id="equipe" ng-model="equipe" ng-options="equipe for equipe in equipes" ng-init="equipe = equipes[0]"></select> <br> <br>
+          <button ng-click="register()">Inscription</button>
+          <button ng-click="annuler()">Annuler</button>
+        </form>
+      </script>
     </body>
 </html>
