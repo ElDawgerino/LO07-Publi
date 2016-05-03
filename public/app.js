@@ -44,7 +44,7 @@ app.controller('Home', [
 
         $scope.logout = function(){
             //TODO: Mettre ça dans un autre fichier JS
-            $http.post('api/logout', { token: "fake_token" }).then( //TODO: Utiliser le vrai token (voir note TODO plus bas pour + d'info)
+            $http.post('logout', { token: "fake_token" }).then( //TODO: Utiliser le vrai token (voir note TODO plus bas pour + d'info)
                 function(response){
                     //The request is successful
                     console.log("Logout request OK");
@@ -91,7 +91,7 @@ app.controller('Login',[
 
         $scope.logIn = function(){
             //TODO: Mettre ça dans un autre fichier JS
-            $http.post('api/login', { username: "test1", password: "angular" }).then( //TODO: Utiliser les vraies données du formulaire
+            $http.post('login', { username: "test1", password: "angular" }).then( //TODO: Utiliser les vraies données du formulaire
                 function(response){
                     //The request is successful
                     console.log("Login request OK");

@@ -1,7 +1,7 @@
 <?php
 // Routes
 
-require_once 'api/php/user.php';
+require_once 'src/user.php';
 
 $app->get('/', function ($request, $response, $args) {
     // Sample log message
@@ -11,7 +11,7 @@ $app->get('/', function ($request, $response, $args) {
     return $this->renderer->render($response, 'index.phtml', $args);
 });
 
-$app->post('/api/login', function ($request, $response, $args) {
+$app->post('/login', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
     $username = $request_params["username"];
@@ -20,7 +20,7 @@ $app->post('/api/login', function ($request, $response, $args) {
     return $response->withJson(user_management::login($username, $password));
 });
 
-$app->post('/api/logout', function ($request, $response, $args) {
+$app->post('/logout', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
     $token = $request_params["token"];
