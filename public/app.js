@@ -62,8 +62,8 @@ app.controller('Register', [
 
 app.controller('Login',[
   '$scope',
-  '$state',
   '$http',
+  '$state',
   function($scope, $http, $state){
 
     $scope.annuler = function(){
