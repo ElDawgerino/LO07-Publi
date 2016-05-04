@@ -63,10 +63,10 @@
         <h1>Connexion</h1>
         <form>
           <label for="login">Identifiant : </label>
-          <input type="text" id="login" ng-model="login">
+          <input type="text" id="login" ng-model="login_info.username">
           <label for="password">Mot de passe :</label>
-          <input type="password" id="password" ng-model="password">
-          <button ng-click="logIn()">Connexion</button>
+          <input type="password" id="password" ng-model="login_info.password">
+          <button ng-click="login(login_info)">Connexion</button>
           <button ng-click="annuler()">Annuler</button>
         </form>
       </script>

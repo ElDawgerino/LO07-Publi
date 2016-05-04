@@ -7,7 +7,7 @@ class user_management
         if(self::check_connection())
         {
             $response = [
-                "state" => "already"
+                "status" => "already_connected"
             ];
 
             return $response;
@@ -17,22 +17,25 @@ class user_management
         if(($username == "test1" || $username == "test2") && $password == "angular")
         {
             $response = [
-                "state" => "succeed",
-                "username" => $username,
-                "roles" => ["foo", "bar", "foobar"]
+                "status" => "succeed",
+                "user" => [
+                    "id" => 1,
+                    "username" => $username,
+                ],
             ];
 
             //On stocke l'état de connexion dans une session (contrainte du projet)
             // => pas besoin de token donc.
             $_SESSION["connected"] = true;
             $_SESSION["username"] = $username;
+            //TODO: Récupérer les droits de l'utilisateur et autres infos
 
             return $response;
         }
         else
         {
             $response = [
-                "state" => "invalid"
+                "status" => "invalid"
             ];
 
             $_SESSION["connected"] = false;
@@ -64,11 +67,11 @@ class user_management
             // Recréation d'une nouvelle session neuve
             session_start();
 
-            return ["state" => "succeed"];
+            return ["status" => "succeed"];
         }
         else
         {
-            return ["state" => "was_not_connected"];
+            return ["status" => "was_not_connected"];
         }
     }
 

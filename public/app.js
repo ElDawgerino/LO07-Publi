@@ -44,7 +44,7 @@ app.controller('Home', [
 
         $scope.logout = function(){
             //TODO: Mettre ça dans un autre fichier JS
-            $http.post('logout', { token: "fake_token" }).then( //TODO: Utiliser le vrai token (voir note TODO plus bas pour + d'info)
+            $http.post('logout').then(
                 function(response){
                     //The request is successful
                     console.log("Logout request OK");
@@ -89,16 +89,16 @@ app.controller('Login',[
             $state.go("home");
         };
 
-        $scope.logIn = function(){
+        $scope.login = function(login_info){
             //TODO: Mettre ça dans un autre fichier JS
-            $http.post('login', { username: "test1", password: "angular" }).then( //TODO: Utiliser les vraies données du formulaire
+            $http.post('login', { username: login_info.username, password: login_info.password }).then( //TODO: Hasher le mot de passe
                 function(response){
                     //The request is successful
                     console.log("Login request OK");
                     console.log("Received data from server :");
                     console.log(response.data); //TODO: A supprimer
                     //TODO:
-                    //Stocker le token dans une variable de session du navigateur et créer un service Angular permettant d'y accéder facilement
+                    //Stocker les données utilisateur dans une variable de session du navigateur et créer un service Angular permettant d'y accéder facilement
                 },
                 function(response){
                     //The request is not successful
