@@ -98,7 +98,7 @@ app.controller('Login',[
                 return;
             }
 
-            $http.post('login', { username: login_info.username, password: login_info.password }).then( //TODO: Hasher le mot de passe
+            $http.post('login', { username: login_info.username, password: sha256_digest(login_info.password) }).then(
                 function(response){
                     //The request is successful
                     console.log("Login request OK");

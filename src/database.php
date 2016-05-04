@@ -19,6 +19,16 @@ class database
         return $this->is_ok;
     }
 
+    public function query($query)
+    {
+        return $this->mysqli->query($query);
+    }
+
+    public function escape_string($str)
+    {
+        return $this->mysqli->real_escape_string($str);
+    }
+
     private $mysqli;
 
     private $is_ok;

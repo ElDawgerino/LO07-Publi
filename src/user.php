@@ -25,12 +25,18 @@ class user_management
         }
 
         //Pour les tests seulement
-        if(($username == "test1" || $username == "test2") && $password == "angular")
+
+        $res = $db->query(
+            "select id, password from Users where username = \"".$db->escape_string($username)."\""
+        );
+
+        $user_line = $res->fetch_assoc();
+        if($user_line and $user_line["password"] == $password)
         {
             $response = [
                 "status" => "succeed",
                 "user" => [
-                    "id" => 1,
+                    "id" => $user_line["id"],
                     "username" => $username,
                 ],
             ];
