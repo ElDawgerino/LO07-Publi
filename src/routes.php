@@ -23,9 +23,7 @@ $app->post('/login', function ($request, $response, $args) {
 $app->post('/logout', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    $token = $request_params["token"];
-
-    return $response->withJson(user_management::logout($token));
+    return $response->withJson(user_management::logout());
 });
 
 $app->post('/register', function ($request, $response, $args) {

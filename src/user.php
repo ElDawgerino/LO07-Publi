@@ -4,7 +4,7 @@ class user_management
 {
     public static function login($username, $password)
     {
-        if(isset($_SESSION["connected"]) && $_SESSION["connected"] == true)
+        if(!self::check_connection())
         {
             $response = [
                 "state" => "already"
@@ -16,18 +16,16 @@ class user_management
         //Pour les tests seulement
         if(($username == "test1" || $username == "test2") && $password == "angular")
         {
-            $connection_token = $rand = md5(microtime());
-
             $response = [
                 "state" => "succeed",
-                "token" => $connection_token,
                 "username" => $username,
                 "roles" => ["foo", "bar", "foobar"]
             ];
 
+            //On stocke l'état de connexion dans une session (contrainte du projet)
+            // => pas besoin de token donc.
             $_SESSION["connected"] = true;
             $_SESSION["username"] = $username;
-            $_SESSION["token"] = $connection_token;
 
             return $response;
         }
@@ -39,25 +37,17 @@ class user_management
 
             $_SESSION["connected"] = false;
             $_SESSION["username"] = "";
-            $_SESSION["token"] = "";
 
             return $response;
         }
     }
 
-    public static function logout($token)
+    public static function logout()
     {
-        /* TODO: Activer cette vérification dès que les tokens pourront être stockés côté Angular
-        if(not self::check_token($token))
-        {
-            return ["state" => "auth_error"];
-        }*/
-
-        if(isset($_SESSION["connected"]) && $_SESSION["connected"] == true)
+        if(self::check_connection())
         {
             $_SESSION["connected"] = false;
             $_SESSION["username"] = "";
-            $_SESSION["token"] = "";
 
             return ["state" => "succeed"];
         }
@@ -67,11 +57,10 @@ class user_management
         }
     }
 
-    public static function check_token($token)
+    public static function check_connection()
     {
         if(isset($_SESSION["connected"])
-            && $_SESSION["connected"] == true
-            && $_SESSION["token"] == $token)
+            && $_SESSION["connected"] == true)
         {
             return true;
         }
