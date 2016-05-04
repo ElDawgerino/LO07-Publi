@@ -1,6 +1,7 @@
 <?php
 // Routes
 
+require_once 'src/database.php';
 require_once 'src/user.php';
 
 $app->get('/', function ($request, $response, $args) {

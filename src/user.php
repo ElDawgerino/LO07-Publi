@@ -1,5 +1,7 @@
 <?php
 
+require_once 'database.php';
+
 class user_management
 {
     public static function login($username, $password)
@@ -16,6 +18,9 @@ class user_management
         //Pour les tests seulement
         if(($username == "test1" || $username == "test2") && $password == "angular")
         {
+            //Récupération de la bdd
+            $db = database_factory::get_db();
+
             $response = [
                 "status" => "succeed",
                 "user" => [
