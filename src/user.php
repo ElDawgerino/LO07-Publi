@@ -4,7 +4,7 @@ class user_management
 {
     public static function login($username, $password)
     {
-        if(!self::check_connection())
+        if(self::check_connection())
         {
             $response = [
                 "state" => "already"
