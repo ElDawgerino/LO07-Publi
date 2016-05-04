@@ -99,8 +99,8 @@ app.controller('Login',[
               return;
           }
 
-          $scope.result = auth.login(login_info);
-          $scope.errors = $scope.result.errors;
+          var result = auth.login(login_info);
+          $scope.errors = result;
       };
 
     }]
