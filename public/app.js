@@ -90,18 +90,33 @@ app.controller('Login',[
         };
 
         $scope.login = function(login_info){
-            //TODO: Mettre ça dans un autre fichier JS
+
+            $scope.errors = "";
+
+            if(!login_info || !login_info.username || !login_info.password){
+                $scope.errors = "Le formulaire de connexion n'est pas complet !";
+                return;
+            }
+
             $http.post('login', { username: login_info.username, password: login_info.password }).then( //TODO: Hasher le mot de passe
                 function(response){
                     //The request is successful
                     console.log("Login request OK");
                     console.log("Received data from server :");
                     console.log(response.data); //TODO: A supprimer
+
+                    if(response.data.status == "succeed"){
+
+                    }
+                    else{
+                        $scope.errors = "Mauvais identifiant et/ou mot de passe !";
+                    }
                     //TODO:
                     //Stocker les données utilisateur dans une variable de session du navigateur et créer un service Angular permettant d'y accéder facilement
                 },
                 function(response){
                     //The request is not successful
+                    $scope.errors = "Erreur inconnue lors de l'accès au service !";
                 }
             );
         };

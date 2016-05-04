@@ -61,6 +61,9 @@
 
       <script type="text/ng-template" id="login">
         <h1>Connexion</h1>
+        <div ng-if='errors && errors != ""'>
+            Echec de la connexion : {{errors}}
+        </div>
         <form>
           <label for="login">Identifiant : </label>
           <input type="text" id="login" ng-model="login_info.username">
