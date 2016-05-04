@@ -108,8 +108,11 @@ app.controller('Login',[
                     if(response.data.status == "succeed"){
 
                     }
-                    else{
+                    else if(response.data.status == "invalid"){
                         $scope.errors = "Mauvais identifiant et/ou mot de passe !";
+                    }
+                    else{
+                        $scope.errors = "Erreur inconnue !";
                     }
                     //TODO:
                     //Stocker les données utilisateur dans une variable de session du navigateur et créer un service Angular permettant d'y accéder facilement

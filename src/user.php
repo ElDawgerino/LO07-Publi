@@ -6,6 +6,15 @@ class user_management
 {
     public static function login($username, $password)
     {
+        //Récupération de la bdd
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
         if(self::check_connection())
         {
             $response = [
@@ -18,9 +27,6 @@ class user_management
         //Pour les tests seulement
         if(($username == "test1" || $username == "test2") && $password == "angular")
         {
-            //Récupération de la bdd
-            $db = database_factory::get_db();
-
             $response = [
                 "status" => "succeed",
                 "user" => [
