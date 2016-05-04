@@ -44,19 +44,22 @@
 
       <script type="text/ng-template" id="register">
         <h1>Inscription</h1>
+        <div ng-if='errors && errors != ""'>
+            Echec de la connexion : {{errors}}
+        </div>
         <form>
           <label for="prenom">Prénom : </label>
-          <input type="text" id="prenom" ng-model="prenom"> <br> <br>
+          <input type="text" id="prenom" ng-model="user.prenom"> <br> <br>
           <label for="nom">Nom : </label>
-          <input type="text" id="nom" ng-model="nom"> <br> <br>
+          <input type="text" id="nom" ng-model="user.nom"> <br> <br>
           <label for="login">Identifiant : </label>
-          <input type="text" id="login" ng-model="login"> <br> <br>
+          <input type="text" id="login" ng-model="user.login"> <br> <br>
           <label for="password">Mot de passe : </label>
-          <input type="password" id="password" ng-model="password"> <br> <br>
+          <input type="password" id="password" ng-model="user.password"> <br> <br>
           <label for="organisation">Organisation : </label>
-          <input type="text" id="organisation" ng-model="organisation"> <br> <br>
+          <input type="text" id="organisation" ng-model="user.organisation"> <br> <br>
           <label for="equipe">Equipe : </label>
-          <select id="equipe" ng-model="equipe" ng-options="equipe for equipe in equipes" ng-init="equipe = equipes[0]"></select> <br> <br>
+          <select id="equipe" ng-model="user.equipe" ng-options="equipe for equipe in equipes" ng-init="user.equipe = equipes[0]"></select> <br> <br>
           <button ng-click="register()">Inscription</button>
           <button ng-click="annuler()">Annuler</button>
         </form>

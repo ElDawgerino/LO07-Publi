@@ -5,11 +5,17 @@ app.factory('auth', [
   function($http){
     var auth = {};
 
-    auth.regiser = function(user){
-      $http.post('/register', user).then(function(response){
-
+    auth.register = function(user){
+      console.log(user);
+      return $http.post('/register', user).then(function(response){
+        if(response.data.status == "succeed"){
+          return {success : true};
+        }
+        else{
+          return{success: false, error: "Erreur inconnue !"};
+        }
       }, function(response){
-
+        return {success: false, error: "Erreur inconnue !"};
       });
     };
 
@@ -21,13 +27,13 @@ app.factory('auth', [
           return {success: true};
         }
         else if(response.data.status == "invalid"){
-            return {success: true, error:"Mauvais identifiant et/ou mot de passe !"};
+            return {success: false, error:"Mauvais identifiant et/ou mot de passe !"};
         }
         else{
-            return {success: true, error: "Erreur inconnue !"};
+            return {success: false, error: "Erreur inconnue !"};
         }
       }, function(response){
-        return {success: true, error: "Erreur inconnue lors de l'accès au service !"};
+        return {success: false, error: "Erreur inconnue lors de l'accès au service !"};
       });
     };
 

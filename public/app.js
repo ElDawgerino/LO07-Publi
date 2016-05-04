@@ -66,7 +66,8 @@ app.controller('Register', [
     '$scope',
     '$http',
     '$state',
-    function($scope, $http, $state){
+    'auth',
+    function($scope, $http, $state, auth){
 
       $scope.equipes = ["CREIDD", "ERA", "GAMMA3", "LASMIS", "LM2S", "LNIO", "LOSI", "Tech-CICO"];
 
@@ -75,8 +76,15 @@ app.controller('Register', [
       };
 
       $scope.register = function(){
-        //TODO : envoyer les données du formulaire au serveur
-      }
+        if(!$scope.user.prenom || !$scope.user.nom || !$scope.user.login || !$scope.user.password
+        || !$scope.user.organisation || !$scope.user.equipe){
+          $scope.errors = "Le formulaire d'inscription n'est pas complet !";
+          return;
+        }
+
+        var result = auth.register($scope.user);
+        $scope.errors = result.error;
+      };
 }]);
 
 app.controller('Login',[
