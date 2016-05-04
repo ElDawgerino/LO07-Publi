@@ -1,4 +1,4 @@
-var app = angular.module('LO07-publi', ['ui.router']);
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module']);
 
 app.config([
   '$stateProvider',
@@ -83,46 +83,25 @@ app.controller('Login',[
     '$scope',
     '$http',
     '$state',
-    function($scope, $http, $state){
+    'auth',
+    function($scope, $http, $state, auth){
 
-        $scope.annuler = function(){
-            $state.go("home");
-        };
+      $scope.annuler = function(){
+          $state.go("home");
+      };
 
-        $scope.login = function(login_info){
+      $scope.login = function(login_info){
 
-            $scope.errors = "";
+          $scope.errors = "";
 
-            if(!login_info || !login_info.username || !login_info.password){
-                $scope.errors = "Le formulaire de connexion n'est pas complet !";
-                return;
-            }
+          if(!login_info || !login_info.username || !login_info.password){
+              $scope.errors = "Le formulaire de connexion n'est pas complet !";
+              return;
+          }
 
-            $http.post('login', { username: login_info.username, password: sha256_digest(login_info.password) }).then(
-                function(response){
-                    //The request is successful
-                    console.log("Login request OK");
-                    console.log("Received data from server :");
-                    console.log(response.data); //TODO: A supprimer
-
-                    if(response.data.status == "succeed"){
-
-                    }
-                    else if(response.data.status == "invalid"){
-                        $scope.errors = "Mauvais identifiant et/ou mot de passe !";
-                    }
-                    else{
-                        $scope.errors = "Erreur inconnue !";
-                    }
-                    //TODO:
-                    //Stocker les données utilisateur dans une variable de session du navigateur et créer un service Angular permettant d'y accéder facilement
-                },
-                function(response){
-                    //The request is not successful
-                    $scope.errors = "Erreur inconnue lors de l'accès au service !";
-                }
-            );
-        };
+          $scope.result = auth.login(login_info);
+          $scope.errors = $scope.result.errors;
+      };
 
     }]
 );
