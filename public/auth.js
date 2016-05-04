@@ -14,6 +14,8 @@ app.factory('auth', [
     };
 
     auth.login = function(user){
+      user.password = sha256_digest(user.password);
+
       return $http.post('/login', user).then(function(respone){
         if(response.data.status == "succeed"){
           return {success: true};

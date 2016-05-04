@@ -86,6 +86,8 @@ app.controller('Login',[
     'auth',
     function($scope, $http, $state, auth){
 
+      $scope.login_info = {};
+
       $scope.annuler = function(){
           $state.go("home");
       };
@@ -94,12 +96,11 @@ app.controller('Login',[
 
           $scope.errors = "";
 
-          if(!login_info || !login_info.username || !login_info.password){
+          if(!$scope.login_info.username || !$scope.login_info.password){
               $scope.errors = "Le formulaire de connexion n'est pas complet !";
               return;
           }
-
-          var result = auth.login(login_info);
+          var result = auth.login($scope.login_info);
           $scope.errors = result;
       };
 
