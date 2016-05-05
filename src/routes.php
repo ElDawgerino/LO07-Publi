@@ -28,7 +28,11 @@ $app->post('/logout', function ($request, $response, $args) {
 });
 
 $app->post('/register', function ($request, $response, $args) {
-  //TODO : inscrire un nouvel utilisateur
+  $request_params = $request->getParsedBody();
+
+  $user["username"] = $request_params["username"];
+  $user["password"] = $request_params["password"];
+
 });
 
 $app->get('/publi', function($request, $response, $args) {

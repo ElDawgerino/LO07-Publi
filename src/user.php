@@ -4,6 +4,21 @@ require_once 'database.php';
 
 class user_management
 {
+    public static function register($userInfo){
+      $db = database_factory::get_db();
+      if(!$db->is_ok())
+      {
+          return [
+              "status" => "db_error"
+          ];
+      }
+
+      $res->$db->query(
+        "INSERT INTO Users (username, password) VALUES :username, :password",
+        $userInfo
+      );
+    }
+
     public static function login($username, $password)
     {
         //Récupération de la bdd
@@ -27,7 +42,8 @@ class user_management
         //Pour les tests seulement
 
         $res = $db->query(
-            "select id, password from Users where username = \"".$db->escape_string($username)."\""
+            "select id, password from Users where username = :username",
+            array('username' => $username)
         );
 
         $user_line = $res->fetch_assoc();

@@ -19,14 +19,13 @@ class database
         return $this->is_ok;
     }
 
-    public function query($query)
+    public function query($query, $data)
     {
-        return $this->mysqli->query($query);
-    }
-
-    public function escape_string($str)
-    {
-        return $this->mysqli->real_escape_string($str);
+        $prepared = $this->mysqli->query($query);
+        foreach ($data as $key => $value) {
+          $this->mysqli->real_escape_string($value);
+        }
+        return $prepared->execute($data);
     }
 
     private $mysqli;

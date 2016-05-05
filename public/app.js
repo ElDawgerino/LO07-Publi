@@ -67,7 +67,7 @@ app.controller('Register', [
       };
 
       $scope.register = function(){
-        if(!$scope.user.prenom || !$scope.user.nom || !$scope.user.login || !$scope.user.password
+        if(!$scope.user.prenom || !$scope.user.nom || !$scope.user.username || !$scope.user.password
         || !$scope.user.organisation || !$scope.user.equipe){
           $scope.errors = "Le formulaire d'inscription n'est pas complet !";
           return;
