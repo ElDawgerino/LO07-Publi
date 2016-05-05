@@ -7,7 +7,7 @@ app.factory('auth', [
 
     auth.register = function(user){
       console.log(user);
-      return $http.post('/register', user).then(function(response){
+      return $http.post('register', user).then(function(response){
         if(response.data.status == "succeed"){
           return {success : true};
         }
@@ -19,26 +19,31 @@ app.factory('auth', [
       });
     };
 
-    auth.login = function(user){
-      user.password = sha256_digest(user.password);
+    auth.login = function(user, then){
+        user_info = {
+          username: user.username,
+          password: sha256_digest(user.password)
+        };
 
-      return $http.post('/login', user).then(function(respone){
-        if(response.data.status == "succeed"){
-          return {success: true};
-        }
-        else if(response.data.status == "invalid"){
-            return {success: false, error:"Mauvais identifiant et/ou mot de passe !"};
-        }
-        else{
-            return {success: false, error: "Erreur inconnue !"};
-        }
-      }, function(response){
-        return {success: false, error: "Erreur inconnue lors de l'accès au service !"};
-      });
+        return $http.post('login', user_info).then(function(response){
+                if(response.data.status == "succeed"){
+                    then({success: true});
+                }
+                else if(response.data.status == "invalid"){
+                    then({success: false, error:"Mauvais identifiant et/ou mot de passe !"});
+                }
+                else{
+                    then({success: false, error: "Erreur inconnue !"});
+                }
+            },
+            function(response){
+                then({success: false, error: "Erreur inconnue lors de l'accès au service !"});
+            }
+        );
     };
 
     auth.logout = function(){
-      $http.post('/login', user).then(function(response){
+      $http.post('logout').then(function(response){
 
       }, function(response){
 

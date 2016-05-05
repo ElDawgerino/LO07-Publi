@@ -94,23 +94,24 @@ app.controller('Login',[
     'auth',
     function($scope, $http, $state, auth){
 
-      $scope.login_info = {};
+        $scope.login_info = {};
 
-      $scope.annuler = function(){
-          $state.go("home");
-      };
+        $scope.annuler = function(){
+            $state.go("home");
+        };
 
-      $scope.login = function(login_info){
+        $scope.login = function(login_info){
+            $scope.errors = "";
 
-          $scope.errors = "";
+            if(!$scope.login_info.username || !$scope.login_info.password){
+                $scope.errors = "Le formulaire de connexion n'est pas complet !";
+                return;
+            }
 
-          if(!$scope.login_info.username || !$scope.login_info.password){
-              $scope.errors = "Le formulaire de connexion n'est pas complet !";
-              return;
-          }
-          var result = auth.login($scope.login_info);
-          $scope.errors = result;
-      };
+            auth.login($scope.login_info, function(result){
+                $scope.errors = result.error;
+            });
+        };
 
     }]
 );
