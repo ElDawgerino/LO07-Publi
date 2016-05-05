@@ -35,6 +35,9 @@
 
       <script type="text/ng-template" id="home">
         <h1>LO07-publi</h1>
+        <div ng-if='errors && errors != ""'>
+            Echec de la connexion : {{errors}}
+        </div>
         <div>{{text}}</div>
         <button ng-click="register()">Inscription</button>
         <button ng-click="login()">Connexion</button>

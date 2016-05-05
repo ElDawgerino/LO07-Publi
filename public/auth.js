@@ -5,17 +5,17 @@ app.factory('auth', [
   function($http){
     var auth = {};
 
-    auth.register = function(user){
+    auth.register = function(user, then){
       console.log(user);
       return $http.post('register', user).then(function(response){
         if(response.data.status == "succeed"){
-          return {success : true};
+          then({success : true});
         }
         else{
-          return{success: false, error: "Erreur inconnue !"};
+          then({success: false, error: "Erreur inconnue !"});
         }
       }, function(response){
-        return {success: false, error: "Erreur inconnue !"};
+        then({success: false, error: "Erreur inconnue !"});
       });
     };
 
@@ -42,11 +42,19 @@ app.factory('auth', [
         );
     };
 
-    auth.logout = function(){
+    auth.logout = function(then){
       $http.post('logout').then(function(response){
-
+        if(response.data.status == "succeed"){
+          then({success: true});
+        }
+        else if(response.data.status == "was_not_connected"){
+          then({success: true, error: "Vous n'êtes pas connecté."});
+        }
+        else{
+          then({success: false, error: "Erreur inconnue"});
+        }
       }, function(response){
-
+        then({success: false, error: "Erreur inconnue"});
       });
     };
 

@@ -30,7 +30,8 @@ app.controller('Home', [
     '$scope',
     '$http',
     '$state',
-    function($scope, $http, $state){
+    'auth',
+    function($scope, $http, $state, auth){
 
         $scope.text = 'Une application web de gestion du publication!';
 
@@ -43,21 +44,11 @@ app.controller('Home', [
         };
 
         $scope.logout = function(){
-            //TODO: Mettre ça dans un autre fichier JS
-            $http.post('logout').then(
-                function(response){
-                    //The request is successful
-                    console.log("Logout request OK");
-                    console.log("Received data from server :");
-                    console.log(response.data); //TODO: A supprimer
-                    //TODO:
-                    //Retirer le token de la variable de session !
-                },
-                function(response){
-                    //The request is not successful
-                }
-            );
-        }
+          //TODO: faire ça avec une navbar
+          auth.logout(function(status){
+            $scope.errors = status.error;
+          });
+        };
 
 }]);
 
