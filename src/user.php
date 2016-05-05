@@ -31,7 +31,7 @@ class user_management
         );
 
         $user_line = $res->fetch_assoc();
-        if($user_line and $user_line["password"] == $password)
+        if($user_line and $user_line["password"] == hash("sha256", $password))
         {
             $response = [
                 "status" => "succeed",
@@ -89,6 +89,52 @@ class user_management
         else
         {
             return ["status" => "was_not_connected"];
+        }
+    }
+
+    public static function register($username, $password, $last_name, $first_name, $organisation, $team)
+    {
+        //Récupération de la bdd
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
+        //Si déjà connecté, on ne peut pas enregistrer un compte
+        if(self::check_connection())
+        {
+            $response = [
+                "status" => "already_connected"
+            ];
+
+            return $response;
+        }
+
+        //Il n'existe pas d'utilisateur avec le même username
+        //Ajout de l'utilisateur
+        $res = $db->query("insert into Users (`username`, `password`, `last_name`, `first_name`, `organisation`, `team`) values (".
+            "\"".$db->escape_string($username)."\", ".
+            "\"".hash("sha256", $password)."\", ".
+            "\"".$db->escape_string($last_name)."\", ".
+            "\"".$db->escape_string($first_name)."\", ".
+            "\"".$db->escape_string($organisation)."\", ".
+            "\"".$db->escape_string($team)."\")"
+        );
+
+        if($res == true)
+        {
+            return [
+                "status" => "succeed"
+            ];
+        }
+        else
+        {
+            return [
+                "status" => "invalid"
+            ];
         }
     }
 

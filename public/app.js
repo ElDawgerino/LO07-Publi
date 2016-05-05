@@ -82,8 +82,9 @@ app.controller('Register', [
           return;
         }
 
-        var result = auth.register($scope.user);
-        $scope.errors = result.error;
+        var result = auth.register($scope.user, function(result){
+            $scope.errors = result.error;
+        });
       };
 }]);
 

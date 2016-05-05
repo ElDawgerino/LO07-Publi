@@ -28,7 +28,16 @@ $app->post('/logout', function ($request, $response, $args) {
 });
 
 $app->post('/register', function ($request, $response, $args) {
-  //TODO : inscrire un nouvel utilisateur
+    $request_params = $request->getParsedBody();
+
+    $username = $request_params["username"];
+    $password = $request_params["password"];
+    $last_name = $request_params["last_name"];
+    $first_name = $request_params["first_name"];
+    $organisation = $request_params["organisation"];
+    $team = $request_params["team"];
+
+    return $response->withJson(user_management::register($username, $password, $last_name, $first_name, $organisation, $team));
 });
 
 $app->get('/publi', function($request, $response, $args) {
