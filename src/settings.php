@@ -15,8 +15,7 @@ return [
         ],
 
         'database' => [
-            'server' => 'localhost',
-            'name' => 'lo07_projet',
+            'dsn' => 'mysql:dbname=lo07_projet;host=127.0.0.1',
             'username' => 'app_lo07',
             'password' => 'app_lo07_mdp'
         ]

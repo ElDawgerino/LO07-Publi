@@ -11,6 +11,12 @@ app.factory('auth', [
         if(response.data.status == "succeed"){
           then({success : true});
         }
+        else if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée"});
+        }
+        else if(response.data.status == "insert_error"){
+          then({success: false, error: "Impossible de créer le compte"})
+        }
         else{
           then({success: false, error: "Erreur inconnue !"});
         }
@@ -28,6 +34,9 @@ app.factory('auth', [
         return $http.post('login', user_info).then(function(response){
                 if(response.data.status == "succeed"){
                     then({success: true});
+                }
+                else if(response.data.status == "db_error"){
+                  then({success: false, error: "Impossible de se connecter à la base de donnée"});
                 }
                 else if(response.data.status == "invalid"){
                     then({success: false, error:"Mauvais identifiant et/ou mot de passe !"});

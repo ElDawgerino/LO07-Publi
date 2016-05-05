@@ -13,10 +13,21 @@ class user_management
           ];
       }
 
-      $res->$db->query(
-        "INSERT INTO Users (username, password) VALUES :username, :password",
+      $res = $db->query(
+        "INSERT INTO Users (username, password) VALUES (:username, :password)",
         $userInfo
       );
+
+      if($res){
+        return [
+          "status" => "succeed"
+        ];
+      }
+      else {
+        return [
+          "status" => "insert_error"
+        ];
+      }
     }
 
     public static function login($username, $password)

@@ -33,6 +33,7 @@ $app->post('/register', function ($request, $response, $args) {
   $user["username"] = $request_params["username"];
   $user["password"] = $request_params["password"];
 
+  return $response->withJson(user_management::register($user));
 });
 
 $app->get('/publi', function($request, $response, $args) {

@@ -2,16 +2,15 @@
 
 class database
 {
-    public function __construct($server, $name, $username, $password)
+    public function __construct($dsn, $username, $password)
     {
-        $this->mysqli = new mysqli($server, $username, $password, $name);
+      try {
+        $this->pdo = new PDO($dsn, $username, $password);
         $this->is_ok = true;
-
-        if ($this->mysqli->connect_errno)
-        {
-            //Erreur lors de la connexion
-            $this->is_ok = false;
-        }
+      }
+      catch (PDOException $e) {
+        $this->is_ok = false;
+      }
     }
 
     public function is_ok()
@@ -21,14 +20,11 @@ class database
 
     public function query($query, $data)
     {
-        $prepared = $this->mysqli->query($query);
-        foreach ($data as $key => $value) {
-          $this->mysqli->real_escape_string($value);
-        }
+        $prepared = $this->pdo->prepare($query);
         return $prepared->execute($data);
     }
 
-    private $mysqli;
+    private $pdo;
 
     private $is_ok;
 }
@@ -44,8 +40,7 @@ class database_factory
             //Instanciation de la base de données
             $db_settings = $app->getContainer()->get("settings")["database"];
             self::$db = new database(
-                $db_settings["server"],
-                $db_settings["name"],
+                $db_settings["dsn"],
                 $db_settings["username"],
                 $db_settings["password"]
             );
