@@ -70,11 +70,13 @@ $app->post('/recherche', function ($request, $response, $args) {
 });
 
 $app->get('/compte', function ($request, $response, $args) {
-  //TODO : Obtenir la liste des comptes
+  //TODO : vérifier que l'utilisateur est admin
+  return $response->withJson(user_management::getComptes());
 });
 
 $app->get('/compte/{id}', function ($request, $response, $args) {
-  //TODO : Visualiser un compte spécifique
+  //TODO : vérifier que l'utilisateur est admin
+  return $response->withJson(user_management::getCompte($args['id']));
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {

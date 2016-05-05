@@ -6,10 +6,8 @@ app.factory('auth', [
     var auth = {};
 
     auth.register = function(user, then){
-        console.log(user);
-
         user_info = {
-            username: user.login,
+            username: user.username,
             password: user.password,
             last_name: user.nom,
             first_name: user.prenom,
@@ -21,7 +19,7 @@ app.factory('auth', [
                     then({success : true});
                 }
                 else if(response.data.status == "invalid"){
-                    then({success: false, error: "Utilisateur invalide !"});
+                    then({success: false, error: "Utilisateur invalide : compte déjà existant !"});
                 }
                 else{
                     then({success: false, error: "Erreur inconnue !"});
@@ -43,6 +41,9 @@ app.factory('auth', [
                 if(response.data.status == "succeed"){
                     then({success: true});
                 }
+                else if(response.data.status == "db_error"){
+                  then({success: false, error: "Impossible de se connecter à la base de donnée"});
+                }
                 else if(response.data.status == "invalid"){
                     then({success: false, error: "Mauvais identifiant et/ou mot de passe !"});
                 }
@@ -56,11 +57,19 @@ app.factory('auth', [
         );
     };
 
-    auth.logout = function(){
+    auth.logout = function(then){
       $http.post('logout').then(function(response){
-
+        if(response.data.status == "succeed"){
+          then({success: true});
+        }
+        else if(response.data.status == "was_not_connected"){
+          then({success: true, error: "Vous n'êtes pas connecté."});
+        }
+        else{
+          then({success: false, error: "Erreur inconnue"});
+        }
       }, function(response){
-
+        then({success: false, error: "Erreur inconnue"});
       });
     };
 

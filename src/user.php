@@ -4,6 +4,33 @@ require_once 'database.php';
 
 class user_management
 {
+    public static function register($userInfo){
+      $db = database_factory::get_db();
+      if(!$db->is_ok())
+      {
+          return [
+              "status" => "db_error"
+          ];
+      }
+
+      $res = $db->query(
+        "INSERT INTO Users (username, password, prenom, nom, organisation, equipe)
+        VALUES (:username, :password, :prenom, :nom, :organisation, :equipe)",
+        $userInfo
+      );
+
+      if($res){
+        return [
+          "status" => "succeed"
+        ];
+      }
+      else {
+        return [
+          "status" => "insert_error"
+        ];
+      }
+    }
+
     public static function login($username, $password)
     {
         //Récupération de la bdd
@@ -26,8 +53,9 @@ class user_management
 
         //Pour les tests seulement
 
-        $res = $db->query(
-            "select id, password from Users where username = \"".$db->escape_string($username)."\""
+        $query = $db->query(
+            "select id, password from Users where username = :username",
+            array('username' => $username)
         );
 
         $user_line = $res->fetch_assoc();
@@ -149,5 +177,48 @@ class user_management
         {
             return false;
         }
+    }
+
+    public static function getComptes(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
+        $res = $db->query(
+            "SELECT * FROM Users", null
+        );
+
+        $users = $res->fetchAll();
+        $response = array();
+        foreach ($users as $key => $value) {
+            array_push($response, $value);
+        }
+        return $response;
+    }
+
+    public static function getCompte($id){
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
+        $res = $db->query(
+            "SELECT * FROM Users WHERE id = :id",
+            array("id" => $id)
+        );
+
+        $users = $res->fetchAll();
+        $response = array();
+        foreach ($users as $key => $value) {
+            array_push($response, $value);
+        }
+        return $response;
     }
 }

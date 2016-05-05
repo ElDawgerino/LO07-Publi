@@ -35,6 +35,9 @@
 
       <script type="text/ng-template" id="home">
         <h1>LO07-publi</h1>
+        <div ng-if='errors && errors != ""'>
+            Echec de la connexion : {{errors}}
+        </div>
         <div>{{text}}</div>
         <button ng-click="register()">Inscription</button>
         <button ng-click="login()">Connexion</button>
@@ -52,7 +55,7 @@
           <label for="nom">Nom : </label>
           <input type="text" id="nom" ng-model="user.nom"> <br> <br>
           <label for="login">Identifiant : </label>
-          <input type="text" id="login" ng-model="user.login"> <br> <br>
+          <input type="text" id="login" ng-model="user.username"> <br> <br>
           <label for="password">Mot de passe : </label>
           <input type="password" id="password" ng-model="user.password"> <br> <br>
           <label for="organisation">Organisation : </label>
