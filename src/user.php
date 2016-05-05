@@ -14,7 +14,8 @@ class user_management
       }
 
       $res = $db->query(
-        "INSERT INTO Users (username, password) VALUES (:username, :password)",
+        "INSERT INTO Users (username, password, prenom, nom, organisation, equipe)
+        VALUES (:username, :password, :prenom, :nom, :organisation, :equipe)",
         $userInfo
       );
 

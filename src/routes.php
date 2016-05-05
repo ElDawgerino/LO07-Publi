@@ -32,6 +32,10 @@ $app->post('/register', function ($request, $response, $args) {
 
   $user["username"] = $request_params["username"];
   $user["password"] = $request_params["password"];
+  $user["prenom"] = $request_params["prenom"];
+  $user["nom"] = $request_params["nom"];
+  $user["organisation"] = $request_params["organisation"];
+  $user["equipe"] = $request_params["equipe"];
 
   return $response->withJson(user_management::register($user));
 });
