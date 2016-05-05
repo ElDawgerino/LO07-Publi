@@ -42,7 +42,7 @@ app.factory('auth', [
                     then({success: true});
                 }
                 else if(response.data.status == "db_error"){
-                  then({success: false, error: "Impossible de se connecter à la base de donnée"});
+                    then({success: false, error: "Impossible de se connecter à la base de donnée"});
                 }
                 else if(response.data.status == "invalid"){
                     then({success: false, error: "Mauvais identifiant et/ou mot de passe !"});

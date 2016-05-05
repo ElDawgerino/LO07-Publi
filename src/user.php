@@ -4,33 +4,6 @@ require_once 'database.php';
 
 class user_management
 {
-    public static function register($userInfo){
-      $db = database_factory::get_db();
-      if(!$db->is_ok())
-      {
-          return [
-              "status" => "db_error"
-          ];
-      }
-
-      $res = $db->query(
-        "INSERT INTO Users (username, password, prenom, nom, organisation, equipe)
-        VALUES (:username, :password, :prenom, :nom, :organisation, :equipe)",
-        $userInfo
-      );
-
-      if($res){
-        return [
-          "status" => "succeed"
-        ];
-      }
-      else {
-        return [
-          "status" => "insert_error"
-        ];
-      }
-    }
-
     public static function login($username, $password)
     {
         //Récupération de la bdd
@@ -53,12 +26,12 @@ class user_management
 
         //Pour les tests seulement
 
-        $query = $db->query(
+        $res = $db->query(
             "select id, password from Users where username = :username",
             array('username' => $username)
         );
 
-        $user_line = $res->fetch_assoc();
+        $user_line = $res->fetch();
         if($user_line and $user_line["password"] == hash("sha256", $password))
         {
             $response = [
@@ -143,16 +116,20 @@ class user_management
 
         //Il n'existe pas d'utilisateur avec le même username
         //Ajout de l'utilisateur
-        $res = $db->query("insert into Users (`username`, `password`, `last_name`, `first_name`, `organisation`, `team`) values (".
-            "\"".$db->escape_string($username)."\", ".
-            "\"".hash("sha256", $password)."\", ".
-            "\"".$db->escape_string($last_name)."\", ".
-            "\"".$db->escape_string($first_name)."\", ".
-            "\"".$db->escape_string($organisation)."\", ".
-            "\"".$db->escape_string($team)."\")"
+        $res = $db->query(
+            "INSERT INTO Users (username, password, last_name, first_name, organisation, team)
+            VALUES (:username, :password, :last_name, :first_name, :organisation, :team)",
+            [
+                "username" => $username,
+                "password" => hash("sha256", $password),
+                "last_name" => $last_name,
+                "first_name" => $first_name,
+                "organisation" => $organisation,
+                "team" => $team
+            ]
         );
 
-        if($res == true)
+        if($res)
         {
             return [
                 "status" => "succeed"

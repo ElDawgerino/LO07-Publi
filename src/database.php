@@ -21,8 +21,8 @@ class database
     public function query($query, $data)
     {
         $prepared = $this->pdo->prepare($query);
-        $prepared->execute($data);
-        return $prepared;
+        $succeed = $prepared->execute($data);
+        return ($succeed ? $prepared : false);
     }
 
     private $pdo;
