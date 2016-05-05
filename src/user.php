@@ -133,4 +133,25 @@ class user_management
             return false;
         }
     }
+
+    public static function getComptes(){
+      $db = database_factory::get_db();
+      if(!$db->is_ok())
+      {
+          return [
+              "status" => "db_error"
+          ];
+      }
+
+      $res = $db->query(
+        "SELECT * FROM Users", null
+      );
+
+      $users = $res->fetchAll();
+      $response = array();
+      foreach ($users as $key => $value) {
+        array_push($response, $value);
+      }
+      return $response;
+    }
 }

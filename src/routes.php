@@ -70,7 +70,9 @@ $app->post('/recherche', function ($request, $response, $args) {
 });
 
 $app->get('/compte', function ($request, $response, $args) {
-  //TODO : Obtenir la liste des comptes
+  //TODO : vérifier que l'utilisateur est admin
+  $request_params = $request->getParsedBody();
+  return $response->withJson(user_management::getComptes());
 });
 
 $app->get('/compte/{id}', function ($request, $response, $args) {
