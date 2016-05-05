@@ -154,4 +154,26 @@ class user_management
       }
       return $response;
     }
+
+    public static function getCompte($id){
+      $db = database_factory::get_db();
+      if(!$db->is_ok())
+      {
+          return [
+              "status" => "db_error"
+          ];
+      }
+
+      $res = $db->query(
+        "SELECT * FROM Users WHERE id = :id",
+        array("id" => $id)
+      );
+
+      $users = $res->fetchAll();
+      $response = array();
+      foreach ($users as $key => $value) {
+        array_push($response, $value);
+      }
+      return $response;
+    }
 }
