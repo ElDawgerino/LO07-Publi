@@ -8,7 +8,11 @@ app.factory('auth', [
     auth.register = function(user, then){
       user_info = {
         username: user.username,
-        password: sha256_digest(user.password)
+        password: sha256_digest(user.password),
+        prenom: user.prenom,
+        nom: user.nom,
+        organisation: user.organisation,
+        equipe: user.equipe
       };
 
         return $http.post('register', user_info).then(function(response){
