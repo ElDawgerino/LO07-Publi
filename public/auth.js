@@ -6,8 +6,12 @@ app.factory('auth', [
     var auth = {};
 
     auth.register = function(user, then){
-      console.log(user);
-      return $http.post('register', user).then(function(response){
+      user_info = {
+        username: user.username,
+        password: sha256_digest(user.password)
+      };
+
+        return $http.post('register', user_info).then(function(response){
         if(response.data.status == "succeed"){
           then({success : true});
         }

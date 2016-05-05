@@ -21,7 +21,8 @@ class database
     public function query($query, $data)
     {
         $prepared = $this->pdo->prepare($query);
-        return $prepared->execute($data);
+        $prepared->execute($data);
+        return $prepared;
     }
 
     private $pdo;

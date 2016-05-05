@@ -52,12 +52,13 @@ class user_management
 
         //Pour les tests seulement
 
-        $res = $db->query(
+        $query = $db->query(
             "select id, password from Users where username = :username",
             array('username' => $username)
         );
 
-        $user_line = $res->fetch_assoc();
+        $user_line = $query->fetch();
+
         if($user_line and $user_line["password"] == $password)
         {
             $response = [
