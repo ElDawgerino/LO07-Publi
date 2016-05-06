@@ -36,10 +36,7 @@ class user_management
         {
             $response = [
                 "status" => "succeed",
-                "user" => [
-                    "id" => $user_line["id"],
-                    "username" => $username,
-                ],
+                "id" => $user_line["id"],
             ];
 
             //On stocke l'état de connexion dans une session (contrainte du projet)

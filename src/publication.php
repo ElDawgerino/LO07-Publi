@@ -77,6 +77,8 @@ class publication
             ]
         );
 
+        $publication_id = $db->get_last_insert_id();
+
         if($res === false)
         {
             return [
@@ -85,7 +87,8 @@ class publication
         }
 
         return [
-            "status" => "succeed"
+            "status" => "succeed",
+            "id" => $publication_id
         ];
     }
 }
