@@ -1,4 +1,4 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module']);
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64']);
 
 app.config([
   '$stateProvider',
