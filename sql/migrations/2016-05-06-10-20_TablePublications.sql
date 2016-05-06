@@ -7,7 +7,7 @@
 create table Publications(
     id int not null primary key auto_increment,
     title varchar(512) not null,
-    description varchar(65536),
+    description mediumtext,
     status enum('submitted', 'published', 'reviewing') not null,
     publication_title varchar(512),
     publication_year int,
