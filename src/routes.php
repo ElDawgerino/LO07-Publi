@@ -71,12 +71,12 @@ $app->post('/recherche', function ($request, $response, $args) {
 
 $app->get('/compte', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
-  return $response->withJson(user_management::getComptes());
+  return $response->withJson(user_management::get_users());
 });
 
 $app->get('/compte/{id}', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
-  return $response->withJson(user_management::getCompte($args['id']));
+  return $response->withJson(user_management::get_user($args['id']));
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {

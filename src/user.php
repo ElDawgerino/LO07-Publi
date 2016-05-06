@@ -156,7 +156,8 @@ class user_management
         }
     }
 
-    public static function getComptes(){
+    public static function get_users()
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
@@ -171,13 +172,21 @@ class user_management
 
         $users = $res->fetchAll();
         $response = array();
-        foreach ($users as $key => $value) {
-            array_push($response, $value);
+        foreach ($users as $key => $user) {
+            $response[] = [
+                "id" => $user["id"],
+                "username" => $user["username"],
+                "last_name" => $user["last_name"],
+                "first_name" => $user["first_name"],
+                "organisation" => $user["organisation"],
+                "team" => $user["team"]
+            ];
         }
         return $response;
     }
 
-    public static function getCompte($id){
+    public static function get_user($id)
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
@@ -191,11 +200,16 @@ class user_management
             array("id" => $id)
         );
 
-        $users = $res->fetchAll();
-        $response = array();
-        foreach ($users as $key => $value) {
-            array_push($response, $value);
-        }
+        $user = $res->fetch();
+        $response = [
+            "id" => $user["id"],
+            "username" => $user["username"],
+            "last_name" => $user["last_name"],
+            "first_name" => $user["first_name"],
+            "organisation" => $user["organisation"],
+            "team" => $user["team"]
+        ];
+
         return $response;
     }
 }
