@@ -27,7 +27,7 @@ class database
 
     public function get_last_insert_id()
     {
-        return $pdo->lastInsertId();
+        return $this->pdo->lastInsertId();
     }
 
     private $pdo;

@@ -56,9 +56,15 @@ $app->get('/publi/{id}/infos', function ($request, $response, $args) {
 $app->post('/publi', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
+    $title = $request_params["title"];
+    $description = $request_params["description"];
+    $status = $request_params["status"];
+    $publication_title = (isset($request_params["publication_title"]) ? $request_params["publication_title"] : null);
+    $publication_year = (isset($request_params["publication_year"]) ? $request_params["publication_year"] : null);
+    $conference_location = (isset($request_params["conference_location"]) ? $request_params["conference_location"] : null);
     $file_info = $request_params["file"];
 
-    return $response->withJson(publication::add_publication("", "", "", "", "", "", $file_info));
+    return $response->withJson(publication::add_publication($title, $description, $status, $publication_title, $publication_year, $conference_location, $file_info));
 });
 
 $app->put('/publi/{id}', function ($request, $response, $args) {
