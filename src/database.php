@@ -25,6 +25,11 @@ class database
         return ($succeed ? $prepared : false);
     }
 
+    public function get_last_insert_id()
+    {
+        return $pdo->lastInsertId();
+    }
+
     private $pdo;
 
     private $is_ok;

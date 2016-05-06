@@ -2,6 +2,7 @@
 // Routes
 
 require_once 'src/database.php';
+require_once 'src/publication.php';
 require_once 'src/user.php';
 
 $app->get('/', function ($request, $response, $args) {
@@ -41,7 +42,7 @@ $app->post('/register', function ($request, $response, $args) {
 });
 
 $app->get('/publi', function($request, $response, $args) {
-  //TODO : Obtenir la liste des publis
+    //TODO: Liste des publications
 });
 
 $app->get('/publi/{id}', function ($request, $response, $args) {
@@ -53,7 +54,11 @@ $app->get('/publi/{id}/infos', function ($request, $response, $args) {
 });
 
 $app->post('/publi', function ($request, $response, $args) {
-  //TODO : poster une publi
+    $request_params = $request->getParsedBody();
+
+    $file_info = $request_params["file"];
+
+    return $response->withJson(publication::add_publication("", "", "", "", "", "", $file_info));
 });
 
 $app->put('/publi/{id}', function ($request, $response, $args) {
