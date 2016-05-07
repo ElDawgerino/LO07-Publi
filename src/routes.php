@@ -49,7 +49,7 @@ $app->get('/publi', function($request, $response, $args) {
  * Note : fonctionne différemment des autres routes : pas de Json.
  * Envoie comme réponse le fichier si c'est un succès ou un code d'erreur en cas d'échec
  */
-$app->get('/publi/{id}', function ($request, $response, $args) {
+$app->get('/download/{id}', function ($request, $response, $args) {
     $publication_id = $args["id"];
 
     $publi_file_info = publication::get_publication_file_info($publication_id);
@@ -89,7 +89,7 @@ $app->get('/publi/{id}', function ($request, $response, $args) {
     }
 });
 
-$app->get('/publi/{id}/infos', function ($request, $response, $args) {
+$app->get('/publi/{id}', function ($request, $response, $args) {
   //TODO : Obternir les infos sur la publication
 });
 
