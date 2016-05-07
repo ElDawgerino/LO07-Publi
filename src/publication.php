@@ -91,4 +91,37 @@ class publication
             "id" => $publication_id
         ];
     }
+
+    public static function get_publication_file_info($publication_id)
+    {
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
+        $res = $db->query(
+            "select original_name, path_on_server from Files as f, Publications as p where p.id = :publication_id and f.id = p.file_id",
+            [
+                "publication_id" => $publication_id
+            ]
+        );
+
+        if($res->rowCount() == 0)
+        {
+            return [
+                "status" => "invalid"
+            ];
+        }
+
+        $file_line = $res->fetch();
+
+        return [
+            "status" => "succeed",
+            "original_name" => $file_line["original_name"],
+            "path_on_server" => $file_line["path_on_server"]
+        ];
+    }
 }

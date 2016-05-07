@@ -45,8 +45,48 @@ $app->get('/publi', function($request, $response, $args) {
     //TODO: Liste des publications
 });
 
+/**
+ * Note : fonctionne différemment des autres routes : pas de Json.
+ * Envoie comme réponse le fichier si c'est un succès ou un code d'erreur en cas d'échec
+ */
 $app->get('/publi/{id}', function ($request, $response, $args) {
-  //TODO : Obtenir le document lié à la publication
+    $publication_id = $args["id"];
+
+    $publi_file_info = publication::get_publication_file_info($publication_id);
+    if($publi_file_info["status"] != "succeed")
+    {
+        return $response->withStatus(500);
+    }
+
+    $file_path = $publi_file_info["path_on_server"];
+    $original_name = $publi_file_info["original_name"];
+
+    if(file_exists($file_path))
+    {
+        $finfo = new finfo(FILEINFO_MIME);
+
+        //Définition des headers
+        $response = $response->withHeader('Content-Description', 'File Transfer');
+        $response = $response->withHeader('Content-Type', $finfo->file($file_path));
+        $response = $response->withHeader('Content-Disposition', 'attachment; filename="'.$original_name.'"');
+        $response = $response->withHeader('Content-Transfer-Encoding', 'binary');
+        $response = $response->withHeader('Expires', '0');
+        $response = $response->withHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
+        $response = $response->withHeader('Pragma', 'public');
+        $response = $response->withHeader('Content-Length', filesize($file_path));
+
+        //Ajout du fichier dans le body
+        $responseBody = $response->getBody();
+        $handle = fopen($file_path, "r");
+        $contents = fread($handle, filesize($file_path));
+        $responseBody->write($contents);
+
+        return $response;
+    }
+    else
+    {
+        return $response->withStatus(404);
+    }
 });
 
 $app->get('/publi/{id}/infos', function ($request, $response, $args) {
