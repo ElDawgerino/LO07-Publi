@@ -120,14 +120,31 @@ $app->post('/recherche', function ($request, $response, $args) {
   //Alternative : le faire entièrement côté client
 });
 
-$app->get('/compte', function ($request, $response, $args) {
+$app->get('/comptes', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
   return $response->withJson(user_management::get_users());
 });
 
+$app->get('/compte', function ($request, $response, $args) {
+    //TODO : vérifier que l'utilisateur est admin
+    $current_user_id = user_management::get_current_logged_user();
+    if($current_user_id["status"] == "succeed")
+    {
+        return $response->withJson(
+            user_management::get_user($current_user_id['id'])
+        );
+    }
+    else
+    {
+        return $response->withJson([
+            "status" => "invalid"
+        ]);
+    }
+});
+
 $app->get('/compte/{id}', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
-  return $response->withJson(user_management::get_user($args['id']));
+    return $response->withJson(user_management::get_user($args['id']));
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {

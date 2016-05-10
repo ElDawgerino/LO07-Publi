@@ -42,7 +42,7 @@ class user_management
             //On stocke l'état de connexion dans une session (contrainte du projet)
             // => pas besoin de token donc.
             $_SESSION["connected"] = true;
-            $_SESSION["username"] = $username;
+            $_SESSION["id"] = $user_line["id"];
             //TODO: Récupérer les droits de l'utilisateur et autres infos
 
             return $response;
@@ -180,6 +180,23 @@ class user_management
             ];
         }
         return $response;
+    }
+
+    public static function get_current_logged_user()
+    {
+        if(self::check_connection())
+        {
+            return [
+                "status" => "succeed",
+                "id" => $_SESSION["id"]
+            ];
+        }
+        else
+        {
+            return [
+                "status" => "invalid"
+            ];
+        }
     }
 
     public static function get_user($id)
