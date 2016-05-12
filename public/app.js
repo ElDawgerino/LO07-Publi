@@ -128,6 +128,10 @@ app.controller('NavBar', [
     };
 
     $scope.logout = function(){
-      //TODO
+      var success = false;
+      auth.logout(function(status){
+        success = status.succeed;
+      });
+      $scope.loggedIn = success;
     };
 }]);
