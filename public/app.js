@@ -80,31 +80,34 @@ app.controller('Register', [
 }]);
 
 app.controller('Login',[
-    '$scope',
-    '$http',
-    '$state',
-    'auth',
-    function($scope, $http, $state, auth){
+  '$scope',
+  '$http',
+  '$state',
+  'auth',
+  function($scope, $http, $state, auth){
 
-        $scope.login_info = {};
+      $scope.login_info = {};
 
-        $scope.annuler = function(){
-            $state.go("home");
-        };
+      $scope.annuler = function(){
+          $state.go("home");
+      };
 
-        $scope.login = function(login_info){
-            $scope.errors = "";
+      $scope.login = function(login_info){
+          $scope.errors = "";
 
-            if(!$scope.login_info.username || !$scope.login_info.password){
-                $scope.errors = "Le formulaire de connexion n'est pas complet !";
-                return;
+          if(!$scope.login_info.username || !$scope.login_info.password){
+              $scope.errors = "Le formulaire de connexion n'est pas complet !";
+              return;
+          }
+
+          auth.login($scope.login_info, function(result){
+            $scope.errors = result.error;
+            if(result.success){
+              $state.go('home');
             }
+          });
 
-            auth.login($scope.login_info, function(result){
-                $scope.errors = result.error;
-            });
-        };
-
+      };
 }]);
 
 app.controller('NavBar', [
@@ -128,10 +131,8 @@ app.controller('NavBar', [
     };
 
     $scope.logout = function(){
-      var success = false;
       auth.logout(function(status){
-        success = status.succeed;
+        $scope.loggedIn = status.success;
       });
-      $scope.loggedIn = success;
     };
 }]);

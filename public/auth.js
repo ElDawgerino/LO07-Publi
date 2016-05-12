@@ -47,6 +47,9 @@ app.factory('auth', [
                 else if(response.data.status == "invalid"){
                     then({success: false, error: "Mauvais identifiant et/ou mot de passe !"});
                 }
+                else if(response.data.status == "already_connected"){
+                  then({success: false, error: "Vous êtes déjà connecté."})
+                }
                 else{
                     then({success: false, error: "Erreur inconnue !"});
                 }
