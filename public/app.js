@@ -105,5 +105,22 @@ app.controller('Login',[
             });
         };
 
-    }]
-);
+}]);
+
+app.controller('NavBar', [
+  '$scope',
+  '$state',
+  'auth',
+  function($scope, $state, auth){
+      auth.currentUser(function(status){
+        $scope.loggedIn = status.success;
+      });
+
+      $scope.login = function(){
+        $state.go('login');
+      };
+
+      $scope.register = function(){
+        $state.go('register');
+      };
+}]);

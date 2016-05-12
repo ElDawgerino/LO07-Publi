@@ -31,6 +31,15 @@
         </style>
     </head>
     <body ng-app="LO07-publi">
+      <nav ng-controller="NavBar">
+        <a href="#">LO07-Publi</a>
+        <ul>
+          <li ng-show="loggedIn()">{{currentUser()}}</li>
+          <li ng-show="loggedIn()"><button ng-click="logout()">Logout()</button></li>
+          <li ng-hide="loggedIn()"><button ng-click="login()">Login</button></li>
+          <li ng-hide="loggedIn()"><button ng-click="register()">Register</button></li>
+        </ul>
+      </nav>
 
       <ui-view></ui-view>
 

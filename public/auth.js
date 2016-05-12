@@ -73,8 +73,17 @@ app.factory('auth', [
       });
     };
 
-    auth.currentUser = function(){
-
+    auth.currentUser = function(then){
+      $http.get('compte').then(function(response){
+        if(response.data.status == "invalid"){
+          then({success: false})
+        } else {
+          response = JSON.parse(response);
+          then({success: true, response: response});
+        }
+      }, function(response){
+          then({success: false, error: "Erreur inconnue"});
+      });
     };
 
     return auth;
