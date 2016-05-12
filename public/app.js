@@ -112,15 +112,22 @@ app.controller('NavBar', [
   '$state',
   'auth',
   function($scope, $state, auth){
-      auth.currentUser(function(status){
-        $scope.loggedIn = status.success;
-      });
+    $scope.loggedIn = false;
 
-      $scope.login = function(){
-        $state.go('login');
-      };
+    auth.currentUser(function(status){
+      $scope.loggedIn = status.success;
+      console.log($scope.loggedIn);
+    });
 
-      $scope.register = function(){
-        $state.go('register');
-      };
+    $scope.login = function(){
+      $state.go('login');
+    };
+
+    $scope.register = function(){
+      $state.go('register');
+    };
+
+    $scope.logout = function(){
+      //TODO
+    };
 }]);

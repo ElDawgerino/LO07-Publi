@@ -78,7 +78,6 @@ app.factory('auth', [
         if(response.data.status == "invalid"){
           then({success: false})
         } else {
-          response = JSON.parse(response);
           then({success: true, response: response});
         }
       }, function(response){
