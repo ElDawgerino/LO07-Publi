@@ -75,6 +75,9 @@ app.controller('Register', [
 
         auth.register($scope.user, function(result){
             $scope.errors = status.error;
+            if(result.success){
+              $state.go('home');
+            }
         });
       };
 }]);
@@ -119,7 +122,6 @@ app.controller('NavBar', [
 
     auth.currentUser(function(status){
       $scope.loggedIn = status.success;
-      console.log($scope.loggedIn);
     });
 
     $scope.login = function(){
@@ -132,7 +134,7 @@ app.controller('NavBar', [
 
     $scope.logout = function(){
       auth.logout(function(status){
-        $scope.loggedIn = status.success;
+        $scope.loggedIn = !status.success;
       });
     };
 }]);
