@@ -3,7 +3,7 @@ var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64
 app.config([
   '$stateProvider',
   '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider){
+  function($stateProvider, $urlRouterProvider, $rootScope){
 
     $stateProvider.state('home',{
       url: '/home',
@@ -116,12 +116,14 @@ app.controller('Login',[
 app.controller('NavBar', [
   '$scope',
   '$state',
+  '$rootScope',
   'auth',
-  function($scope, $state, auth){
-    $scope.loggedIn = false;
-
-    auth.currentUser(function(status){
-      $scope.loggedIn = status.success;
+  function($scope, $state, $rootScope, auth){
+    $rootScope.$on('$stateChangeStart',
+      function(event, toState, toParams, fromState, fromParams, options){
+        auth.currentUser(function(status){
+          $scope.loggedIn = status.success;
+        });
     });
 
     $scope.login = function(){
@@ -136,5 +138,6 @@ app.controller('NavBar', [
       auth.logout(function(status){
         $scope.loggedIn = !status.success;
       });
+      $state.go('home');
     };
 }]);
