@@ -27,12 +27,12 @@ class user_management
         //Pour les tests seulement
 
         $res = $db->query(
-            "select id, password from Users where username = :username",
+            "select id, mdp from Utilisateurs where login = :username",
             array('username' => $username)
         );
 
         $user_line = $res->fetch();
-        if($user_line and $user_line["password"] == hash("sha256", $password))
+        if($user_line and $user_line["mdp"] == hash("sha256", $password))
         {
             $response = [
                 "status" => "succeed",
@@ -113,31 +113,55 @@ class user_management
 
         //Il n'existe pas d'utilisateur avec le même username
         //Ajout de l'utilisateur
+
+        //Dans la table Auteurs
         $res = $db->query(
-            "INSERT INTO Users (username, password, last_name, first_name, organisation, team)
-            VALUES (:username, :password, :last_name, :first_name, :organisation, :team)",
+            "INSERT INTO Auteurs (nom, prenom, organisation, equipe)
+            VALUES (:last_name, :first_name, :organisation, :team)",
             [
-                "username" => $username,
-                "password" => hash("sha256", $password),
                 "last_name" => $last_name,
                 "first_name" => $first_name,
                 "organisation" => $organisation,
                 "team" => $team
             ]
         );
-
-        if($res)
-        {
-            return [
-                "status" => "succeed"
-            ];
-        }
-        else
+        if(!$res)
         {
             return [
                 "status" => "invalid"
             ];
         }
+
+        //Puis dans la table Utilisateurs (en utilisant l'id généré lors de l'ajout dans Auteurs)
+        $author_id = $db->get_last_insert_id();
+        $res = $db->query(
+            "INSERT INTO Utilisateurs (id, login, mdp)
+            VALUES (:author_id, :username, :password)",
+            [
+                "author_id" => $author_id,
+                "username" => $username,
+                "password" => hash("sha256", $password)
+            ]
+        );
+        if(!$res)
+        {
+            //Retirer de la table Auteurs si l'ajout à la table Utilisateurs a échoué.
+            $db->query(
+                "DELETE FROM Auteurs WHERE id = :author_id",
+                [
+                    "author_id" => $author_id
+                ]
+            );
+
+            return [
+                "status" => "invalid"
+            ];
+        }
+
+
+        return [
+            "status" => "succeed"
+        ];
     }
 
     public static function check_connection()
@@ -164,7 +188,7 @@ class user_management
         }
 
         $res = $db->query(
-            "SELECT * FROM Users", null
+            "SELECT * FROM Utilisateurs", null
         );
 
         $users = $res->fetchAll();
@@ -173,10 +197,6 @@ class user_management
             $response[] = [
                 "id" => $user["id"],
                 "username" => $user["username"],
-                "last_name" => $user["last_name"],
-                "first_name" => $user["first_name"],
-                "organisation" => $user["organisation"],
-                "team" => $user["team"]
             ];
         }
         return $response;
@@ -210,7 +230,7 @@ class user_management
         }
 
         $res = $db->query(
-            "SELECT * FROM Users WHERE id = :id",
+            "SELECT * FROM Utilisateurs WHERE id = :id",
             array("id" => $id)
         );
 
@@ -218,10 +238,6 @@ class user_management
         $response = [
             "id" => $user["id"],
             "username" => $user["username"],
-            "last_name" => $user["last_name"],
-            "first_name" => $user["first_name"],
-            "organisation" => $user["organisation"],
-            "team" => $user["team"]
         ];
 
         return $response;
