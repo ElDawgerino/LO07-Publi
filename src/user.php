@@ -188,7 +188,7 @@ class user_management
         }
 
         $res = $db->query(
-            "SELECT * FROM Utilisateurs", null
+            "SELECT * FROM Utilisateurs AS u, Auteurs AS a WHERE u.id = a.id", null
         );
 
         $users = $res->fetchAll();
@@ -196,7 +196,11 @@ class user_management
         foreach ($users as $key => $user) {
             $response[] = [
                 "id" => $user["id"],
-                "username" => $user["username"],
+                "username" => $user["login"],
+                "last_name" => $user["nom"],
+                "first_name" => $user["prenom"],
+                "organisation" => $user["organisation"],
+                "team" => $user["equipe"]
             ];
         }
         return $response;
@@ -230,14 +234,18 @@ class user_management
         }
 
         $res = $db->query(
-            "SELECT * FROM Utilisateurs WHERE id = :id",
+            "SELECT * FROM Utilisateurs AS u, Auteurs AS a WHERE a.id = :id AND u.id = :id",
             array("id" => $id)
         );
 
         $user = $res->fetch();
         $response = [
             "id" => $user["id"],
-            "username" => $user["username"],
+            "username" => $user["login"],
+            "last_name" => $user["nom"],
+            "first_name" => $user["prenom"],
+            "organisation" => $user["organisation"],
+            "team" => $user["equipe"]
         ];
 
         return $response;
