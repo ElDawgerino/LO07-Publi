@@ -5,8 +5,8 @@
         <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
-        <script src="public/angular-base64-upload.js"></script>
-        <script src="public/sha256.js"></script>
+        <script src="public/libs/angular-base64-upload.js"></script>
+        <script src="public/libs/sha256.js"></script>
         <script src="public/auth.js"></script>
         <script src="public/app.js"></script>
         <link rel="stylesheet" type="text/css" href="public/style.css">
@@ -29,10 +29,7 @@
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
         </div>
-        <div>{{text}}</div>
-        <button ng-click="register()">Inscription</button>
-        <button ng-click="login()">Connexion</button>
-        <button ng-click="logout()">Déconnexion</button>
+        <button ng-click="publier()">Publier</button>
       </script>
 
       <script type="text/ng-template" id="register">
@@ -71,6 +68,29 @@
           <button ng-click="login(login_info)">Connexion</button>
           <button ng-click="annuler()">Annuler</button>
         </form>
+      </script>
+
+      <script type="text/ng-template" id="publish">
+        <h1>Publier</h1>
+        <div ng-if='errors && errors != ""'>
+            Echec de la connexion : {{errors}}
+        </div>
+        <form>
+          <label for="title">Titre : </label>
+          <input type="text" id="title" ng-model="publi.title" required><br>
+          <label for="description">Description : </label>
+          <textarea id="description" ng-model="publi.description" required></textarea><br>
+          <label for="status">Status : </label>
+          <input type="text" id="status" ng-model="publi.status" required><br>
+          <label for="journal">Journal : </label>
+          <input type="text" id="journal" ng-model="publi.journal"><br>
+          <label for="annee">Année : </label>
+          <input type="text" id="annee" ng-model="publi.annee"><br>
+          <label for="location">Lieu de la conférence : </label>
+          <input type="text" id="location" ng-model="publi.location"><br>
+          <label for="file">
+          <input type='file' ng-model='publi.file' base-sixty-four-input><br>
+
       </script>
     </body>
 </html>

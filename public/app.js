@@ -23,32 +23,23 @@ app.config([
       controller: 'Login'
     });
 
+    $stateProvider.state('publish', {
+      url: '/publish',
+      templateUrl: 'publish',
+      controller: 'Publish'
+    });
+
     $urlRouterProvider.otherwise('home');
 }]);
 
 app.controller('Home', [
     '$scope',
-    '$http',
     '$state',
-    'auth',
-    function($scope, $http, $state, auth){
+    function($scope, $state){
 
-        $scope.text = 'Une application web de gestion du publication!';
-
-        $scope.register = function(){
-            $state.go("register");
-        };
-
-        $scope.login = function(){
-            $state.go("login");
-        };
-
-        $scope.logout = function(){
-          //TODO: faire ça avec une navbar
-          auth.logout(function(status){
-            $scope.errors = status.error;
-          });
-        };
+      $scope.publier = function(){
+        $state.go('publish')
+      }
 
 }]);
 
@@ -140,4 +131,11 @@ app.controller('NavBar', [
       });
       $state.go('home');
     };
+}]);
+
+app.controller('Publish', [
+  '$scope',
+  '$http',
+  function($scope, $http){
+    
 }]);
