@@ -47,6 +47,9 @@ app.factory('auth', [
                 else if(response.data.status == "invalid"){
                     then({success: false, error: "Mauvais identifiant et/ou mot de passe !"});
                 }
+                else if(response.data.status == "already_connected"){
+                  then({success: false, error: "Vous êtes déjà connecté."})
+                }
                 else{
                     then({success: false, error: "Erreur inconnue !"});
                 }
@@ -58,7 +61,7 @@ app.factory('auth', [
     };
 
     auth.logout = function(then){
-      $http.post('logout').then(function(response){
+      $http.get('logout').then(function(response){
         if(response.data.status == "succeed"){
           then({success: true});
         }
@@ -73,8 +76,16 @@ app.factory('auth', [
       });
     };
 
-    auth.currentUser = function(){
-
+    auth.currentUser = function(then){
+      $http.get('compte').then(function(response){
+        if(response.data.status == "invalid"){
+          then({success: false})
+        } else {
+          then({success: true, response: response});
+        }
+      }, function(response){
+          then({success: false, error: "Erreur inconnue"});
+      });
     };
 
     return auth;
