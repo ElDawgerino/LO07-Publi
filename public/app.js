@@ -1,4 +1,4 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64']);
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module']);
 
 app.config([
   '$stateProvider',
@@ -39,7 +39,7 @@ app.controller('Home', [
 
       $scope.publier = function(){
         $state.go('publish')
-      }
+      };
 
 }]);
 
@@ -136,6 +136,17 @@ app.controller('NavBar', [
 app.controller('Publish', [
   '$scope',
   '$http',
-  function($scope, $http){
-    
+  'publi',
+  function($scope, $http, publi){
+    $scope.publish = function(){
+      publi.post($scope.publi, function(status){
+        if(status.success){
+          console.log("success");
+          //aller à la publication
+        }
+        else{
+          $scope.errors = status.error;
+        }
+      });
+    }
 }]);

@@ -61,7 +61,7 @@ app.factory('auth', [
     };
 
     auth.logout = function(then){
-      $http.post('logout').then(function(response){
+      $http.get('logout').then(function(response){
         if(response.data.status == "succeed"){
           then({success: true});
         }

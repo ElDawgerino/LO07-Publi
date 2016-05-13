@@ -22,7 +22,7 @@ $app->post('/login', function ($request, $response, $args) {
     return $response->withJson(user_management::login($username, $password));
 });
 
-$app->post('/logout', function ($request, $response, $args) {
+$app->get('/logout', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
     return $response->withJson(user_management::logout());
