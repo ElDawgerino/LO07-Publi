@@ -68,7 +68,7 @@ class publication
         $file_id = null;
         if(isset($publication["fichier"]))
         {
-            $file_info = $publication["file"];
+            $file_info = $publication["fichier"];
             $original_name = $file_info["filename"];
             $base64_content = $file_info["base64"];
             $file_size = $file_info["filesize"];

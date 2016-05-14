@@ -5,7 +5,7 @@ class database
     public function __construct($dsn, $username, $password)
     {
         try {
-            $this->pdo = new PDO($dsn, $username, $password);
+            $this->pdo = new PDO($dsn, $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
             $this->is_ok = true;
         }
         catch (PDOException $e) {
