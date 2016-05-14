@@ -1,0 +1,40 @@
+Exemples de requêtes HTTP pour les Publications
+===============================================
+
+Ajout d'une publication
+-----------------------
+(Nécessaire de se connecter dans un premier temps)
+
+ - Ajout d'une publication sans fichier (test) :
+
+   /publi (POST)
+   Content type: application/json
+   Data:
+{
+"titre":"Test de publication",
+"statut":"Publie",
+"categorie":"RI",
+"journal_titre":"Journal scientifique de test",
+"journal_editeur":"Vic!",
+"journal_volume":"XI"
+}
+
+ - Ajout d'une publication avec un fichier (fichier texte contenant "CA MARCHE !")
+
+   /publi (POST)
+   Content type: application/json
+   Data:
+{
+"titre":"Article inutile !",
+"statut":"En revision",
+"categorie":"TD",
+"journal_titre":"Thèses",
+"journal_editeur":"UTT",
+"journal_volume":"1",
+"fichier": {
+    "filename":"superfichier.txt",
+    "filesize":"88",
+    "filetype":"text/plain",
+    "base64":"Q2EgbWFyY2hlICE="
+}
+}
