@@ -5,17 +5,6 @@ create table Journaux(
     editeur varchar(256)
 );
 
-/* Création de la table EditionsJournal */
-create table EditionsJournal(
-    id_journal int not null,
-    numero_edition int not null,
-    date_edition date,
-    primary key(id_journal, numero_edition),
-
-    /* Clé étrangère */
-    foreign key(id_journal) references Journaux(id)
-);
-
 create table Conferences(
     id int not null primary key auto_increment,
     nom varchar(256),
@@ -37,15 +26,17 @@ create table Publications(
     description mediumtext,
     statut enum('Soumis', 'En révision', 'Publié') not null,
     categorie enum('RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP') not null,
+    annee_publication int,
+
     journal_id int,
-    edition_id int,
+    journal_volume varchar(64),
     pages varchar(32),
     conference_id int,
     fichier_id int,
 
     /* Clés étrangères */
     foreign key(fichier_id) references Fichiers(id),
-    foreign key(journal_id, edition_id) references EditionsJournal(id_journal, numero_edition),
+    foreign key(journal_id) references Journaux(id),
     foreign key(conference_id) references Conferences(id)
 );
 
