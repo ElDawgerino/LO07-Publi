@@ -175,7 +175,7 @@ class publication
         }
 
         $res = $db->query(
-            "select original_name, path_on_server from Files as f, Publications as p where p.id = :publication_id and f.id = p.file_id",
+            "select nom_original, chemin_server from Fichiers as f, Publications as p where p.id = :publication_id and f.id = p.fichier_id",
             [
                 "publication_id" => $publication_id
             ]
@@ -192,8 +192,8 @@ class publication
 
         return [
             "status" => "succeed",
-            "original_name" => $file_line["original_name"],
-            "path_on_server" => $file_line["path_on_server"]
+            "nom_original" => $file_line["nom_original"],
+            "chemin_server" => $file_line["chemin_server"]
         ];
     }
 

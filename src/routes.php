@@ -58,8 +58,8 @@ $app->get('/download/{id}', function ($request, $response, $args) {
         return $response->withStatus(500);
     }
 
-    $file_path = $publi_file_info["path_on_server"];
-    $original_name = $publi_file_info["original_name"];
+    $file_path = $publi_file_info["chemin_server"];
+    $original_name = $publi_file_info["nom_original"];
 
     if(file_exists($file_path))
     {
