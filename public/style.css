@@ -1,9 +1,9 @@
 .nav ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color:  #19191F;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:  #19191F;
 }
 
 .nav li {
@@ -11,10 +11,30 @@
 }
 
 .nav li button {
-  display: block;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+.nav ul li {
+    display: inline-block;
+    float: left;
+}
+
+.nav ul li.align-right {
+    float: right;
+}
+
+#website-main-button {
+    color: white;
+}
+
+#website-main-button a {
+    color: white;
+    text-decoration: none;
 }
 
 body {
