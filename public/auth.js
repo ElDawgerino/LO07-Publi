@@ -81,6 +81,20 @@ app.factory('auth', [
         if(response.data.status == "invalid"){
           then({success: false})
         } else {
+          $http.get('compte/' + response.data.id).then(
+            function(response){
+              then({
+                success: true,
+                username: response.data.username,
+                last_name: response.data.last_name,
+                first_name: response.data.first_name,
+                organisation: response.data.organisation,
+                team: response.data.team
+              });
+            }, function(response){
+              then({success: false, error: "Erreur inconnue"});
+            }
+          )
           then({success: true, response: response});
         }
       }, function(response){

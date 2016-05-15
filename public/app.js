@@ -114,6 +114,11 @@ app.controller('NavBar', [
       function(event, toState, toParams, fromState, fromParams, options){
         auth.currentUser(function(status){
           $scope.loggedIn = status.success;
+          if(status.success){
+            $scope.username = status.username;
+          }else{
+            $scope.username = null;
+          }
         });
     });
 
