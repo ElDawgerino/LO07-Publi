@@ -16,7 +16,21 @@ Ajout d'une publication
 "categorie":"RI",
 "journal_titre":"Journal scientifique de test",
 "journal_editeur":"Vic!",
-"journal_volume":"XI"
+"journal_volume":"XI",
+"auteurs":[
+{
+"nom":"test",
+"prenom":"prenom_test",
+"organisation":"UTT",
+"equipe":"rien"
+},
+{
+"nom":"Levasseur",
+"prenom":"Victor",
+"organisation":"UTT",
+"equipe":"GAMMA3"
+}
+]
 }
 
  - Ajout d'une publication avec un fichier (fichier texte contenant "CA MARCHE !")
@@ -36,5 +50,19 @@ Ajout d'une publication
     "filesize":"88",
     "filetype":"text/plain",
     "base64":"Q2EgbWFyY2hlICE="
+},
+"auteurs":[
+{
+"nom":"test",
+"prenom":"prenom_test",
+"organisation":"UTT",
+"equipe":"rien"
+},
+{
+"nom":"Levasseur",
+"prenom":"Victor",
+"organisation":"UTT",
+"equipe":"GAMMA3"
 }
+]
 }

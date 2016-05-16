@@ -18,7 +18,7 @@ class publication
      * - categorie (R) (chaîne de caractère parmi 'RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP')
      * - annee_publication (O) (entier)
      * - fichier (O) (structure générée par le module angular-base64 qui contient le fichier et ses informations)
-     * - auteurs (R) (un tableau d'id représentant les auteurs de la publications)
+     * - auteurs (R) (un tableau contenant les nom, prenom, organisation et equipe représentant les auteurs ou un id d'auteur (la fonction saura s'il faut créer un nouvel auteur ou non))
      *
      * Si la publication a été publiée dans un journal scientifique :
      * --------------------------------------------------------------
@@ -155,9 +155,40 @@ class publication
         }
         $publication_id = $db->get_last_insert_id();
 
-        //Ajout de l'utilisateur actuel en auteur (temporaire, les auteurs passés en paramètre seront bientôt utilisés)
-        //TODO
-
+        //Ajout des auteurs
+        for($i = 0; $i < count($publication["auteurs"]); $i++)
+        {
+            $auteur = $publication["auteurs"][$i];
+            if(isset($auteur["id"]))
+            {
+                $res = $db->query(
+                    "insert into RelationsAuteurs values (:publication_id, :numero, :auteur_id);",
+                    [
+                        "publication_id" => $publication_id,
+                        "numero" => $i,
+                        "auteur_id" => $auteur["id"]
+                    ]
+                );
+                //Pas de traitement particulier en cas d'échec (id qui ne satisfait pas la contraite de clé étrangère)
+                //On ignorera l'auteur
+            }
+            else if(isset($auteur["nom"]) and isset($auteur["prenom"]) and isset($auteur["organisation"]) and isset($auteur["equipe"]))
+            {
+                $res = $db->query(
+                    "insert into RelationsAuteurs values (:publication_id, :numero, :auteur_id);",
+                    [
+                        "publication_id" => $publication_id,
+                        "numero" => $i,
+                        "auteur_id" => self::get_author_id(
+                            $auteur["nom"],
+                            $auteur["prenom"],
+                            $auteur["organisation"],
+                            $auteur["equipe"]
+                        )
+                    ]
+                );
+            }
+        }
 
         $db->commit();
 
@@ -246,4 +277,29 @@ class publication
             true
         );
     }
+
+    /**
+     * Récupère l'id d'un auteur selon les critères donnés ou crée un nouvel auteur si aucun ne correspond à ces critères.
+     *
+     * Retourne false en cas d'erreur avec la base de données
+     */
+     private static function get_author_id($name, $first_name, $organisation, $team)
+     {
+         $db = database_factory::get_db();
+         if(!$db->is_ok())
+         {
+             return false;
+         }
+
+         return $db->get_id_of(
+             "Auteurs",
+             [
+                 "nom" => $name,
+                 "prenom" => $first_name,
+                 "organisation" => $organisation,
+                 "equipe" => $team
+             ],
+             true
+         );
+     }
 }
