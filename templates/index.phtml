@@ -13,7 +13,8 @@
         <link rel="stylesheet" type="text/css" href="public/style.css">
     </head>
     <body ng-app="LO07-publi">
-      <nav ng-controller="NavBar" class="nav">
+      <div id="contenu">
+        <nav ng-controller="NavBar" class="nav">
         <ul>
           <li id="website-main-button"><i class="material-icons" style="vertical-align: middle;">archive</i> <button ng-click="goHome()">LO07-Publi</button></li>
           <li class="align-right" ng-show="loggedIn"><button ng-click="logout()">Déconnexion</button></li>
@@ -21,19 +22,19 @@
           <li class="align-right" ng-hide="loggedIn"><button ng-click="register()">Inscription</button></li>
           <li class="align-right" ng-hide="loggedIn"><button ng-click="login()">Connexion</button></li>
         </ul>
-      </nav>
+        </nav>
 
-      <ui-view></ui-view>
+        <ui-view></ui-view>
 
-      <script type="text/ng-template" id="home">
+        <script type="text/ng-template" id="home">
         <h1>LO07-publi</h1>
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
         </div>
         <button ng-click="publier()">Publier</button>
-      </script>
+        </script>
 
-      <script type="text/ng-template" id="register">
+        <script type="text/ng-template" id="register">
         <h1>Inscription</h1>
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
@@ -54,9 +55,9 @@
           <button ng-click="register()">Inscription</button>
           <button ng-click="annuler()">Annuler</button>
         </form>
-      </script>
+        </script>
 
-      <script type="text/ng-template" id="login">
+        <script type="text/ng-template" id="login">
         <h1>Connexion</h1>
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
@@ -69,9 +70,9 @@
           <button ng-click="login(login_info)">Connexion</button>
           <button ng-click="annuler()">Annuler</button>
         </form>
-      </script>
+        </script>
 
-      <script type="text/ng-template" id="publish">
+        <script type="text/ng-template" id="publish">
         <h1>Publier</h1>
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
@@ -93,6 +94,7 @@
           <input type='file' ng-model='publi.file' base-sixty-four-input required><br>
           <button ng-click="publish()">Publier</button>
         </form>
-      </script>
+        </script>
+      </div>
     </body>
 </html>
