@@ -90,7 +90,9 @@ $app->get('/download/{id}', function ($request, $response, $args) {
 });
 
 $app->get('/publi/{id}', function ($request, $response, $args) {
-  //TODO : Obternir les infos sur la publication
+    $request_params = $request->getParsedBody();
+
+    return $response->withJson(publication::get_publication($args["id"]));
 });
 
 $app->post('/publi', function ($request, $response, $args) {

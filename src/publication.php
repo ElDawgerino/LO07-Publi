@@ -198,6 +198,61 @@ class publication
         ];
     }
 
+    public static function get_publication($id)
+    {
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return [
+                "status" => "db_error"
+            ];
+        }
+
+        //Récupération de la publication, des éventuels journal ou conférence associés
+        $res = $db->query(
+            "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication, p.journal_volume, p.pages,
+            j.titre as journal_titre, j.editeur as journal_editeur,
+            c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
+            FROM Publications AS p LEFT JOIN Journaux AS j ON p.journal_id = j.id LEFT JOIN Conferences AS c ON p.conference_id = c.id
+            WHERE p.id = :id ;",
+            [
+                "id" => $id
+            ]
+        );
+
+        if($res->rowCount() === 0)
+        {
+            return [
+                "status" => "invalid"
+            ];
+        }
+
+        $publication = $res->fetch(PDO::FETCH_ASSOC);
+
+        //Récupération des auteurs
+        $authors_res = $db->query(
+            "SELECT a.id, a.nom, a.prenom, a.organisation, a.equipe
+            FROM RelationsAuteurs AS r, Auteurs AS a
+            WHERE r.publication_id = :id AND r.auteur_id = a.id
+            ORDER BY r.numero_auteur ASC;",
+            [
+                "id" => $id
+            ]
+        );
+
+        $publication["auteurs"] = [];
+        $authors_lines = $authors_res->fetchAll(PDO::FETCH_ASSOC);
+        foreach($authors_lines as $author)
+        {
+            $publication["auteurs"][] = $author;
+        }
+
+        return [
+            "status" => "succeed",
+            "publication" => $publication
+        ];
+    }
+
     public static function get_publication_file_info($publication_id)
     {
         $db = database_factory::get_db();
