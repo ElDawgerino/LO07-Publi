@@ -122,6 +122,10 @@ app.controller('NavBar', [
         });
     });
 
+    $scope.goHome = function(){
+      $state.go('home');
+    }
+
     $scope.login = function(){
       $state.go('login');
     };

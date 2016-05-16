@@ -33,7 +33,7 @@ Ajout d'une publication
 ]
 }
 
- - Ajout d'une publication avec un fichier (fichier texte contenant "CA MARCHE !")
+ - Ajout d'une publication avec un fichier (fichier texte contenant "CA MARCHE !") et avec un auteur par id (donc forcément existant !)
 
    /publi (POST)
    Content type: application/json
@@ -59,10 +59,7 @@ Ajout d'une publication
 "equipe":"rien"
 },
 {
-"nom":"Levasseur",
-"prenom":"Victor",
-"organisation":"UTT",
-"equipe":"GAMMA3"
+"id":"1"
 }
 ]
 }
