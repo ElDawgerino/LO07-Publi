@@ -18,6 +18,7 @@ class publication
      * - categorie (R) (chaîne de caractère parmi 'RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP')
      * - annee_publication (O) (entier)
      * - fichier (O) (structure générée par le module angular-base64 qui contient le fichier et ses informations)
+     * - auteurs (R) (un tableau d'id représentant les auteurs de la publications)
      *
      * Si la publication a été publiée dans un journal scientifique :
      * --------------------------------------------------------------
@@ -152,15 +153,17 @@ class publication
             $db->rollback();
             return ["status" => "insertion_error"];
         }
+        $publication_id = $db->get_last_insert_id();
 
         //Ajout de l'utilisateur actuel en auteur (temporaire, les auteurs passés en paramètre seront bientôt utilisés)
         //TODO
+
 
         $db->commit();
 
         return [
             "status" => "succeed",
-            //"id" => $publication_id TODO
+            "id" => $publication_id
         ];
     }
 
