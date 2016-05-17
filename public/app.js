@@ -35,11 +35,18 @@ app.config([
 app.controller('Home', [
     '$scope',
     '$state',
-    function($scope, $state){
+    'publi',
+    function($scope, $state, publi){
+      $scope.hasPublis = true;
 
-      $scope.publier = function(){
-        $state.go('publish')
-      };
+      publi.getAll(function(response){
+        if(response.success){
+          $scope.publis = response.content;
+        } else {
+          $scope.hasPublis = false;
+          $scope.errors = response.error;
+        }
+      });
 
 }]);
 

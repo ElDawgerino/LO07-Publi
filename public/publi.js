@@ -6,7 +6,18 @@ app.factory('publi', [
     var publi = {};
 
     publi.getAll =function(then){
-
+      $http.get('publi').then(function(response){
+        if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée."});
+        } else if(response.data.status == "empty"){
+          then({success: false, message: "empty"});
+        }
+        else{
+          then({success: true, content: response.data});
+        }
+      }, function(response){
+        then({success: false, error: "Erreur inconnue"});
+      });
     };
 
     publi.get = function(id, then){

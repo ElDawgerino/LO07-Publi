@@ -123,3 +123,12 @@ button {
 button:hover {
     background-color: rgb(200, 200, 200);
 }
+
+table {
+    width: 100%;
+}
+
+th, td {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
