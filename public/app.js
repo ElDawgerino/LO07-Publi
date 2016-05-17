@@ -185,10 +185,12 @@ app.controller('Publish', [
     };
 
     $scope.publish = function(){
+      var publication = angular.copy( $scope.publi );
+
       if($scope.isAuteur){
-        $scope.publi.auteurs.push($rootScope.id);
+        publication.auteurs.push({ id: $rootScope.id} );
       }
-      publi.post($scope.publi, function(status){
+      publi.post(publication, function(status){
         if(status.success){
           console.log("success");
           //aller à la publication
