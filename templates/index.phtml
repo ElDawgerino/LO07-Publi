@@ -42,7 +42,7 @@
             <th>Année</th>
           </tr>
           <tr ng-repeat="publi in publis">
-            <td>{{publi.titre}}</td>
+            <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
             <td>{{publi.description}}</td>
             <td>{{publi.statut}}</td>
             <td>{{publi.categorie}}</td>
@@ -134,24 +134,30 @@
           <h3>Journal</h3>
           <label for="isJournal">La publication fait partie d'un journal : </label>
           <input type="checkbox" id="isJournal" ng-model="isJournal"><br ng-show="isJournal">
-          <label for="journal_titre" ng-show="isJournal">Titre : </label>
-          <input type="text" id="journal_titre" ng-model="publi.journal_titre" ng-show="isJournal"><br ng-show="isJournal">
-          <label for="journal_editeur" ng-show="isJournal">Editeur : </label>
-          <input type="text" id="journal_editeur" ng-model="publi.journal_editeur" ng-show="isJournal"><br ng-show="isJournal">
-          <label for="journal_volume" ng-show="isJournal">Volume : </label>
-          <input type="text" id="journal_volume" ng-model="publi.journal_volume" ng-show="isJournal"><br ng-show="isJournal">
-          <label for="pages" ng-show="isJournal">Pages : </label>
-          <input type="text" id="pages" ng-model="publi.pages" ng-show="isJournal"><br><br>
+          <div ng-show="isJournal">
+            <label for="journal_titre">Titre : </label>
+            <input type="text" id="journal_titre" ng-model="publi.journal_titre"><br>
+            <label for="journal_editeur">Editeur : </label>
+            <input type="text" id="journal_editeur" ng-model="publi.journal_editeur"><br>
+            <label for="journal_volume">Volume : </label>
+            <input type="text" id="journal_volume" ng-model="publi.journal_volume"><br>
+            <label for="pages">Pages : </label>
+            <input type="text" id="pages" ng-model="publi.pages">
+          </div>
+          <br><br>
 
           <h3>Conférence</h3>
           <label for="isConf">La publication est liée à une conférence : </label>
-          <input type="checkbox" id="isConf" ng-model="isConf"><br ng-show="isConf">
-          <label for="conference_nom" ng-show="isConf">Nom : </label>
-          <input type="text" id="conference_nom" ng-model="publi.conference_nom" ng-show="isConf"><br ng-show="isConf">
-          <label for="conference_date" ng-show="isConf">Date : </label>
-          <input type="text" id="conference_date" ng-model="publi.conference_date" ng-show="isConf"><br ng-show="isConf">
-          <label for="conference_lieu" ng-show="isConf">Lieu : </label>
-          <input type="text" id="conference_lieu" ng-model="publi.conference_lieu" ng-show="isConf"><br ng-show="isConf">
+          <input type="checkbox" id="isConf" ng-model="isConf">
+          <div ng-show="isConf" ng-show="isConf">
+            <br ng-show="isConf">
+            <label for="conference_nom">Nom : </label>
+            <input type="text" id="conference_nom" ng-model="publi.conference_nom"><br >
+            <label for="conference_date">Date : </label>
+            <input type="text" id="conference_date" ng-model="publi.conference_date"><br>
+            <label for="conference_lieu">Lieu : </label>
+            <input type="text" id="conference_lieu" ng-model="publi.conference_lieu"><br>
+          </div>
           <br><br>
 
           <h3>Upload</h3>
@@ -159,6 +165,39 @@
           <input type='file' ng-model='publi.file' base-sixty-four-input required><br>
           <button ng-click="publish()">Publier</button>
         </form>
+        </script>
+
+        <script type="text/ng-template" id="publi">
+          <h1>{{publi.titre}}</h1>
+          <h3>Description : </h3>
+          <p>{{publi.description}}</p>
+
+          <h3>Informations : </h3>
+          <p>Statut : {{publi.statut}}</p>
+          <p>Catégorie : {{publi.categorie}}</p>
+          <p>Année de publication : {{publi.annee_publication}}</p>
+
+          <h3>Auteurs : </h3>
+          <div ng-repeat="auteur in publi.auteurs">
+            <p>Nom : {{auteur.nom}} {{auteur.nom | uppercase}}</p>
+            <p>Organisation : {{auteur.organisation}}</p>
+            <p>Equipe : {{auteur.equipe}}</p>
+          </div>
+
+          <div ng-show="hasJournal">
+            <h3>Journal : </h3>
+            <p>Titre : {{publi.journal_titre}}</p>
+            <p>Editeur : {{publi.journal_editeur}}
+            <p>Volume : {{publi.journal_volume}}</p>
+            <p>Page(s) : {{publi.pages}}</p>
+          </div>
+
+          <div ng-show="hasConference">
+            <h3>Conférence : </h3>
+            <p>Nom : {{publi.conference_nom}}</p>
+            <p>Lieu : {{publi.conference_lieu}}</p>
+            <p>Date : {{publi.conference_date}}</p>
+          </div>
         </script>
 
       </div>

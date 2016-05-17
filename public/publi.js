@@ -21,7 +21,19 @@ app.factory('publi', [
     };
 
     publi.get = function(id, then){
-
+      $http.get('publi/' + id).then(function(response){
+        if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée."});
+        } else if(response.data.status == "invalid"){
+          then({success: false, error: "Publication introuvable"})
+        } else if(response.data.status == "succeed"){
+          then({success: true, content: response.data.publication});
+        } else {
+          then({success: false, error: "Erreur inconnue"});
+        }
+      }, function(response){
+        then({success: false, error: "Erreur inconnue"});
+      });
     };
 
     publi.post = function(content, then){

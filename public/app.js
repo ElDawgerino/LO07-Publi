@@ -29,6 +29,12 @@ app.config([
       controller: 'Publish'
     });
 
+    $stateProvider.state('publi', {
+      url: '/publi/{id}',
+      templateUrl: 'publi',
+      controller: 'Publi',
+    });
+
     $urlRouterProvider.otherwise('home');
 }]);
 
@@ -47,7 +53,6 @@ app.controller('Home', [
           $scope.errors = response.error;
         }
       });
-
 }]);
 
 
@@ -195,3 +200,26 @@ app.controller('Publish', [
     };
 
 }]);
+
+app.controller('Publi', [
+  '$scope',
+  '$stateParams',
+  'publi',
+  function($scope, $stateParams, publi){
+    $scope.hasJournal = false;
+    $scope.hasConference = false;
+
+    publi.get($stateParams.id, function(response){
+      if(response.success){
+        $scope.publi = response.content;
+        if(response.content.journal_titre != null){
+          $scope.hasJournal = true;
+        }
+        if(response.content.conference_nom != null){
+          $scope.hasConference = true;
+        }
+      } else {
+        $scope.errors = response.error;
+      }
+    })
+}])
