@@ -127,6 +127,17 @@
           <label for="pages" ng-show="isJournal">Pages : </label>
           <input type="text" id="pages" ng-model="publi.pages" ng-show="isJournal"><br><br>
 
+          <h3>Conférence</h3>
+          <label for="isConf">La publication est liée à une conférence : </label>
+          <input type="checkbox" id="isConf" ng-model="isConf"><br ng-show="isConf">
+          <label for="conference_nom" ng-show="isConf">Nom : </label>
+          <input type="text" id="conference_nom" ng-model="publi.conference_nom" ng-show="isConf"><br ng-show="isConf">
+          <label for="conference_date" ng-show="isConf">Date : </label>
+          <input type="text" id="conference_date" ng-model="publi.conference_date" ng-show="isConf"><br ng-show="isConf">
+          <label for="conference_lieu" ng-show="isConf">Lieu : </label>
+          <input type="text" id="conference_lieu" ng-model="publi.conference_lieu" ng-show="isConf"><br ng-show="isConf">
+          <br><br>
+
           <h3>Upload</h3>
           <label for="file">Fichier : </label>
           <input type='file' ng-model='publi.file' base-sixty-four-input required><br>
