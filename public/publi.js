@@ -14,14 +14,7 @@ app.factory('publi', [
     };
 
     publi.post = function(content, then){
-      postContent = {
-        title: content.title,
-        description: content.description,
-        status: content.status,
-        file: content.file
-      };
-
-      $http.post('publi', postContent).then(function(response){
+      $http.post('publi', content).then(function(response){
         if(response.data.status == "unauthorized"){
           then({success: false, error: "Veuillez vous connecter."});
         }

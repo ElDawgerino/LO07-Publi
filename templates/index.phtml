@@ -79,24 +79,61 @@
         <div ng-if='errors && errors != ""'>
             Echec de la connexion : {{errors}}
         </div>
+
         <form>
+          <h3>Publication</h3>
           <label for="title">Titre : </label>
-          <input type="text" id="title" ng-model="publi.title" required><br>
+          <input type="text" id="title" ng-model="publi.titre" required><br>
           <label for="description">Description : </label>
           <textarea id="description" ng-model="publi.description" required></textarea><br>
-          <label for="status">Status : </label>
-          <input type="text" id="status" ng-model="publi.status" required><br>
-          <label for="journal">Journal : </label>
-          <input type="text" id="journal" ng-model="publi.journal"><br>
+          <label for="statut">Statut : </label>
+          <select id="statut" ng-model="publi.statut"
+            ng-options="statut for statut in statuts" ng-init="publi.statut = statuts[0]" required></select><br>
+          <label for="categorie">Catégorie : </label>
+          <select id="categorie" ng-model="publi.categorie"
+            ng-options="categorie for categorie in categories" ng-init="publi.categorie = categories[0]"></select><br>
           <label for="annee">Année : </label>
-          <input type="text" id="annee" ng-model="publi.annee"><br>
-          <label for="location">Lieu de la conférence : </label>
-          <input type="text" id="location" ng-model="publi.location"><br>
+          <input type="number" id="annee" ng-model="publi.annee_publication" ng-init="publi.annee_publication = 2010"><br><br>
+
+          <h3>Auteur</h3>
+          <label for="isAuteur">Je suis l'auteur de cette publication : </label>
+          <input type="checkbox" id="isAuteur" ng-model="isAuteur"><br>
+          <label for="auteur-prenom">Prenom : </label>
+          <input type="text" id="auteur-prenom" ng-model="auteur.prenom"><br>
+          <label for="auteur-nom">Nom : </label>
+          <input type="text" id="auteur-nom" ng-model="auteur.nom"><br>
+          <label for="auteur-organisation">Organisation : </label>
+          <input type="text" id="auteur-organisation" ng-model="auteur.organisation"><br>
+          <label for="auteur-equipe">Equipe : </label>
+          <input type="text" id="auteur-equipe" ng-model="auteur.equipe"><br>
+          <button type="button" ng-click="addAuteur()">Ajouter auteur</button>
+          <ul>
+            <li ng-repeat="auteur in publi.auteurs">
+              {{auteur.prenom}} {{auteur.nom}} : {{auteur.organisation}}, {{auteur.equipe}}
+              <button type="button" ng-click="removeAuteur($index)">Supprimer</button>
+            </li>
+          </ul>
+          <br><br>
+
+          <h3>Journal</h3>
+          <label for="isJournal">La publication fait partie d'un journal : </label>
+          <input type="checkbox" id="isJournal" ng-model="isJournal"><br ng-show="isJournal">
+          <label for="journal_titre" ng-show="isJournal">Titre : </label>
+          <input type="text" id="journal_titre" ng-model="publi.journal_titre" ng-show="isJournal"><br ng-show="isJournal">
+          <label for="journal_editeur" ng-show="isJournal">Editeur : </label>
+          <input type="text" id="journal_editeur" ng-model="publi.journal_editeur" ng-show="isJournal"><br ng-show="isJournal">
+          <label for="journal_volume" ng-show="isJournal">Volume : </label>
+          <input type="text" id="journal_volume" ng-model="publi.journal_volume" ng-show="isJournal"><br ng-show="isJournal">
+          <label for="pages" ng-show="isJournal">Pages : </label>
+          <input type="text" id="pages" ng-model="publi.pages" ng-show="isJournal"><br><br>
+
+          <h3>Upload</h3>
           <label for="file">Fichier : </label>
           <input type='file' ng-model='publi.file' base-sixty-four-input required><br>
           <button ng-click="publish()">Publier</button>
         </form>
         </script>
+
       </div>
       <footer>
         <p>Site web développé avec AngularJS et SlimPHP par Antoine Girard Guittard et Victor Levasseur.</p>

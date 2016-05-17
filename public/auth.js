@@ -85,6 +85,7 @@ app.factory('auth', [
             function(response){
               then({
                 success: true,
+                id: response.data.id,
                 username: response.data.username,
                 last_name: response.data.last_name,
                 first_name: response.data.first_name,

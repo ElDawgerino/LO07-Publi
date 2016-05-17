@@ -116,6 +116,7 @@ app.controller('NavBar', [
           $scope.loggedIn = status.success;
           if(status.success){
             $scope.username = status.username;
+            $rootScope.id = status.id;
           }else{
             $scope.username = null;
           }
@@ -149,9 +150,32 @@ app.controller('NavBar', [
 app.controller('Publish', [
   '$scope',
   '$http',
+  '$rootScope',
   'publi',
-  function($scope, $http, publi){
+  'auth',
+  function($scope, $http, $rootScope, publi, auth){
+    $scope.statuts = ["Soumis", "En révision", "Publié"];
+    $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
+    $scope.publi = {};
+    $scope.publi.auteurs = [];
+
+    $scope.addAuteur = function(){
+      $scope.publi.auteurs.push({
+        prenom : $scope.auteur.prenom,
+        nom : $scope.auteur.nom,
+        organisation : $scope.auteur.organisation,
+        equipe : $scope.auteur.equipe
+      });
+    };
+
+    $scope.removeAuteur = function(index){
+      $scope.publi.auteurs.splice(index, 1);
+    };
+
     $scope.publish = function(){
+      if($scope.isAuteur){
+        $scope.publi.auteurs.push($rootScope.id);
+      }
       publi.post($scope.publi, function(status){
         if(status.success){
           console.log("success");
@@ -161,5 +185,6 @@ app.controller('Publish', [
           $scope.errors = status.error;
         }
       });
-    }
+    };
+
 }]);
