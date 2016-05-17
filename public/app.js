@@ -122,6 +122,10 @@ app.controller('NavBar', [
         });
     });
 
+    $scope.goPublish = function(){
+      $state.go('publish');
+    }
+
     $scope.goHome = function(){
       $state.go('home');
     }
