@@ -198,6 +198,42 @@ class publication
         ];
     }
 
+    public static function get_publications()
+    {
+      $db = database_factory::get_db();
+      if(!$db->is_ok())
+      {
+        return [
+          "status" => "db_error"
+        ];
+      }
+
+      $res = $db->query(
+        "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication, p.journal_volume, p.pages,
+        j.titre as journal_titre, j.editeur as journal_editeur,
+        c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
+        FROM Publications AS p LEFT JOIN Journaux AS j ON p.journal_id = j.id LEFT JOIN Conferences AS c ON p.conference_id = c.id
+        ORDER BY  p.titre;",
+        []
+      );
+
+      if($res->rowCount() === 0)
+      {
+          return [
+              "status" => "empty"
+          ];
+      }
+
+      $publiLines = $res->fetchAll(PDO::FETCH_ASSOC);
+
+      $publication = array();
+      foreach ($publiLines as $publi) {
+        $publications[] = $publi;
+      }
+
+      return $publications;
+    }
+
     public static function get_publication($id)
     {
         $db = database_factory::get_db();

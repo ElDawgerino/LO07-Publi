@@ -42,7 +42,9 @@ $app->post('/register', function ($request, $response, $args) {
 });
 
 $app->get('/publi', function($request, $response, $args) {
-    //TODO: Liste des publications
+  $request_params = $request->getParsedBody();
+
+  return $response->withJson(publication::get_publications());
 });
 
 /**
@@ -120,7 +122,6 @@ $app->get('/comptes', function ($request, $response, $args) {
 });
 
 $app->get('/compte', function ($request, $response, $args) {
-    //TODO : vérifier que l'utilisateur est admin
     $current_user_id = user_management::get_current_logged_user();
     if($current_user_id["status"] == "succeed")
     {
