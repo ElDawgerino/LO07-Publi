@@ -111,19 +111,6 @@ h1 {
     text-align: center;
 }
 
-button {
-    border-width: 0px;
-    background-color: rgb(180, 180, 180);
-    padding: 10px;
-    font-family: 'Lato', sans-serif;
-
-    transition: background-color 0.2s;
-}
-
-button:hover {
-    background-color: rgb(200, 200, 200);
-}
-
 table {
     width: 100%;
 }
@@ -158,6 +145,8 @@ form textarea {
     border-width: 1px;
     padding: 3px;
     font-family: 'Lato', sans-serif;
+
+    transition: border-color 0.2s;
 }
 
 form select {
@@ -165,6 +154,21 @@ form select {
     border-width: 0px;
     padding: 3px;
     font-family: 'Lato', sans-serif;
+
+    transition: background-color 0.2s;
+}
+
+button {
+    border-width: 0px;
+    background-color: rgb(180, 180, 180);
+    padding: 10px;
+    font-family: 'Lato', sans-serif;
+
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: rgb(200, 200, 200);
 }
 
 form input:not(.no-expand),
@@ -172,4 +176,13 @@ form textarea:not(.no-expand),
 form select:not(.no-expand)
 {
     width: 100%
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: rgb(120, 120, 255);
+}
+
+form select:hover {
+    background-color: rgb(200, 200, 200);
 }
