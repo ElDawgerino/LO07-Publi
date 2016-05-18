@@ -154,8 +154,8 @@ app.controller('NavBar', [
     $scope.logout = function(){
       auth.logout(function(status){
         $scope.loggedIn = !status.success;
+        $state.go('home');
       });
-      $state.go('home');
     };
 }]);
 

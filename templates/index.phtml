@@ -59,17 +59,17 @@
         </div>
         <form>
           <label for="prenom">Prénom : </label>
-          <input type="text" id="prenom" ng-model="user.prenom"> <br> <br>
+          <input type="text" id="prenom" ng-model="user.prenom">
           <label for="nom">Nom : </label>
-          <input type="text" id="nom" ng-model="user.nom"> <br> <br>
+          <input type="text" id="nom" ng-model="user.nom">
           <label for="login">Identifiant : </label>
-          <input type="text" id="login" ng-model="user.username"> <br> <br>
+          <input type="text" id="login" ng-model="user.username">
           <label for="password">Mot de passe : </label>
-          <input type="password" id="password" ng-model="user.password"> <br> <br>
+          <input type="password" id="password" ng-model="user.password">
           <label for="organisation">Organisation : </label>
-          <input type="text" id="organisation" ng-model="user.organisation"> <br> <br>
+          <input type="text" id="organisation" ng-model="user.organisation">
           <label for="equipe">Equipe : </label>
-          <select id="equipe" ng-model="user.equipe" ng-options="equipe for equipe in equipes" ng-init="user.equipe = equipes[0]"></select> <br> <br>
+          <select id="equipe" ng-model="user.equipe" ng-options="equipe for equipe in equipes" ng-init="user.equipe = equipes[0]"></select> <br/>
           <button ng-click="register()">Inscription</button>
           <button ng-click="annuler()">Annuler</button>
         </form>
@@ -112,8 +112,8 @@
           <input type="number" id="annee" ng-model="publi.annee_publication" ng-init="publi.annee_publication = 2010"><br><br>
 
           <h3>Auteur</h3>
-          <label for="isAuteur">Je suis l'auteur de cette publication : </label>
-          <input type="checkbox" id="isAuteur" ng-model="isAuteur"><br>
+          <label for="isAuteur" class="no-line-return">Je suis l'auteur de cette publication : </label>
+          <input type="checkbox" id="isAuteur" class="no-expand" ng-model="isAuteur"><br>
           <label for="auteur-prenom">Prenom : </label>
           <input type="text" id="auteur-prenom" ng-model="auteur.prenom"><br>
           <label for="auteur-nom">Nom : </label>
@@ -132,8 +132,8 @@
           <br><br>
 
           <h3>Journal</h3>
-          <label for="isJournal">La publication fait partie d'un journal : </label>
-          <input type="checkbox" id="isJournal" ng-model="isJournal"><br ng-show="isJournal">
+          <label for="isJournal" class="no-line-return">La publication fait partie d'un journal : </label>
+          <input type="checkbox" id="isJournal" class="no-expand" ng-model="isJournal"><br ng-show="isJournal">
           <div ng-show="isJournal">
             <label for="journal_titre">Titre : </label>
             <input type="text" id="journal_titre" ng-model="publi.journal_titre"><br>
@@ -147,8 +147,8 @@
           <br><br>
 
           <h3>Conférence</h3>
-          <label for="isConf">La publication est liée à une conférence : </label>
-          <input type="checkbox" id="isConf" ng-model="isConf">
+          <label for="isConf" class="no-line-return">La publication est liée à une conférence : </label>
+          <input type="checkbox" id="isConf" class="no-expand" ng-model="isConf">
           <div ng-show="isConf" ng-show="isConf">
             <br ng-show="isConf">
             <label for="conference_nom">Nom : </label>

@@ -132,3 +132,44 @@ th, td {
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+
+form {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form label {
+    margin-top: 10px;
+}
+
+form label:not(.no-line-return) {
+    display: block;
+}
+
+form button {
+    margin-top: 10px;
+}
+
+form input,
+form textarea {
+    border-color: rgb(180, 180, 180);
+    border-style: solid;
+    border-width: 1px;
+    padding: 3px;
+    font-family: 'Lato', sans-serif;
+}
+
+form select {
+    background-color: : rgb(180, 180, 180);
+    border-width: 0px;
+    padding: 3px;
+    font-family: 'Lato', sans-serif;
+}
+
+form input:not(.no-expand),
+form textarea:not(.no-expand),
+form select:not(.no-expand)
+{
+    width: 100%
+}
