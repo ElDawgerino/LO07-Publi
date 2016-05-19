@@ -125,7 +125,7 @@
           <button type="button" ng-click="addAuteur()">Ajouter auteur</button>
           <ul>
             <li ng-repeat="auteur in publi.auteurs">
-              {{auteur.prenom}} {{auteur.nom}} : {{auteur.organisation}}, {{auteur.equipe}}
+              {{auteur.prenom}} {{auteur.nom}} ({{auteur.organisation}}, {{auteur.equipe}})
               <button type="button" ng-click="removeAuteur($index)">Supprimer</button>
             </li>
           </ul>
@@ -169,37 +169,42 @@
 
         <script type="text/ng-template" id="publi">
           <h1>{{publi.titre}}</h1>
+
+          <button class="expand" ng-click="download()"><i class="material-icons">get_app</i> <b>Télécharger la publication</b></button>
+
           <h3>Description : </h3>
           <p>{{publi.description}}</p>
 
           <h3>Informations : </h3>
-          <p>Statut : {{publi.statut}}</p>
-          <p>Catégorie : {{publi.categorie}}</p>
-          <p>Année de publication : {{publi.annee_publication}}</p>
+          <p>
+              Statut : {{publi.statut}}<br/>
+              Catégorie : {{publi.categorie}}<br/>
+              Année de publication : {{publi.annee_publication}}<br/>
+          </p>
 
-          <h3>Auteurs : </h3>
-          <div ng-repeat="auteur in publi.auteurs">
-            <p>Nom : {{auteur.prenom}} {{auteur.nom | uppercase}}</p>
-            <p>Organisation : {{auteur.organisation}}</p>
-            <p>Equipe : {{auteur.equipe}}</p>
-          </div>
+          <h3>Auteurs :</h3>
+          <ul>
+              <li ng-repeat="auteur in publi.auteurs">{{auteur.prenom}} {{auteur.nom | uppercase}} ({{auteur.organisation}}, {{auteur.equipe}})</li>
+          </ul>
 
           <div ng-show="hasJournal">
             <h3>Journal : </h3>
-            <p>Titre : {{publi.journal_titre}}</p>
-            <p>Editeur : {{publi.journal_editeur}}
-            <p>Volume : {{publi.journal_volume}}</p>
-            <p>Page(s) : {{publi.pages}}</p>
+            <p>
+                Titre : {{publi.journal_titre}}<br/>
+                Editeur : {{publi.journal_editeur}}<br/>
+                Volume : {{publi.journal_volume}}<br/>
+                Page(s) : {{publi.pages}}
+            </p>
           </div>
 
           <div ng-show="hasConference">
             <h3>Conférence : </h3>
-            <p>Nom : {{publi.conference_nom}}</p>
-            <p>Lieu : {{publi.conference_lieu}}</p>
-            <p>Date : {{publi.conference_date}}</p>
+            <p>
+                Nom : {{publi.conference_nom}}<br/>
+                Lieu : {{publi.conference_lieu}}<br/>
+                Date : {{publi.conference_date}}<br/>
+            </p>
           </div>
-
-          <h3>Téléchargement : <a href='download/{{publi.id}}' class="material-icons">get_app</a></h3>
         </script>
 
       </div>

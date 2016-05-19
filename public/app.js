@@ -211,6 +211,10 @@ app.controller('Publi', [
     $scope.hasJournal = false;
     $scope.hasConference = false;
 
+    $scope.download = function(){
+        window.open("download/" + $scope.publi.id, '_blank');
+    }
+
     publi.get($stateParams.id, function(response){
       if(response.success){
         $scope.publi = response.content;
