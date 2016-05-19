@@ -24,6 +24,9 @@ class publication
      * --------------------------------------------------------------
      * - journal_titre (O) (chaîne de caractère)
      * - journal_editeur (O) (chaîne de caractère)
+     *           OU
+     * - journal_id (O) (entier, id du journal déjà existant)
+     *
      * - journal_volume (O) (chaîne de caractère) : le numéro du volume où a été publié la publication
      * - pages (O) (chaîne de caractère) : indique les pages où est l'extrait publié (exemple : "56-62")
      *
@@ -38,6 +41,8 @@ class publication
      * - conference_nom (O) (chaîne de caractère)
      * - conference_date (O) (date en chaîne de caractère)
      * - conference_lieu (O) (chaîne de caractère)
+     *            OU
+     * - conference_id (O) (entier, id d'une conférence déjà existante)
      *
      * Note : s'il n'existe pas de Conference avec exactement les même valeurs alors une nouvelle Conférence est créée et associée à la Publication
      * ======
@@ -116,6 +121,10 @@ class publication
                 return ["status" => "insertion_error"];
             }
         }
+        else if(isset($publication["journal_id"]))
+        {
+            $journal_id = $publication["journal_id"];
+        }
 
         //Si une publication a été présentée lors d'une conférence
         $conference_id = null;
@@ -128,6 +137,10 @@ class publication
                 $db->rollback();
                 return ["status" => "insertion_error"];
             }
+        }
+        else if(isset($publication["conference_id"]))
+        {
+            $conference_id = $publication["conference_id"];
         }
 
         //Ajout de la publication
