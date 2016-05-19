@@ -185,20 +185,23 @@ app.controller('Publish', [
     };
 
     $scope.publish = function(){
-      var publication = angular.copy( $scope.publi );
+      if($scope.publi.titre.length && $scope.publi.statut.length
+        && $scope.publi.categorie.length && $scope.publi.annee_publication.length){
+          var publication = angular.copy( $scope.publi );
 
-      if($scope.isAuteur){
-        publication.auteurs.push({ id: $rootScope.id} );
-      }
-      publi.post(publication, function(status){
-        if(status.success){
-          console.log("success");
-          //aller à la publication
+          if($scope.isAuteur){
+            publication.auteurs.push({ id: $rootScope.id} );
+          }
+          publi.post(publication, function(status){
+            if(status.success){
+              console.log("success");
+              //aller à la publication
+            }
+            else{
+              $scope.errors = status.error;
+            }
+          });
         }
-        else{
-          $scope.errors = status.error;
-        }
-      });
     };
 
 }]);
