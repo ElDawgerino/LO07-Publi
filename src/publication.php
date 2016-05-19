@@ -406,4 +406,31 @@ class publication
              true
          );
      }
+
+     public static function getJournaux(){
+       $db = database_factory::get_db();
+       if(!$db->is_ok()){
+         return false;
+       }
+
+       $journaux = $db->query(
+           "SELECT titre, editeur
+           FROM Journaux;",
+           []
+       );
+
+       $journaux_lines = $journaux->fetchAll(PDO::FETCH_ASSOC);
+
+       if(count($journaux_lines) == 0){
+         return [
+           "status" => "empty"
+         ];
+       }
+       else {
+         return [
+           "status" => "success",
+           "journaux" => $journaux_lines
+         ];
+       }
+     }
 }

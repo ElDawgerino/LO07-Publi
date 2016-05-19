@@ -154,4 +154,8 @@ $app->get('/stats', function ($request, $response, $args) {
   //TODO : envoyer les stats
 });
 
+$app->get('/journaux', function($request, $response, $args){
+    return $response->withJson(publication::getJournaux());
+});
+
 ?>
