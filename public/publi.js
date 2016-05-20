@@ -71,5 +71,50 @@ app.factory('publi', [
 
     };
 
+    publi.getAuteurs = function(then){
+      $http.get('auteurs', function(response){
+        if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée."});
+        } else if(response.data.status == "empty"){
+          then({success: false, message: "empty"});
+        }
+        else{
+          then({success: true, content: response.data});
+        }
+      }, function(response){
+        then({success: false, error: "Erreur inconnue"});
+      });
+    };
+
+    publi.getJournaux = function(then){
+      $http.get('journaux', function(response){
+        if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée."});
+        } else if(response.data.status == "empty"){
+          then({success: false, message: "empty"});
+        }
+        else{
+          then({success: true, content: response.data});
+        }
+      }, function(response){
+        then({success: false, error: "Erreur inconnue"});
+      });
+    };
+
+    publi.getConferences = function(then){
+      $http.get('conferences', function(response){
+        if(response.data.status == "db_error"){
+          then({success: false, error: "Impossible de se connecter à la base de donnée."});
+        } else if(response.data.status == "empty"){
+          then({success: false, message: "empty"});
+        }
+        else{
+          then({success: true, content: response.data});
+        }
+      }, function(response){
+        then({success: false, error: "Erreur inconnue"});
+      });
+    }
+
     return publi;
 }]);
