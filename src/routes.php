@@ -154,8 +154,17 @@ $app->get('/stats', function ($request, $response, $args) {
   //TODO : envoyer les stats
 });
 
+//Renvoie la liste des journaux en base de données
 $app->get('/journaux', function($request, $response, $args){
     return $response->withJson(publication::getJournaux());
 });
 
+//renvoie la liste des conférences en base de données
+$app->get('/conferences', function($request, $response, $args){
+  return $response->withJson(publication::getConferences());
+});
+
+$app->get('/auteurs', function($request, $response, $args){
+  return $response->withJson(publication::getAuteurs());
+});
 ?>

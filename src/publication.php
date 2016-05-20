@@ -433,4 +433,58 @@ class publication
          ];
        }
      }
+
+     public static function getConferences(){
+       $db = database_factory::get_db();
+       if(!$db->is_ok()){
+         return false;
+       }
+
+       $conferences = $db->query(
+           "SELECT nom, date_conference, lieu
+           FROM Conferences;",
+           []
+       );
+
+       $conf_lines = $conferences->fetchAll(PDO::FETCH_ASSOC);
+
+       if(count($conf_lines) == 0){
+         return [
+           "status" => "empty"
+         ];
+       }
+       else {
+         return [
+           "status" => "success",
+           "conferences" => $conf_lines
+         ];
+       }
+     }
+
+     public static function getAuteurs(){
+       $db = database_factory::get_db();
+       if(!$db->is_ok()){
+         return false;
+       }
+
+       $auteurs = $db->query(
+           "SELECT nom, prenom, organisation, equipe
+           FROM Auteurs;",
+           []
+       );
+
+       $auteurs_lines = $auteurs->fetchAll(PDO::FETCH_ASSOC);
+
+       if(count($auteurs_lines) == 0){
+         return [
+           "status" => "empty"
+         ];
+       }
+       else {
+         return [
+           "status" => "success",
+           "auteurs" => $auteurs_lines
+         ];
+       }
+     }
 }
