@@ -487,4 +487,34 @@ class publication
          ];
        }
      }
+
+     public static function getPublicationsByAuteur($id){
+       $db = database_factory::get_db();
+       if(!$db->is_ok()){
+         return false;
+       }
+
+       $publis = $db->query(
+           "SELECT description, statut, categorie, annee_publication
+           FROM relationsauteurs
+           JOIN publications
+           WHERE auteur_id = :id
+           GROUP BY publication_id;",
+           ["id" => $id]
+       );
+
+       $publis_lines = $publis->fetchAll(PDO::FETCH_ASSOC);
+
+       if(count($publis_lines) == 0){
+         return [
+           "status" => "empty"
+         ];
+       }
+       else {
+         return [
+           "status" => "success",
+           "publis" => $publis_lines
+         ];
+       }
+     }
 }
