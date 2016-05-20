@@ -14,7 +14,9 @@
 
 <h3>Auteurs :</h3>
 <ul>
-    <li ng-repeat="auteur in publi.auteurs">{{auteur.prenom}} {{auteur.nom | uppercase}} ({{auteur.organisation}}, {{auteur.equipe}})</li>
+    <li ng-repeat="auteur in publi.auteurs">
+        <a href="#/profile/{{auteur.id}}">{{auteur.prenom}} {{auteur.nom | uppercase}} ({{auteur.organisation}}, {{auteur.equipe}})</a>
+    </li>
 </ul>
 
 <div ng-show="hasJournal">
