@@ -116,5 +116,20 @@ app.factory('publi', [
       });
     };
 
+    publi.getAuteur = function(id, then){
+        $http.get('auteur/' + id).then(function(response){
+            if(response.data.status == "db_error"){
+              then({success: false, error: "Impossible de se connecter à la base de donnée."});
+            } else if(response.data.status == "empty"){
+              then({success: false, message: "empty"});
+            }
+            else{
+              then({success: true, auteur: response.data.auteur, publis: response.data.publis});
+            }
+        }, function(response){
+            then({success: false, error: "Erreur inconnue"});
+        });
+    };
+
     return publi;
 }]);

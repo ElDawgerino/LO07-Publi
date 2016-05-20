@@ -1,9 +1,29 @@
 <h1>{{username}}</h1>
+<div ng-if='errors && errors != ""'>
+    Echec de la connexion : {{errors}}
+</div>
 
 <h3>Identité : </h3>
 <ul>
-    <li>{{last_name}}</li>
-    <li>{{first_name}}</li>
-    <li>{{organisation}}</li>
-    <li>{{team}}</li>
+    <li>{{auteur.prenom}} {{auteur.nom}}</li>
+    <li>{{auteur.organisation}}</li>
+    <li>{{auteur.equipe}}</li>
 </ul>
+<br>
+<h3>Publications : </h3>
+<table ng-show="hasPublis">
+  <tr>
+    <th>Titre</th>
+    <th>Description</th>
+    <th>Statut</th>
+    <th>Catégorie</th>
+    <th>Année</th>
+  </tr>
+  <tr ng-repeat="publi in publis">
+    <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
+    <td>{{publi.description}}</td>
+    <td>{{publi.statut}}</td>
+    <td>{{publi.categorie}}</td>
+    <td>{{publi.annee_publication}}</td>
+  </tr>
+</table>

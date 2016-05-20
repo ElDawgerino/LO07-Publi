@@ -37,7 +37,7 @@ app.config([
 
     $stateProvider.state('profile',{
         url: '/profile/{id}',
-        templateUrl: 'public/tempates/profile.html',
+        templateUrl: 'public/templates/profile.html',
         controller: 'Profile'
     })
 

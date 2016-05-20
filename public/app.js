@@ -254,7 +254,22 @@ app.controller('Publi', [
 app.controller('Profile', [
     '$scope',
     '$stateParams',
-    'auth',
-    function($scope, $stateParams, auth){
-        
+    'publi',
+    function($scope, $stateParams, publi){
+        $scope.hasPublis = false;
+
+        publi.getAuteur($stateParams.id, function(response){
+            if(response.success){
+                $scope.auteur = response.auteur[0];
+                if(response.publis.length){
+                    $scope.publis = response.publis;
+                    $scope.hasPublis = true;
+                } else {
+                    $scope.hasPublis = false;
+                }
+            }
+            else if(response.message != "empty"){
+                $scope.errors = response.error;
+            }
+        });
 }]);
