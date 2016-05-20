@@ -167,4 +167,8 @@ $app->get('/conferences', function($request, $response, $args){
 $app->get('/auteurs', function($request, $response, $args){
   return $response->withJson(publication::getAuteurs());
 });
+
+$app->get('/auteur/{id}', function($request, $response, $args){
+    
+});
 ?>

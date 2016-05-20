@@ -35,5 +35,11 @@ app.config([
       controller: 'Publi',
     });
 
+    $stateProvider.state('profile',{
+        url: '/profile/{id}',
+        templateUrl: 'public/tempates/profile.html',
+        controller: 'Profile'
+    })
+
     $urlRouterProvider.otherwise('home');
 }]);

@@ -249,4 +249,12 @@ app.controller('Publi', [
         $scope.errors = response.error;
       }
     })
-}])
+}]);
+
+app.controller('Profile', [
+    '$scope',
+    '$stateParams',
+    'auth',
+    function($scope, $stateParams, auth){
+        
+}]);
