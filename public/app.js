@@ -199,16 +199,33 @@ app.controller('Publish', [
       }
     });
 
-    $scope.$watch($scope.auteur.nom, function(){
-      for(var i = 0; i < $scope.auteurs.length; i++){
-        if($scope.auteurs[i].nom == $scope.auteur.nom){
-          $scope.auteur.prenom = $scope.auteurs[i].prenom;
-          $scope.auteur.organisation = $scope.auteurs[i].organisation;
-          $scope.auteur.equipe = $scope.auteurs[i].equipe;
-          return;
+    $scope.associateAuteur = function(){
+        for(var i = 0; i < $scope.auteurs.length; i++){
+            if($scope.auteurs[i].nom == $scope.auteur.nom){
+                $scope.auteur.prenom = $scope.auteurs[i].prenom;
+                $scope.auteur.organisation = $scope.auteurs[i].organisation;
+                $scope.auteur.equipe = $scope.auteurs[i].equipe;
+                return;
+            }
         }
-      }
-    });
+    };
+
+    $scope.associateJournal = function(){
+        for(var i = 0; i < $scope.journaux.length; i++){
+            if($scope.journaux[i].titre == $scope.publi.journal_titre){
+                $scope.publi.journal_editeur = $scope.journaux[i].editeur;
+            }
+        }
+    };
+
+    $scope.associateConf = function(){
+        for(var i = 0; i < $scope.conferences.length; i++){
+            if($scope.conferences[i].nom == $scope.publi.conference_nom){
+                $scope.publi.conference_lieu = $scope.conferences[i].lieu;
+                $scope.publi.conference_date = $scope.conferences[i].date_conference;
+            }
+        }
+    };
 
     $scope.addAuteur = function(){
       $scope.publi.auteurs.push({

@@ -21,10 +21,10 @@
   <h3>Auteur</h3>
   <label for="isAuteur" class="no-line-return">Je suis l'auteur de cette publication : </label>
   <input type="checkbox" id="isAuteur" class="no-expand" ng-model="isAuteur"><br>
-  <label for="auteur-prenom">Prenom : </label>
-  <input type="text" id="auteur-prenom" ng-model="auteur.prenom" list="liste-prenom-auteurs"><br>
   <label for="auteur-nom">Nom : </label>
-  <input type="text" id="auteur-nom" ng-model="auteur.nom" list="liste-nom-auteurs"><br>
+  <input type="text" id="auteur-nom" ng-model="auteur.nom" list="liste-nom-auteurs" ng-change="associateAuteur()"><br>
+  <label for="auteur-prenom">Prenom : </label>
+  <input type="text" id="auteur-prenom" ng-model="auteur.prenom"><br>
   <label for="auteur-organisation">Organisation : </label>
   <input type="text" id="auteur-organisation" ng-model="auteur.organisation"><br>
   <label for="auteur-equipe">Equipe : </label>
@@ -39,9 +39,6 @@
   <datalist id="liste-nom-auteurs">
     <option ng-repeat="auteur in auteurs" value="{{auteur.nom}}">
   </datalist>
-  <datalist id="liste-prenom-auteurs">
-    <option ng-repeat="auteur in auteurs" value="{{auteur.prenom}}">
-  </datalist>
   <br><br>
 
   <h3>Journal</h3>
@@ -49,7 +46,7 @@
   <input type="checkbox" id="isJournal" class="no-expand" ng-model="isJournal"><br ng-show="isJournal">
   <div ng-show="isJournal">
     <label for="journal_titre">Titre : </label>
-    <input type="text" id="journal_titre" ng-model="publi.journal_titre" list="liste-titre-journaux"><br>
+    <input type="text" id="journal_titre" ng-model="publi.journal_titre" list="liste-titre-journaux" ng-change="associateJournal()"><br>
     <label for="journal_editeur">Editeur : </label>
     <input type="text" id="journal_editeur" ng-model="publi.journal_editeur"><br>
     <label for="journal_volume">Volume : </label>
@@ -68,7 +65,7 @@
   <div ng-show="isConf" ng-show="isConf">
     <br ng-show="isConf">
     <label for="conference_nom">Nom : </label>
-    <input type="text" id="conference_nom" ng-model="publi.conference_nom" list="liste-nom-conferences"><br >
+    <input type="text" id="conference_nom" ng-model="publi.conference_nom" list="liste-nom-conferences" ng-change="associateConf()"><br >
     <label for="conference_date">Date : </label>
     <input type="text" id="conference_date" ng-model="publi.conference_date"><br>
     <label for="conference_lieu">Lieu : </label>
