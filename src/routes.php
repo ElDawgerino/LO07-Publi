@@ -169,6 +169,6 @@ $app->get('/auteurs', function($request, $response, $args){
 });
 
 $app->get('/auteur/{id}', function($request, $response, $args){
-    return $response->withJson(publication::getPublicationsByAuteur($args["id"]));
+    return $response->withJson(publication::getAuteur($args["id"]));
 });
 ?>
