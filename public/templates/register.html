@@ -1,0 +1,20 @@
+<h1>Inscription</h1>
+<div ng-if='errors && errors != ""'>
+    Echec de la connexion : {{errors}}
+</div>
+<form>
+  <label for="prenom">Prénom : </label>
+  <input type="text" id="prenom" ng-model="user.prenom">
+  <label for="nom">Nom : </label>
+  <input type="text" id="nom" ng-model="user.nom">
+  <label for="login">Identifiant : </label>
+  <input type="text" id="login" ng-model="user.username">
+  <label for="password">Mot de passe : </label>
+  <input type="password" id="password" ng-model="user.password">
+  <label for="organisation">Organisation : </label>
+  <input type="text" id="organisation" ng-model="user.organisation">
+  <label for="equipe">Equipe : </label>
+  <select id="equipe" ng-model="user.equipe" ng-options="equipe for equipe in equipes" ng-init="user.equipe = equipes[0]"></select> <br/>
+  <button ng-click="register()">Inscription</button>
+  <button ng-click="annuler()">Annuler</button>
+</form>

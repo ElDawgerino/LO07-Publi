@@ -7,31 +7,31 @@ app.config([
 
     $stateProvider.state('home',{
       url: '/home',
-      templateUrl: 'home',
+      templateUrl: 'public/templates/home.html',
       controller: 'Home'
     });
 
     $stateProvider.state('register', {
       url: '/register',
-      templateUrl: 'register',
+      templateUrl: 'public/templates/register.html',
       controller: 'Register'
     });
 
     $stateProvider.state('login', {
       url: '/login',
-      templateUrl: 'login',
+      templateUrl: 'public/templates/login.html',
       controller: 'Login'
     });
 
     $stateProvider.state('publish', {
       url: '/publish',
-      templateUrl: 'publish',
+      templateUrl: 'public/templates/publish.html',
       controller: 'Publish'
     });
 
     $stateProvider.state('publi', {
       url: '/publi/{id}',
-      templateUrl: 'publi',
+      templateUrl: 'public/templates/publi.html',
       controller: 'Publi',
     });
 
