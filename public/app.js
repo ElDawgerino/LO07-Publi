@@ -170,11 +170,15 @@ app.controller('Publish', [
     $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
     $scope.publi = {};
     $scope.publi.auteurs = [];
+    $scope.auteur = {};
+    $scope.auteurs= [];
+    $scope.journaux = [];
+    $scope.conferences = [];
 
     publi.getAuteurs(function(status){
       if(status.success){
         $scope.auteurs = status.content;
-      } else if(status.message != "empty"){
+        } else if(status.message != "empty"){
         $scope.errors = status.error;
       }
     });
@@ -192,6 +196,17 @@ app.controller('Publish', [
         $scope.conferences = status.content;
       } else if(status.message != "empty"){
         $scope.errors = status.error;
+      }
+    });
+
+    $scope.$watch($scope.auteur.nom, function(){
+      for(var i = 0; i < $scope.auteurs.length; i++){
+        if($scope.auteurs[i].nom == $scope.auteur.nom){
+          $scope.auteur.prenom = $scope.auteurs[i].prenom;
+          $scope.auteur.organisation = $scope.auteurs[i].organisation;
+          $scope.auteur.equipe = $scope.auteurs[i].equipe;
+          return;
+        }
       }
     });
 

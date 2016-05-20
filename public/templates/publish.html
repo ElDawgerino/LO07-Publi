@@ -22,7 +22,7 @@
   <label for="isAuteur" class="no-line-return">Je suis l'auteur de cette publication : </label>
   <input type="checkbox" id="isAuteur" class="no-expand" ng-model="isAuteur"><br>
   <label for="auteur-prenom">Prenom : </label>
-  <input type="text" id="auteur-prenom" ng-model="auteur.prenom"><br>
+  <input type="text" id="auteur-prenom" ng-model="auteur.prenom" list="liste-prenom-auteurs"><br>
   <label for="auteur-nom">Nom : </label>
   <input type="text" id="auteur-nom" ng-model="auteur.nom" list="liste-nom-auteurs"><br>
   <label for="auteur-organisation">Organisation : </label>
@@ -49,7 +49,7 @@
   <input type="checkbox" id="isJournal" class="no-expand" ng-model="isJournal"><br ng-show="isJournal">
   <div ng-show="isJournal">
     <label for="journal_titre">Titre : </label>
-    <input type="text" id="journal_titre" ng-model="publi.journal_titre" liste="liste-titre-journaux"><br>
+    <input type="text" id="journal_titre" ng-model="publi.journal_titre" list="liste-titre-journaux"><br>
     <label for="journal_editeur">Editeur : </label>
     <input type="text" id="journal_editeur" ng-model="publi.journal_editeur"><br>
     <label for="journal_volume">Volume : </label>
