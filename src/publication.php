@@ -387,128 +387,127 @@ class publication
      *
      * Retourne false en cas d'erreur avec la base de données
      */
-     private static function get_author_id($name, $first_name, $organisation, $team)
-     {
-         $db = database_factory::get_db();
-         if(!$db->is_ok())
-         {
-             return false;
-         }
-
-         return $db->get_id_of(
-             "Auteurs",
-             [
-                 "nom" => $name,
-                 "prenom" => $first_name,
-                 "organisation" => $organisation,
-                 "equipe" => $team
-             ],
-             true
-         );
-     }
-
-     public static function getJournaux(){
-       $db = database_factory::get_db();
-       if(!$db->is_ok()){
-         return false;
-       }
-
-       $journaux = $db->query(
-           "SELECT titre, editeur
-           FROM Journaux;",
-           []
-       );
-
-       $journaux_lines = $journaux->fetchAll(PDO::FETCH_ASSOC);
-
-       if(count($journaux_lines) == 0){
-         return [
-           "status" => "empty"
-         ];
-       }
-       else {
-         return [
-           "status" => "success",
-           "journaux" => $journaux_lines
-         ];
-       }
-     }
-
-     public static function getConferences(){
-       $db = database_factory::get_db();
-       if(!$db->is_ok()){
-         return false;
-       }
-
-       $conferences = $db->query(
-           "SELECT nom, date_conference, lieu
-           FROM Conferences;",
-           []
-       );
-
-       $conf_lines = $conferences->fetchAll(PDO::FETCH_ASSOC);
-
-       if(count($conf_lines) == 0){
-         return [
-           "status" => "empty"
-         ];
-       }
-       else {
-         return [
-           "status" => "success",
-           "conferences" => $conf_lines
-         ];
-       }
-     }
-
-     public static function getAuteurs(){
-       $db = database_factory::get_db();
-       if(!$db->is_ok()){
-         return false;
-       }
-
-       $auteurs = $db->query(
-           "SELECT nom, prenom, organisation, equipe
-           FROM Auteurs;",
-           []
-       );
-
-       $auteurs_lines = $auteurs->fetchAll(PDO::FETCH_ASSOC);
-
-       if(count($auteurs_lines) == 0){
-         return [
-           "status" => "empty"
-         ];
-       }
-       else {
-         return [
-           "status" => "success",
-           "auteurs" => $auteurs_lines
-         ];
-       }
-     }
-
-     public static function getAuteur($id){
+    private static function get_author_id($name, $first_name, $organisation, $team)
+    {
         $db = database_factory::get_db();
-        if(!$db->is_ok()){
-         return false;
+        if(!$db->is_ok())
+        {
+            return false;
         }
 
-        $auteur = $db->query("SELECT * FROM auteurs WHERE id = :id", ["id" =>$id]);
+        return $db->get_id_of(
+            "Auteurs",
+            [
+                "nom" => $name,
+                "prenom" => $first_name,
+                "organisation" => $organisation,
+                "equipe" => $team
+            ],
+            true
+        );
+    }
+
+    public static function getJournaux(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return false;
+        }
+
+        $journaux = $db->query(
+            "SELECT titre, editeur
+            FROM Journaux;",
+            []
+        );
+
+        $journaux_lines = $journaux->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($journaux_lines) == 0){
+            return [
+                "status" => "empty"
+            ];
+        }
+        else {
+            return [
+                "status" => "success",
+                "journaux" => $journaux_lines
+            ];
+        }
+    }
+
+    public static function getConferences(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return false;
+        }
+
+        $conferences = $db->query(
+            "SELECT nom, date_conference, lieu
+            FROM Conferences;",
+            []
+        );
+
+        $conf_lines = $conferences->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($conf_lines) == 0){
+            return [
+                "status" => "empty"
+            ];
+        }
+        else {
+            return [
+                "status" => "success",
+                "conferences" => $conf_lines
+            ];
+        }
+    }
+
+    public static function getAuteurs(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return false;
+        }
+
+        $auteurs = $db->query(
+            "SELECT nom, prenom, organisation, equipe
+            FROM Auteurs;",
+            []
+        );
+
+        $auteurs_lines = $auteurs->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($auteurs_lines) == 0){
+            return [
+            "status" => "empty"
+            ];
+        }
+        else {
+            return [
+            "status" => "success",
+            "auteurs" => $auteurs_lines
+            ];
+        }
+    }
+
+    public static function getAuteur($id){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return false;
+        }
+
+        $auteur = $db->query("SELECT * FROM Auteurs WHERE id = :id", ["id" =>$id]);
         $auteur_lines = $auteur->fetchAll(PDO::FETCH_ASSOC);
         if(count($auteur_lines) == 0){
-          return [
-            "status" => "empty"
-          ];
+            return [
+                "status" => "empty"
+            ];
         }
 
         $publis = $db->query(
-           "SELECT description, statut, categorie, annee_publication
-           FROM relationsauteurs
-           JOIN publications
-           WHERE auteur_id = :id
-           GROUP BY publication_id;",
-           ["id" => $id]
+            "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication
+            FROM RelationsAuteurs as ra, Publications as p
+            WHERE ra.auteur_id = :id AND ra.publication_id = p.id
+            GROUP BY p.id;",
+            ["id" => $id]
         );
 
         $publis_lines = $publis->fetchAll(PDO::FETCH_ASSOC);
@@ -518,5 +517,5 @@ class publication
             "auteur" => $auteur_lines,
             "publis" => $publis_lines
         ];
-     }
+    }
 }
