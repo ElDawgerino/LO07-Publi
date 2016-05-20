@@ -5,16 +5,16 @@ app.controller('Home', [
     '$state',
     'publi',
     function($scope, $state, publi){
-      $scope.hasPublis = true;
+        $scope.hasPublis = true;
 
-      publi.getAll(function(response){
-        if(response.success){
-          $scope.publis = response.content;
-        } else {
-          $scope.hasPublis = false;
-          $scope.errors = response.error;
-        }
-      });
+        publi.getAll(function(response){
+            if(response.success){
+                $scope.publis = response.content;
+            } else {
+                $scope.hasPublis = false;
+                $scope.errors = response.error;
+            }
+        });
 }]);
 
 
@@ -25,234 +25,232 @@ app.controller('Register', [
     'auth',
     function($scope, $http, $state, auth){
 
-      $scope.equipes = ["CREIDD", "ERA", "GAMMA3", "LASMIS", "LM2S", "LNIO", "LOSI", "Tech-CICO"];
+        $scope.equipes = ["CREIDD", "ERA", "GAMMA3", "LASMIS", "LM2S", "LNIO", "LOSI", "Tech-CICO"];
 
-      $scope.annuler = function(){
-        $state.go("home");
-      };
+        $scope.annuler = function(){
+            $state.go("home");
+        };
 
-      $scope.register = function(){
-        if(!$scope.user.prenom || !$scope.user.nom || !$scope.user.username || !$scope.user.password
-        || !$scope.user.organisation || !$scope.user.equipe){
-            $scope.errors = "Le formulaire d'inscription n'est pas complet !";
-            return;
-        }
-
-        auth.register($scope.user, function(result){
-            $scope.errors = status.error;
-            if(result.success){
-              $state.go('home');
+        $scope.register = function(){
+            if(!$scope.user.prenom || !$scope.user.nom || !$scope.user.username || !$scope.user.password
+                || !$scope.user.organisation || !$scope.user.equipe){
+                $scope.errors = "Le formulaire d'inscription n'est pas complet !";
+                return;
             }
-        });
-      };
+
+            auth.register($scope.user, function(result){
+                $scope.errors = status.error;
+                if(result.success){
+                    $state.go('home');
+                }
+            });
+        };
 }]);
 
 app.controller('Login',[
-  '$scope',
-  '$http',
-  '$state',
-  'auth',
-  function($scope, $http, $state, auth){
+    '$scope',
+    '$http',
+    '$state',
+    'auth',
+    function($scope, $http, $state, auth){
 
-      $scope.login_info = {};
+        $scope.login_info = {};
 
-      $scope.annuler = function(){
-          $state.go("home");
-      };
+        $scope.annuler = function(){
+            $state.go("home");
+        };
 
-      $scope.login = function(login_info){
-          $scope.errors = "";
+        $scope.login = function(login_info){
+            $scope.errors = "";
 
-          if(!$scope.login_info.username || !$scope.login_info.password){
-              $scope.errors = "Le formulaire de connexion n'est pas complet !";
-              return;
-          }
-
-          auth.login($scope.login_info, function(result){
-            $scope.errors = result.error;
-            if(result.success){
-              $state.go('home');
+            if(!$scope.login_info.username || !$scope.login_info.password){
+                $scope.errors = "Le formulaire de connexion n'est pas complet !";
+                return;
             }
-          });
 
-      };
+            auth.login($scope.login_info, function(result){
+                $scope.errors = result.error;
+                if(result.success){
+                    $state.go('home');
+                }
+            });
+        };
 }]);
 
 app.controller('NavBar', [
-  '$scope',
-  '$state',
-  '$rootScope',
-  'auth',
-  function($scope, $state, $rootScope, auth){
-    $rootScope.$on('$stateChangeStart',
-      function(event, toState, toParams, fromState, fromParams, options){
-        auth.currentUser(function(status){
-          $scope.loggedIn = status.success;
-          if(status.success){
-            $scope.username = status.username;
-            $rootScope.id = status.id;
-          }else{
-            $scope.username = null;
-          }
+    '$scope',
+    '$state',
+    '$rootScope',
+    'auth',
+    function($scope, $state, $rootScope, auth){
+        $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams, options){
+            auth.currentUser(function(status){
+                $scope.loggedIn = status.success;
+                if(status.success){
+                    $scope.username = status.username;
+                    $rootScope.id = status.id;
+                }else{
+                    $scope.username = null;
+                }
+            });
         });
-    });
 
-    $scope.goProfile = function(){
-        $state.go('profile', {id: $rootScope.id});
-    };
+        $scope.goProfile = function(){
+            $state.go('profile', {id: $rootScope.id});
+        };
 
-    $scope.goPublish = function(){
-      $state.go('publish');
-    };
+        $scope.goPublish = function(){
+            $state.go('publish');
+        };
 
-    $scope.goHome = function(){
-      $state.go('home');
-    };
+        $scope.goHome = function(){
+            $state.go('home');
+        };
 
-    $scope.login = function(){
-      $state.go('login');
-    };
+        $scope.login = function(){
+            $state.go('login');
+        };
 
-    $scope.register = function(){
-      $state.go('register');
-    };
+        $scope.register = function(){
+            $state.go('register');
+        };
 
-    $scope.logout = function(){
-      auth.logout(function(status){
-        $scope.loggedIn = !status.success;
-        $state.go('home');
-      });
-    };
+        $scope.logout = function(){
+            auth.logout(function(status){
+                $scope.loggedIn = !status.success;
+                $state.go('home');
+            });
+        };
 }]);
 
 app.controller('Publish', [
-  '$scope',
-  '$state',
-  '$http',
-  '$rootScope',
-  'publi',
-  'auth',
-  function($scope, $state, $http, $rootScope, publi, auth){
-    $scope.statuts = ["Soumis", "En révision", "Publié"];
-    $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
-    $scope.publi = {};
-    $scope.publi.auteurs = [];
-    $scope.auteur = {};
-    $scope.auteurs= [];
-    $scope.journaux = [];
-    $scope.conferences = [];
+    '$scope',
+    '$state',
+    '$http',
+    '$rootScope',
+    'publi',
+    'auth',
+    function($scope, $state, $http, $rootScope, publi, auth){
+        $scope.statuts = ["Soumis", "En révision", "Publié"];
+        $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
+        $scope.publi = {};
+        $scope.publi.auteurs = [];
+        $scope.auteur = {};
+        $scope.auteurs= [];
+        $scope.journaux = [];
+        $scope.conferences = [];
 
-    publi.getAuteurs(function(status){
-      if(status.success){
-        $scope.auteurs = status.content;
-        } else if(status.message != "empty"){
-        $scope.errors = status.error;
-      }
-    });
-
-    publi.getJournaux(function(status){
-      if(status.success){
-        $scope.journaux = status.content;
-      } else if(status.message != "empty"){
-        $scope.errors = status.error;
-      }
-    });
-
-    publi.getConferences(function(status){
-      if(status.success){
-        $scope.conferences = status.content;
-      } else if(status.message != "empty"){
-        $scope.errors = status.error;
-      }
-    });
-
-    $scope.associateAuteur = function(){
-        for(var i = 0; i < $scope.auteurs.length; i++){
-            if($scope.auteurs[i].nom == $scope.auteur.nom){
-                $scope.auteur.prenom = $scope.auteurs[i].prenom;
-                $scope.auteur.organisation = $scope.auteurs[i].organisation;
-                $scope.auteur.equipe = $scope.auteurs[i].equipe;
-                return;
+        publi.getAuteurs(function(status){
+            if(status.success){
+                $scope.auteurs = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
             }
-        }
-    };
+        });
 
-    $scope.associateJournal = function(){
-        for(var i = 0; i < $scope.journaux.length; i++){
-            if($scope.journaux[i].titre == $scope.publi.journal_titre){
-                $scope.publi.journal_editeur = $scope.journaux[i].editeur;
+        publi.getJournaux(function(status){
+            if(status.success){
+                $scope.journaux = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
             }
-        }
-    };
+        });
 
-    $scope.associateConf = function(){
-        for(var i = 0; i < $scope.conferences.length; i++){
-            if($scope.conferences[i].nom == $scope.publi.conference_nom){
-                $scope.publi.conference_lieu = $scope.conferences[i].lieu;
-                $scope.publi.conference_date = $scope.conferences[i].date_conference;
+        publi.getConferences(function(status){
+            if(status.success){
+                $scope.conferences = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
             }
-        }
-    };
+        });
 
-    $scope.addAuteur = function(){
-      $scope.publi.auteurs.push({
-        prenom : $scope.auteur.prenom,
-        nom : $scope.auteur.nom,
-        organisation : $scope.auteur.organisation,
-        equipe : $scope.auteur.equipe
-      });
-    };
-
-    $scope.removeAuteur = function(index){
-      $scope.publi.auteurs.splice(index, 1);
-    };
-
-    $scope.publish = function(){
-        if($scope.publi.titre.length && $scope.publi.statut.length
-            && $scope.publi.categorie.length && $scope.publi.annee_publication.toString().length){
-            var publication = angular.copy( $scope.publi );
-
-            if($scope.isAuteur){
-                publication.auteurs.push({ id: $rootScope.id} );
-            }
-            publi.post(publication, function(status){
-                if(status.success){
-                    $state.go("publi", {id: status.id});
+        $scope.associateAuteur = function(){
+            for(var i = 0; i < $scope.auteurs.length; i++){
+                if($scope.auteurs[i].nom == $scope.auteur.nom){
+                    $scope.auteur.prenom = $scope.auteurs[i].prenom;
+                    $scope.auteur.organisation = $scope.auteurs[i].organisation;
+                    $scope.auteur.equipe = $scope.auteurs[i].equipe;
+                    return;
                 }
-                else{
-                    $scope.errors = status.error;
-                }
-            });
-        }
-    };
+            }
+        };
 
+        $scope.associateJournal = function(){
+            for(var i = 0; i < $scope.journaux.length; i++){
+                if($scope.journaux[i].titre == $scope.publi.journal_titre){
+                    $scope.publi.journal_editeur = $scope.journaux[i].editeur;
+                }
+            }
+        };
+
+        $scope.associateConf = function(){
+            for(var i = 0; i < $scope.conferences.length; i++){
+                if($scope.conferences[i].nom == $scope.publi.conference_nom){
+                    $scope.publi.conference_lieu = $scope.conferences[i].lieu;
+                    $scope.publi.conference_date = $scope.conferences[i].date_conference;
+                }
+            }
+        };
+
+        $scope.addAuteur = function(){
+          $scope.publi.auteurs.push({
+            prenom : $scope.auteur.prenom,
+            nom : $scope.auteur.nom,
+            organisation : $scope.auteur.organisation,
+            equipe : $scope.auteur.equipe
+          });
+        };
+
+        $scope.removeAuteur = function(index){
+          $scope.publi.auteurs.splice(index, 1);
+        };
+
+        $scope.publish = function(){
+            if($scope.publi.titre.length && $scope.publi.statut.length
+                && $scope.publi.categorie.length && $scope.publi.annee_publication.toString().length){
+                var publication = angular.copy( $scope.publi );
+
+                if($scope.isAuteur){
+                    publication.auteurs.push({ id: $rootScope.id} );
+                }
+                publi.post(publication, function(status){
+                    if(status.success){
+                        $state.go("publi", {id: status.id});
+                    }
+                    else{
+                        $scope.errors = status.error;
+                    }
+                });
+            }
+        };
 }]);
 
 app.controller('Publi', [
-  '$scope',
-  '$stateParams',
-  'publi',
-  function($scope, $stateParams, publi){
-    $scope.hasJournal = false;
-    $scope.hasConference = false;
+    '$scope',
+    '$stateParams',
+    'publi',
+    function($scope, $stateParams, publi){
+        $scope.hasJournal = false;
+        $scope.hasConference = false;
 
-    $scope.download = function(){
-        window.open("download/" + $scope.publi.id, '_blank');
-    }
+        $scope.download = function(){
+            window.open("download/" + $scope.publi.id, '_blank');
+        }
 
-    publi.get($stateParams.id, function(response){
-      if(response.success){
-        $scope.publi = response.content;
-        if(response.content.journal_titre != null){
-          $scope.hasJournal = true;
-        }
-        if(response.content.conference_nom != null){
-          $scope.hasConference = true;
-        }
-      } else {
-        $scope.errors = response.error;
-      }
-    })
+        publi.get($stateParams.id, function(response){
+            if(response.success){
+                $scope.publi = response.content;
+                if(response.content.journal_titre != null){
+                    $scope.hasJournal = true;
+                }
+                if(response.content.conference_nom != null){
+                    $scope.hasConference = true;
+                }
+            } else {
+                $scope.errors = response.error;
+            }
+        })
 }]);
 
 app.controller('Profile', [
