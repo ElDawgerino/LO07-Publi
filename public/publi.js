@@ -79,7 +79,7 @@ app.factory('publi', [
           then({success: false, message: "empty"});
         }
         else{
-          then({success: true, content: response.data});
+          then({success: true, content: response.data.auteurs});
         }
       }, function(response){
         then({success: false, error: "Erreur inconnue"});
@@ -94,7 +94,7 @@ app.factory('publi', [
           then({success: false, message: "empty"});
         }
         else{
-          then({success: true, content: response.data});
+          then({success: true, content: response.data.journaux});
         }
       }, function(response){
         then({success: false, error: "Erreur inconnue"});
@@ -109,12 +109,12 @@ app.factory('publi', [
           then({success: false, message: "empty"});
         }
         else{
-          then({success: true, content: response.data});
+          then({success: true, content: response.data.conferences});
         }
       }, function(response){
         then({success: false, error: "Erreur inconnue"});
       });
-    }
+    };
 
     return publi;
 }]);

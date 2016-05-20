@@ -171,6 +171,30 @@ app.controller('Publish', [
     $scope.publi = {};
     $scope.publi.auteurs = [];
 
+    publi.getAuteurs(function(status){
+      if(status.success){
+        $scope.auteurs = status.content;
+      } else if(status.message != "empty"){
+        $scope.errors = status.error;
+      }
+    });
+
+    publi.getJournaux(function(status){
+      if(status.success){
+        $scope.journaux = status.content;
+      } else if(status.message != "empty"){
+        $scope.errors = status.error;
+      }
+    });
+
+    publi.getConferences(function(status){
+      if(status.success){
+        $scope.conferences = status.content;
+      } else if(status.message != "empty"){
+        $scope.errors = status.error;
+      }
+    });
+
     $scope.addAuteur = function(){
       $scope.publi.auteurs.push({
         prenom : $scope.auteur.prenom,

@@ -24,7 +24,7 @@
   <label for="auteur-prenom">Prenom : </label>
   <input type="text" id="auteur-prenom" ng-model="auteur.prenom"><br>
   <label for="auteur-nom">Nom : </label>
-  <input type="text" id="auteur-nom" ng-model="auteur.nom"><br>
+  <input type="text" id="auteur-nom" ng-model="auteur.nom" list="liste-nom-auteurs"><br>
   <label for="auteur-organisation">Organisation : </label>
   <input type="text" id="auteur-organisation" ng-model="auteur.organisation"><br>
   <label for="auteur-equipe">Equipe : </label>
@@ -36,6 +36,12 @@
       <button type="button" ng-click="removeAuteur($index)">Supprimer</button>
     </li>
   </ul>
+  <datalist id="liste-nom-auteurs">
+    <option ng-repeat="auteur in auteurs" value="{{auteur.nom}}">
+  </datalist>
+  <datalist id="liste-prenom-auteurs">
+    <option ng-repeat="auteur in auteurs" value="{{auteur.prenom}}">
+  </datalist>
   <br><br>
 
   <h3>Journal</h3>
@@ -43,7 +49,7 @@
   <input type="checkbox" id="isJournal" class="no-expand" ng-model="isJournal"><br ng-show="isJournal">
   <div ng-show="isJournal">
     <label for="journal_titre">Titre : </label>
-    <input type="text" id="journal_titre" ng-model="publi.journal_titre"><br>
+    <input type="text" id="journal_titre" ng-model="publi.journal_titre" liste="liste-titre-journaux"><br>
     <label for="journal_editeur">Editeur : </label>
     <input type="text" id="journal_editeur" ng-model="publi.journal_editeur"><br>
     <label for="journal_volume">Volume : </label>
@@ -51,6 +57,9 @@
     <label for="pages">Pages : </label>
     <input type="text" id="pages" ng-model="publi.pages">
   </div>
+  <datalist id="liste-titre-journaux">
+    <option ng-repeat="journal in journaux" value="{{journal.titre}}">
+  </datalist>
   <br><br>
 
   <h3>Conférence</h3>
@@ -59,12 +68,15 @@
   <div ng-show="isConf" ng-show="isConf">
     <br ng-show="isConf">
     <label for="conference_nom">Nom : </label>
-    <input type="text" id="conference_nom" ng-model="publi.conference_nom"><br >
+    <input type="text" id="conference_nom" ng-model="publi.conference_nom" list="liste-nom-conferences"><br >
     <label for="conference_date">Date : </label>
     <input type="text" id="conference_date" ng-model="publi.conference_date"><br>
     <label for="conference_lieu">Lieu : </label>
     <input type="text" id="conference_lieu" ng-model="publi.conference_lieu"><br>
   </div>
+  <datalist id="liste-nom-conferences">
+    <option ng-repeat="conference in conferences" value="{{conference.nom}}">
+  </datalist>
   <br><br>
 
   <h3>Upload</h3>
