@@ -55,10 +55,6 @@ app.factory('publi', [
       });
     };
 
-    publi.download = function(id, then){
-
-    };
-
     publi.delete = function(id, then){
 
     };

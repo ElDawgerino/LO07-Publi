@@ -127,11 +127,12 @@ app.controller('NavBar', [
 
 app.controller('Publish', [
   '$scope',
+  '$state',
   '$http',
   '$rootScope',
   'publi',
   'auth',
-  function($scope, $http, $rootScope, publi, auth){
+  function($scope, $state, $http, $rootScope, publi, auth){
     $scope.statuts = ["Soumis", "En révision", "Publié"];
     $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
     $scope.publi = {};
@@ -207,22 +208,21 @@ app.controller('Publish', [
     };
 
     $scope.publish = function(){
-      if($scope.publi.titre.length && $scope.publi.statut.length
-        && $scope.publi.categorie.length && $scope.publi.annee_publication.length){
-          var publication = angular.copy( $scope.publi );
+        if($scope.publi.titre.length && $scope.publi.statut.length
+            && $scope.publi.categorie.length && $scope.publi.annee_publication.toString().length){
+            var publication = angular.copy( $scope.publi );
 
-          if($scope.isAuteur){
-            publication.auteurs.push({ id: $rootScope.id} );
-          }
-          publi.post(publication, function(status){
-            if(status.success){
-              console.log("success");
-              //aller à la publication
+            if($scope.isAuteur){
+                publication.auteurs.push({ id: $rootScope.id} );
             }
-            else{
-              $scope.errors = status.error;
-            }
-          });
+            publi.post(publication, function(status){
+                if(status.success){
+                    $state.go("publi", {id: status.id});
+                }
+                else{
+                    $scope.errors = status.error;
+                }
+            });
         }
     };
 
