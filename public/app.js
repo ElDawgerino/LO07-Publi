@@ -97,13 +97,17 @@ app.controller('NavBar', [
         });
     });
 
+    $scope.goProfile = function(){
+        $state.go('profile', {id: $rootScope.id});
+    };
+
     $scope.goPublish = function(){
       $state.go('publish');
-    }
+    };
 
     $scope.goHome = function(){
       $state.go('home');
-    }
+    };
 
     $scope.login = function(){
       $state.go('login');

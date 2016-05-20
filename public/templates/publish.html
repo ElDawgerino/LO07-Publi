@@ -8,7 +8,7 @@
   <label for="title">Titre : </label>
   <input type="text" id="title" ng-model="publi.titre" required><br>
   <label for="description">Description : </label>
-  <textarea id="description" ng-model="publi.description" required></textarea><br>
+  <textarea id="description" ng-model="publi.description"></textarea><br>
   <label for="statut">Statut : </label>
   <select id="statut" ng-model="publi.statut"
     ng-options="statut for statut in statuts" ng-init="publi.statut = statuts[0]"></select><br>
