@@ -17,12 +17,25 @@
       <div id="contenu">
         <nav ng-controller="NavBar" class="nav">
         <ul>
-          <li id="website-main-button"><i class="material-icons" style="vertical-align: middle;">archive</i> <button ng-click="goHome()">LO07-Publi</button></li>
-          <li ng-show="loggedIn"><button ng-click="goPublish()">Publier</button></li>
-          <li class="align-right" ng-show="loggedIn"><button ng-click="logout()">Déconnexion</button></li>
-          <li class="align-right" ng-show="loggedIn"><button ng-click="goProfile()">{{username}}</button></li>
-          <li class="align-right" ng-hide="loggedIn"><button ng-click="register()">Inscription</button></li>
-          <li class="align-right" ng-hide="loggedIn"><button ng-click="login()">Connexion</button></li>
+          <li id="website-main-button">
+              <i class="material-icons" style="vertical-align: middle; color: white;">archive</i>
+              <button ng-click="goHome()" ng-class="{ active: $state.includes('home') }">LO07-Publi</button>
+          </li>
+          <li ng-show="loggedIn">
+              <button ng-click="goPublish()" ng-class="{ active: $state.includes('publish') }">Publier</button>
+          </li>
+          <li class="align-right" ng-show="loggedIn">
+              <button ng-click="logout()">Déconnexion</button>
+          </li>
+          <li class="align-right" ng-show="loggedIn">
+              <button ng-click="goProfile()">{{username}}</button>
+          </li>
+          <li class="align-right" ng-hide="loggedIn">
+              <button ng-click="register()" ng-class="{ active: $state.includes('register') }">Inscription</button>
+          </li>
+          <li class="align-right" ng-hide="loggedIn">
+              <button ng-click="login()" ng-class="{ active: $state.includes('login') }">Connexion</button>
+          </li>
         </ul>
         </nav>
 

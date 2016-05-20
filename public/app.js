@@ -1,4 +1,7 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module', 'routes-module']);
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module', 'routes-module']).run(function ($rootScope, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+});
 
 app.controller('Home', [
     '$scope',

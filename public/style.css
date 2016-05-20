@@ -35,7 +35,6 @@
 .nav li {
     display: block;
     float: left;
-    color: white;
     height: 50px;
     vertical-align: middle;
 }
@@ -56,16 +55,22 @@
     background-color: rgba(50, 50, 50, 1);
 }
 
+.nav li button.active {
+    background-color: white;
+    color: black;
+    border-top-color: rgba(100, 100, 100, 1);
+    border-top-width: 2px;
+}
+
 .nav li.align-right {
     float: right;
 }
 
 #website-main-button {
-    color: white;
+
 }
 
 #website-main-button button {
-    color: white;
     text-decoration: none;
     font-family: 'Lato', sans-serif;
     font-weight: bold;
