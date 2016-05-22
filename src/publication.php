@@ -206,7 +206,7 @@ class publication
         $db->commit();
 
         return [
-            "status" => "succeed",
+            "status" => "success",
             "id" => $publication_id
         ];
     }
@@ -262,7 +262,9 @@ class publication
             "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication, p.journal_volume, p.pages,
             j.titre as journal_titre, j.editeur as journal_editeur,
             c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
-            FROM Publications AS p LEFT JOIN Journaux AS j ON p.journal_id = j.id LEFT JOIN Conferences AS c ON p.conference_id = c.id
+            FROM Publications AS p
+            LEFT JOIN Journaux AS j ON p.journal_id = j.id
+            LEFT JOIN Conferences AS c ON p.conference_id = c.id
             WHERE p.id = :id ;",
             [
                 "id" => $id
@@ -277,6 +279,19 @@ class publication
         }
 
         $publication = $res->fetch(PDO::FETCH_ASSOC);
+
+        //Récupération du fichier associé
+        $info_fichier = self::get_publication_file_info($id);
+        if($info_fichier["status"] == "success")
+        {
+            $path_on_server = $info_fichier["chemin_server"];
+
+            if(file_exists($path_on_server))
+            {
+                $publication["fichier"]["nom"] = $info_fichier["nom_original"];
+                $publication["fichier"]["taille"] = $info_fichier["taille"];
+            }
+        }
 
         //Récupération des auteurs
         $authors_res = $db->query(
@@ -297,7 +312,7 @@ class publication
         }
 
         return [
-            "status" => "succeed",
+            "status" => "success",
             "publication" => $publication
         ];
     }
@@ -329,9 +344,10 @@ class publication
         $file_line = $res->fetch();
 
         return [
-            "status" => "succeed",
+            "status" => "success",
             "nom_original" => $file_line["nom_original"],
-            "chemin_server" => $file_line["chemin_server"]
+            "chemin_server" => $file_line["chemin_server"],
+            "taille" => (file_exists($file_line["chemin_server"]) ? filesize($file_line["chemin_server"]) : 0)
         ];
     }
 

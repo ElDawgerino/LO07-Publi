@@ -15,7 +15,7 @@ app.factory('auth', [
             team: user.equipe
         };
         return $http.post('register', user_info).then(function(response){
-                if(response.data.status == "succeed"){
+                if(response.data.status == "success"){
                     then({success : true});
                 }
                 else if(response.data.status == "invalid"){
@@ -38,7 +38,7 @@ app.factory('auth', [
         };
 
         return $http.post('login', user_info).then(function(response){
-                if(response.data.status == "succeed"){
+                if(response.data.status == "success"){
                     then({success: true});
                 }
                 else if(response.data.status == "db_error"){
@@ -62,7 +62,7 @@ app.factory('auth', [
 
     auth.logout = function(then){
       $http.get('logout').then(function(response){
-        if(response.data.status == "succeed"){
+        if(response.data.status == "success"){
           then({success: true});
         }
         else if(response.data.status == "was_not_connected"){

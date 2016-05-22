@@ -35,7 +35,7 @@ class user_management
         if($user_line and $user_line["mdp"] == hash("sha256", $password))
         {
             $response = [
-                "status" => "succeed",
+                "status" => "success",
                 "id" => $user_line["id"],
             ];
 
@@ -82,7 +82,7 @@ class user_management
             // Recréation d'une nouvelle session neuve
             session_start();
 
-            return ["status" => "succeed"];
+            return ["status" => "success"];
         }
         else
         {
@@ -160,7 +160,7 @@ class user_management
 
 
         return [
-            "status" => "succeed"
+            "status" => "success"
         ];
     }
 
@@ -211,7 +211,7 @@ class user_management
         if(self::check_connection())
         {
             return [
-                "status" => "succeed",
+                "status" => "success",
                 "id" => $_SESSION["id"]
             ];
         }

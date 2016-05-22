@@ -55,7 +55,7 @@ $app->get('/download/{id}', function ($request, $response, $args) {
     $publication_id = $args["id"];
 
     $publi_file_info = publication::get_publication_file_info($publication_id);
-    if($publi_file_info["status"] != "succeed")
+    if($publi_file_info["status"] != "success")
     {
         return $response->withStatus(500);
     }
@@ -123,7 +123,7 @@ $app->get('/comptes', function ($request, $response, $args) {
 
 $app->get('/compte', function ($request, $response, $args) {
     $current_user_id = user_management::get_current_logged_user();
-    if($current_user_id["status"] == "succeed")
+    if($current_user_id["status"] == "success")
     {
         return $response->withJson(
             user_management::get_user($current_user_id['id'])

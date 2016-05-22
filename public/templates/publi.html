@@ -1,6 +1,6 @@
 <h1>{{publi.titre}}</h1>
 
-<button class="expand" ng-click="download()"><i class="material-icons">get_app</i> <b>Télécharger la publication</b></button>
+<button class="expand" ng-click="download()"><i class="material-icons">get_app</i> <b>Télécharger la publication</b> <span ng-show="publi.fichier">({{publi.fichier.nom}}, {{publi.fichier.taille|bytes}})</span></button>
 
 <h3>Description : </h3>
 <p>{{publi.description}}</p>

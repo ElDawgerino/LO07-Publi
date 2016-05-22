@@ -36,8 +36,8 @@ class database
     public function query($query, $data)
     {
         $prepared = $this->pdo->prepare($query);
-        $succeed = $prepared->execute($data);
-        return ($succeed ? $prepared : false);
+        $success = $prepared->execute($data);
+        return ($success ? $prepared : false);
     }
 
     public function get_last_insert_id()

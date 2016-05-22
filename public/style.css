@@ -172,6 +172,11 @@ button {
     transition: background-color 0.2s;
 }
 
+button .material-icons {
+    vertical-align: middle;
+}
+
+
 button:hover {
     background-color: rgb(200, 200, 200);
 }

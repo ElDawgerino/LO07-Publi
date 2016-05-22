@@ -26,7 +26,7 @@ app.factory('publi', [
           then({success: false, error: "Impossible de se connecter à la base de donnée."});
         } else if(response.data.status == "invalid"){
           then({success: false, error: "Publication introuvable"})
-        } else if(response.data.status == "succeed"){
+        } else if(response.data.status == "success"){
           then({success: true, content: response.data.publication});
         } else {
           then({success: false, error: "Erreur inconnue"});
@@ -47,7 +47,7 @@ app.factory('publi', [
         else if(response.data.status == "insertion_error"){
           then({success: false, error: "Impossible d'insérer le fichier."})
         }
-        else if(response.data.status == "succeed"){
+        else if(response.data.status == "success"){
           then({success: true, id: response.data.id});
         }
       }, function(response){
