@@ -50,7 +50,7 @@ create table Auteurs(
 
 create table Utilisateurs(
     id int not null primary key,
-    login varchar(64) not null,
+    login varchar(64) not null unique,
     mdp varchar(64) not null,
 
     /* Clé étrangère */

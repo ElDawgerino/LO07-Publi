@@ -1,6 +1,7 @@
 <?php
 
 require_once 'database.php';
+require_once 'http_codes.php';
 
 class user_management
 {
@@ -10,18 +11,12 @@ class user_management
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http_codes\internal_error();
         }
 
         if(self::check_connection())
         {
-            $response = [
-                "status" => "already_connected"
-            ];
-
-            return $response;
+            return http_codes\forbidden();
         }
 
         //Pour les tests seulement
@@ -34,10 +29,7 @@ class user_management
         $user_line = $res->fetch();
         if($user_line and $user_line["mdp"] == hash("sha256", $password))
         {
-            $response = [
-                "status" => "success",
-                "id" => $user_line["id"],
-            ];
+            $response = http_codes\success([ "id" => $user_line["id"] ]);
 
             //On stocke l'état de connexion dans une session (contrainte du projet)
             // => pas besoin de token donc.
@@ -49,9 +41,7 @@ class user_management
         }
         else
         {
-            $response = [
-                "status" => "invalid"
-            ];
+            $response = http_codes\unauthorized();
 
             $_SESSION["connected"] = false;
             $_SESSION["username"] = "";
@@ -82,11 +72,11 @@ class user_management
             // Recréation d'une nouvelle session neuve
             session_start();
 
-            return ["status" => "success"];
+            return http_codes\success([]);
         }
         else
         {
-            return ["status" => "was_not_connected"];
+            return http_codes\unauthorized();
         }
     }
 
@@ -96,19 +86,13 @@ class user_management
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http_codes\internal_error();
         }
 
         //Si déjà connecté, on ne peut pas enregistrer un compte
         if(self::check_connection())
         {
-            $response = [
-                "status" => "already_connected"
-            ];
-
-            return $response;
+            return http_codes\forbidden();
         }
 
         //Il n'existe pas d'utilisateur avec le même username
@@ -127,9 +111,7 @@ class user_management
         );
         if(!$res)
         {
-            return [
-                "status" => "invalid"
-            ];
+            return http_codes\bad_request();
         }
 
         //Puis dans la table Utilisateurs (en utilisant l'id généré lors de l'ajout dans Auteurs)
@@ -153,15 +135,11 @@ class user_management
                 ]
             );
 
-            return [
-                "status" => "invalid"
-            ];
+            return http_codes\bad_request();
         }
 
 
-        return [
-            "status" => "success"
-        ];
+        return http_codes\success([]);
     }
 
     public static function check_connection()
@@ -182,9 +160,7 @@ class user_management
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http_codes\internal_error();
         }
 
         $res = $db->query(
@@ -203,23 +179,18 @@ class user_management
                 "team" => $user["equipe"]
             ];
         }
-        return $response;
+        return http_codes\success($response);
     }
 
     public static function get_current_logged_user()
     {
         if(self::check_connection())
         {
-            return [
-                "status" => "success",
-                "id" => $_SESSION["id"]
-            ];
+            return http_codes\success([ "id" => $_SESSION["id"] ]);
         }
         else
         {
-            return [
-                "status" => "invalid"
-            ];
+            return http_codes\unauthorized();
         }
     }
 
@@ -228,9 +199,7 @@ class user_management
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http_codes\internal_error();
         }
 
         $res = $db->query(
@@ -248,6 +217,6 @@ class user_management
             "team" => $user["equipe"]
         ];
 
-        return $response;
+        return http_codes\success($response);
     }
 }
