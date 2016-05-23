@@ -1,7 +1,7 @@
 <?php
 
 require_once 'database.php';
-require_once 'http_codes.php';
+require_once 'http.php';
 require_once 'user.php';
 
 class publication
@@ -61,13 +61,13 @@ class publication
     {
         if(!user_management::check_connection())
         {
-            return http_codes\unauthorized();
+            return http\unauthorized();
         }
 
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         //Début de la transaction SQL
@@ -121,7 +121,7 @@ class publication
             {
                 //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
                 $db->rollback();
-                return http_codes\internal_error();
+                return http\internal_error();
             }
         }
         else if(isset($publication["journal_id"]))
@@ -138,7 +138,7 @@ class publication
             {
                 //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
                 $db->rollback();
-                return http_codes\internal_error();
+                return http\internal_error();
             }
         }
         else if(isset($publication["conference_id"]))
@@ -167,7 +167,7 @@ class publication
         if($res === false)
         {
             $db->rollback();
-            return http_codes\internal_error();
+            return http\internal_error();
         }
         $publication_id = $db->get_last_insert_id();
 
@@ -208,7 +208,7 @@ class publication
 
         $db->commit();
 
-        return http_codes\success(["id" => $publication_id]);
+        return http\success(["id" => $publication_id]);
     }
 
     public static function get_publications()
@@ -216,7 +216,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $res = $db->query(
@@ -230,7 +230,7 @@ class publication
 
         if($res->rowCount() === 0)
         {
-            return http_codes\success([]);
+            return http\success([]);
         }
 
         $publiLines = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -240,7 +240,7 @@ class publication
             $publications[] = $publi;
         }
 
-        return http_codes\success($publications);
+        return http\success($publications);
     }
 
     public static function get_publication($id)
@@ -248,7 +248,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         //Récupération de la publication, des éventuels journal ou conférence associés
@@ -267,14 +267,14 @@ class publication
 
         if($res->rowCount() === 0)
         {
-            return http_codes\not_found();
+            return http\not_found();
         }
 
         $publication = $res->fetch(PDO::FETCH_ASSOC);
 
         //Récupération du fichier associé
         $info_fichier = self::get_publication_file_info($id);
-        if($info_fichier["status"] == http_codes\SUCCESS)
+        if($info_fichier["status"] == http\SUCCESS)
         {
             $path_on_server = $info_fichier["chemin_server"];
 
@@ -303,7 +303,7 @@ class publication
             $publication["auteurs"][] = $author;
         }
 
-        return http_codes\success([
+        return http\success([
             "publication" => $publication
         ]);
     }
@@ -313,7 +313,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $res = $db->query(
@@ -325,12 +325,12 @@ class publication
 
         if($res->rowCount() == 0)
         {
-            return http_codes\not_found();
+            return http\not_found();
         }
 
         $file_line = $res->fetch();
 
-        return http_codes\success([
+        return http\success([
             "nom_original" => $file_line["nom_original"],
             "chemin_server" => $file_line["chemin_server"],
             "taille" => (file_exists($file_line["chemin_server"]) ? filesize($file_line["chemin_server"]) : 0)
@@ -412,7 +412,7 @@ class publication
     public static function getJournaux(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $journaux = $db->query(
@@ -423,7 +423,7 @@ class publication
 
         $journaux_lines = $journaux->fetchAll(PDO::FETCH_ASSOC);
 
-        return http_codes\success([
+        return http\success([
             "journaux" => $journaux_lines
         ]);
     }
@@ -431,7 +431,7 @@ class publication
     public static function getConferences(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $conferences = $db->query(
@@ -442,7 +442,7 @@ class publication
 
         $conf_lines = $conferences->fetchAll(PDO::FETCH_ASSOC);
 
-        return http_codes\success([
+        return http\success([
             "conferences" => $conf_lines
         ]);
     }
@@ -450,7 +450,7 @@ class publication
     public static function getAuteurs(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $auteurs = $db->query(
@@ -461,7 +461,7 @@ class publication
 
         $auteurs_lines = $auteurs->fetchAll(PDO::FETCH_ASSOC);
 
-        return http_codes\success([
+        return http\success([
             "auteurs" => $auteurs_lines
         ]);
     }
@@ -469,13 +469,13 @@ class publication
     public static function getAuteur($id){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return http_codes\internal_error();
+            return http\internal_error();
         }
 
         $auteur = $db->query("SELECT * FROM Auteurs WHERE id = :id", ["id" =>$id]);
         $auteur_lines = $auteur->fetchAll(PDO::FETCH_ASSOC);
         if(count($auteur_lines) == 0){
-            return http_codes\not_found();
+            return http\not_found();
         }
 
         $publis = $db->query(
@@ -488,7 +488,7 @@ class publication
 
         $publis_lines = $publis->fetchAll(PDO::FETCH_ASSOC);
 
-        return http_codes\success([
+        return http\success([
             "auteur" => $auteur_lines,
             "publis" => $publis_lines
         ]);

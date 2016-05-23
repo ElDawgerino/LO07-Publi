@@ -2,7 +2,7 @@
 // Routes
 
 require_once 'database.php';
-require_once 'http_codes.php';
+require_once 'http.php';
 require_once 'publication.php';
 require_once 'user.php';
 
@@ -65,7 +65,7 @@ $app->get('/download/{id}', function ($request, $response, $args) {
     $publication_id = $args["id"];
 
     $publi_file_info = publication::get_publication_file_info($publication_id);
-    if($publi_file_info["status"] != http_codes\SUCCESS)
+    if($publi_file_info["status"] != http\SUCCESS)
     {
         return $response->withStatus(500);
     }
@@ -133,7 +133,7 @@ $app->get('/comptes', function ($request, $response, $args) {
 
 $app->get('/compte', function ($request, $response, $args) {
     $current_user_id = user_management::get_current_logged_user();
-    if($current_user_id["status"] == http_codes\SUCCESS)
+    if($current_user_id["status"] == http\SUCCESS)
     {
         return build_response($response,
             user_management::get_user($current_user_id['id'])
@@ -142,7 +142,7 @@ $app->get('/compte', function ($request, $response, $args) {
     else
     {
         return build_response($response, [
-            "status" => http_codes\UNAUTHORIZED
+            "status" => http\UNAUTHORIZED
         ]);
     }
 });
