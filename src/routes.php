@@ -116,7 +116,7 @@ $app->post('/publi', function ($request, $response, $args) {
 $app->put('/publi/{id}', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    return build_response($response, publication::update_publication($args["id"], $request_params["publication"]));
+    return build_response($response, publication::update_publication($args["id"], $request_params));
 });
 
 $app->delete('/publi/{id}', function ($request, $response, $args) {
