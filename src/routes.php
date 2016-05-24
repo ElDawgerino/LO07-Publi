@@ -1,9 +1,19 @@
 <?php
 // Routes
 
-require_once 'src/database.php';
-require_once 'src/publication.php';
-require_once 'src/user.php';
+require_once 'database.php';
+require_once 'http.php';
+require_once 'publication.php';
+require_once 'user.php';
+
+function build_response($response, $content)
+{
+    $status_code = $content["status"];
+    unset($content["status"]);
+    $response = $response->withJson($content, $status_code);
+
+    return $response;
+}
 
 $app->get('/', function ($request, $response, $args) {
     // Sample log message
@@ -19,13 +29,13 @@ $app->post('/login', function ($request, $response, $args) {
     $username = $request_params["username"];
     $password = $request_params["password"];
 
-    return $response->withJson(user_management::login($username, $password));
+    return build_response($response, user_management::login($username, $password));
 });
 
 $app->get('/logout', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    return $response->withJson(user_management::logout());
+    return build_response($response, user_management::logout());
 });
 
 $app->post('/register', function ($request, $response, $args) {
@@ -38,13 +48,13 @@ $app->post('/register', function ($request, $response, $args) {
     $organisation = $request_params["organisation"];
     $team = $request_params["team"];
 
-    return $response->withJson(user_management::register($username, $password, $last_name, $first_name, $organisation, $team));
+    return build_response($response, user_management::register($username, $password, $last_name, $first_name, $organisation, $team));
 });
 
 $app->get('/publi', function($request, $response, $args) {
-  $request_params = $request->getParsedBody();
+    $request_params = $request->getParsedBody();
 
-  return $response->withJson(publication::get_publications());
+    return build_response($response, publication::get_publications());
 });
 
 /**
@@ -55,7 +65,7 @@ $app->get('/download/{id}', function ($request, $response, $args) {
     $publication_id = $args["id"];
 
     $publi_file_info = publication::get_publication_file_info($publication_id);
-    if($publi_file_info["status"] != "success")
+    if($publi_file_info["status"] != http\SUCCESS)
     {
         return $response->withStatus(500);
     }
@@ -94,13 +104,13 @@ $app->get('/download/{id}', function ($request, $response, $args) {
 $app->get('/publi/{id}', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    return $response->withJson(publication::get_publication($args["id"]));
+    return build_response($response, publication::get_publication($args["id"]));
 });
 
 $app->post('/publi', function ($request, $response, $args) {
     $request_params = $request->getParsedBody();
 
-    return $response->withJson(publication::add_publication($request_params));
+    return build_response($response, publication::add_publication($request_params));
 });
 
 $app->put('/publi/{id}', function ($request, $response, $args) {
@@ -118,28 +128,28 @@ $app->post('/recherche', function ($request, $response, $args) {
 
 $app->get('/comptes', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
-  return $response->withJson(user_management::get_users());
+  return build_response($response, user_management::get_users());
 });
 
 $app->get('/compte', function ($request, $response, $args) {
     $current_user_id = user_management::get_current_logged_user();
-    if($current_user_id["status"] == "success")
+    if($current_user_id["status"] == http\SUCCESS)
     {
-        return $response->withJson(
+        return build_response($response,
             user_management::get_user($current_user_id['id'])
         );
     }
     else
     {
-        return $response->withJson([
-            "status" => "invalid"
+        return build_response($response, [
+            "status" => http\UNAUTHORIZED
         ]);
     }
 });
 
 $app->get('/compte/{id}', function ($request, $response, $args) {
   //TODO : vérifier que l'utilisateur est admin
-    return $response->withJson(user_management::get_user($args['id']));
+    return build_response($response, user_management::get_user($args['id']));
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {
@@ -156,19 +166,19 @@ $app->get('/stats', function ($request, $response, $args) {
 
 //Renvoie la liste des journaux en base de données
 $app->get('/journaux', function($request, $response, $args){
-    return $response->withJson(publication::getJournaux());
+    return build_response($response, publication::getJournaux());
 });
 
 //renvoie la liste des conférences en base de données
 $app->get('/conferences', function($request, $response, $args){
-  return $response->withJson(publication::getConferences());
+    return build_response($response, publication::getConferences());
 });
 
 $app->get('/auteurs', function($request, $response, $args){
-  return $response->withJson(publication::getAuteurs());
+    return build_response($response, publication::getAuteurs());
 });
 
 $app->get('/auteur/{id}', function($request, $response, $args){
-    return $response->withJson(publication::getAuteur($args["id"]));
+    return build_response($response, publication::getAuteur($args["id"]));
 });
 ?>

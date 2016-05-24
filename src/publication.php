@@ -1,6 +1,7 @@
 <?php
 
 require_once 'database.php';
+require_once 'http.php';
 require_once 'user.php';
 
 class publication
@@ -49,22 +50,24 @@ class publication
      *
      * R => champs requis
      * O => optionnel
+     *
+     * Retourne :
+     * ==========
+     * Un tableau associatif contenant :
+     * - status : un code de réponse HTTP
+     * - id : l'id de la publication nouvellement créée
      */
     public static function add_publication($publication)
     {
         if(!user_management::check_connection())
         {
-            return [
-                "status" => "unauthorized"
-            ];
+            return http\unauthorized();
         }
 
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http\internal_error();
         }
 
         //Début de la transaction SQL
@@ -118,7 +121,7 @@ class publication
             {
                 //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
                 $db->rollback();
-                return ["status" => "insertion_error"];
+                return http\internal_error();
             }
         }
         else if(isset($publication["journal_id"]))
@@ -135,7 +138,7 @@ class publication
             {
                 //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
                 $db->rollback();
-                return ["status" => "insertion_error"];
+                return http\internal_error();
             }
         }
         else if(isset($publication["conference_id"]))
@@ -164,7 +167,7 @@ class publication
         if($res === false)
         {
             $db->rollback();
-            return ["status" => "insertion_error"];
+            return http\internal_error();
         }
         $publication_id = $db->get_last_insert_id();
 
@@ -205,10 +208,7 @@ class publication
 
         $db->commit();
 
-        return [
-            "status" => "success",
-            "id" => $publication_id
-        ];
+        return http\success(["id" => $publication_id]);
     }
 
     public static function get_publications()
@@ -216,9 +216,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http\internal_error();
         }
 
         $res = $db->query(
@@ -232,9 +230,7 @@ class publication
 
         if($res->rowCount() === 0)
         {
-            return [
-                "status" => "empty"
-            ];
+            return http\success([]);
         }
 
         $publiLines = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -244,7 +240,7 @@ class publication
             $publications[] = $publi;
         }
 
-        return $publications;
+        return http\success($publications);
     }
 
     public static function get_publication($id)
@@ -252,9 +248,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http\internal_error();
         }
 
         //Récupération de la publication, des éventuels journal ou conférence associés
@@ -273,16 +267,14 @@ class publication
 
         if($res->rowCount() === 0)
         {
-            return [
-                "status" => "invalid"
-            ];
+            return http\not_found();
         }
 
         $publication = $res->fetch(PDO::FETCH_ASSOC);
 
         //Récupération du fichier associé
         $info_fichier = self::get_publication_file_info($id);
-        if($info_fichier["status"] == "success")
+        if($info_fichier["status"] == http\SUCCESS)
         {
             $path_on_server = $info_fichier["chemin_server"];
 
@@ -311,10 +303,9 @@ class publication
             $publication["auteurs"][] = $author;
         }
 
-        return [
-            "status" => "success",
+        return http\success([
             "publication" => $publication
-        ];
+        ]);
     }
 
     public static function get_publication_file_info($publication_id)
@@ -322,9 +313,7 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok())
         {
-            return [
-                "status" => "db_error"
-            ];
+            return http\internal_error();
         }
 
         $res = $db->query(
@@ -336,19 +325,16 @@ class publication
 
         if($res->rowCount() == 0)
         {
-            return [
-                "status" => "invalid"
-            ];
+            return http\not_found();
         }
 
         $file_line = $res->fetch();
 
-        return [
-            "status" => "success",
+        return http\success([
             "nom_original" => $file_line["nom_original"],
             "chemin_server" => $file_line["chemin_server"],
             "taille" => (file_exists($file_line["chemin_server"]) ? filesize($file_line["chemin_server"]) : 0)
-        ];
+        ]);
     }
 
     /**
@@ -426,7 +412,7 @@ class publication
     public static function getJournaux(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return false;
+            return http\internal_error();
         }
 
         $journaux = $db->query(
@@ -437,23 +423,15 @@ class publication
 
         $journaux_lines = $journaux->fetchAll(PDO::FETCH_ASSOC);
 
-        if(count($journaux_lines) == 0){
-            return [
-                "status" => "empty"
-            ];
-        }
-        else {
-            return [
-                "status" => "success",
-                "journaux" => $journaux_lines
-            ];
-        }
+        return http\success([
+            "journaux" => $journaux_lines
+        ]);
     }
 
     public static function getConferences(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return false;
+            return http\internal_error();
         }
 
         $conferences = $db->query(
@@ -464,23 +442,15 @@ class publication
 
         $conf_lines = $conferences->fetchAll(PDO::FETCH_ASSOC);
 
-        if(count($conf_lines) == 0){
-            return [
-                "status" => "empty"
-            ];
-        }
-        else {
-            return [
-                "status" => "success",
-                "conferences" => $conf_lines
-            ];
-        }
+        return http\success([
+            "conferences" => $conf_lines
+        ]);
     }
 
     public static function getAuteurs(){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return false;
+            return http\internal_error();
         }
 
         $auteurs = $db->query(
@@ -491,31 +461,21 @@ class publication
 
         $auteurs_lines = $auteurs->fetchAll(PDO::FETCH_ASSOC);
 
-        if(count($auteurs_lines) == 0){
-            return [
-            "status" => "empty"
-            ];
-        }
-        else {
-            return [
-            "status" => "success",
+        return http\success([
             "auteurs" => $auteurs_lines
-            ];
-        }
+        ]);
     }
 
     public static function getAuteur($id){
         $db = database_factory::get_db();
         if(!$db->is_ok()){
-            return false;
+            return http\internal_error();
         }
 
         $auteur = $db->query("SELECT * FROM Auteurs WHERE id = :id", ["id" =>$id]);
         $auteur_lines = $auteur->fetchAll(PDO::FETCH_ASSOC);
         if(count($auteur_lines) == 0){
-            return [
-                "status" => "empty"
-            ];
+            return http\not_found();
         }
 
         $publis = $db->query(
@@ -528,10 +488,9 @@ class publication
 
         $publis_lines = $publis->fetchAll(PDO::FETCH_ASSOC);
 
-        return [
-            "status" => "success",
+        return http\success([
             "auteur" => $auteur_lines,
             "publis" => $publis_lines
-        ];
+        ]);
     }
 }

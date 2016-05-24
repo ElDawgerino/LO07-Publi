@@ -38,6 +38,9 @@ app.controller('Home', [
         publi.getAll(function(response){
             if(response.success){
                 $scope.publis = response.content;
+                if(response.content.length === 0){
+                    $scope.hasPublis = false;
+                }
             } else {
                 $scope.hasPublis = false;
                 $scope.errors = response.error;
