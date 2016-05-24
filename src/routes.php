@@ -1,6 +1,7 @@
 <?php
 // Routes
 
+require_once 'author.php';
 require_once 'database.php';
 require_once 'http.php';
 require_once 'publication.php';
@@ -177,10 +178,10 @@ $app->get('/conferences', function($request, $response, $args){
 });
 
 $app->get('/auteurs', function($request, $response, $args){
-    return build_response($response, publication::getAuteurs());
+    return build_response($response, author::get_authors());
 });
 
 $app->get('/auteur/{id}', function($request, $response, $args){
-    return build_response($response, publication::getAuteur($args["id"]));
+    return build_response($response, author::get_author($args["id"]));
 });
 ?>
