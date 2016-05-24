@@ -24,6 +24,9 @@
           <li ng-show="loggedIn">
               <button ng-click="goPublish()" ng-class="{ active: $state.includes('publish') }">Publier</button>
           </li>
+          <li class="align-righ">
+              <button ng-click="goRecherche()">Recherche</button>
+          </li>
           <li class="align-right" ng-show="loggedIn">
               <button ng-click="logout()">Déconnexion</button>
           </li>

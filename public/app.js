@@ -153,6 +153,10 @@ app.controller('NavBar', [
                 $state.go('home');
             });
         };
+
+        $scope.goRecherche = function(){
+            $state.go('recherche');
+        }
 }]);
 
 app.controller('Publish', [
@@ -309,9 +313,8 @@ app.controller('Profile', [
 
 app.controller('Recherche', [
     '$scope',
-    '$stateParams',
     'publi',
-    function($scope, $stateParams, publi){
+    function($scope, publi){
         $scope.hasPublis = false;
 
         //constructeur des fields
