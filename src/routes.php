@@ -124,9 +124,16 @@ $app->delete('/publi/{id}', function ($request, $response, $args) {
   //TODO : supprimer une publi
 });
 
+/**
+* Permet une recherche via des paramètres spécifiés par l'utilisateur
+* @param field : le champ dans lequel on effectue la recherche
+* @param keyword : le mot clé à rechercher
+* @param order : le champ par lequel on ordonne les résultats
+*/
 $app->post('/recherche', function ($request, $response, $args) {
-  //TODO : Obtenir la liste des publis suivant les critères de recherches transférer par le client dans un objet
-  //Alternative : le faire entièrement côté client
+    $request_params = $request->getParsedBody();
+
+    return build_response($response, publication::search($request_params));
 });
 
 $app->get('/comptes', function ($request, $response, $args) {
@@ -151,7 +158,6 @@ $app->get('/compte', function ($request, $response, $args) {
 });
 
 $app->get('/compte/{id}', function ($request, $response, $args) {
-  //TODO : vérifier que l'utilisateur est admin
     return build_response($response, user_management::get_user($args['id']));
 });
 
