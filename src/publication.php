@@ -70,6 +70,11 @@ class publication
             return http\internal_error();
         }
 
+        if(!isset($publication["titre"]) or !isset($publication["statut"]) or !isset($publication["categorie"]))
+        {
+            return http\bad_request();
+        }
+
         //Début de la transaction SQL
         $db->begin_transaction();
 
@@ -88,9 +93,7 @@ class publication
 
             if(file_put_contents($destination_path, base64_decode($base64_content)) === false)
             {
-                return [
-                    "status" => "server_error"
-                ];
+                return http\internal_error();
             }
 
             //Ajout dans la table Fichiers
@@ -105,7 +108,7 @@ class publication
             if($res === false)
             {
                 $db->rollback();
-                return ["status" => "insertion_error"];
+                return http\internal_error();
             }
 
             $file_id = $db->get_last_insert_id(); //Récupération de l'id généré par l'ajout de la ligne dans Files
@@ -209,6 +212,224 @@ class publication
         $db->commit();
 
         return http\success(["id" => $publication_id]);
+    }
+
+    /**
+     * Le premier paramètre est l'id de la publication à modifier.
+     * Le second est un tableau associatif comme pour add_publication.
+     *
+     * Attention : le comportement de la clé "fichier" est différent :
+     * ===========  - si elle n'est pas définie, le fichier actuel est supprimé (la publication n'a plus de fichier associé)
+     *              - si elle est définie à un nouveau fichier (même structure que add_publication) alors un nouveau fichier est uploadé et affecté
+     *              - si elle est définie à "garder", le fichier est conservé (pas besoin de le réenvoyer !)
+     *
+     * Retourne :
+     * ==========
+     * un code d'erreur HTTP
+     */
+    public static function update_publication($id, $publication)
+    {
+        if(!user_management::check_connection())
+        {
+            return http\unauthorized();
+        }
+
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return http\internal_error();
+        }
+
+        //On vérifie si la publication existe
+        if($db->query(
+                "SELECT p.* FROM Publications AS p WHERE p.id = :id;",
+                [
+                    "id" => $id
+                ]
+            )->rowCount() == 0)
+        {
+            return http\not_found();
+        }
+
+        //On vérifie si l'utilisateur est un auteur de la publication et donc s'il a le droit de la modifier
+        $current_user_id = user_management::get_current_logged_user()["id"];
+        if($db->query(
+                "SELECT ra.* FROM RelationsAuteurs AS ra WHERE ra.publication_id = :id AND ra.auteur_id = :user_id;",
+                [
+                    "id" => $id,
+                    "user_id" => $current_user_id
+                ]
+            )->rowCount() == 0)
+        {
+            return http\forbidden();
+        }
+
+        if(!isset($publication["titre"]) or !isset($publication["statut"]) or !isset($publication["categorie"]))
+        {
+            return http\bad_request();
+        }
+
+        //Début de la transaction SQL
+        $db->begin_transaction();
+
+        //Décodage du fichier (qui était en base64)
+        $file_id = null;
+        if(isset($publication["fichier"]))
+        {
+            if($publication["fichier"] !== "garder")
+            {
+                //L'utilisateur souhaite mettre à jour la publication avec un nouveau fichier
+                $file_info = $publication["fichier"];
+                $original_name = $file_info["filename"];
+                $base64_content = $file_info["base64"];
+                $file_size = $file_info["filesize"];
+                $file_type = $file_info["filetype"];
+
+                $destination_path =
+                    self::$upload_dir_path."/".urlencode($_SESSION["id"])."_".hash("sha256", $base64_content);
+
+                if(file_put_contents($destination_path, base64_decode($base64_content)) === false)
+                {
+                    return http\internal_error();
+                }
+
+                //Ajout dans la table Fichiers
+                $res = $db->query(
+                    "insert into Fichiers (nom_original, chemin_server) values (:original_name, :path_on_server)",
+                    [
+                        "original_name" => $original_name,
+                        "path_on_server" => $destination_path
+                    ]
+                );
+
+                if($res === false)
+                {
+                    $db->rollback();
+                    return http\internal_error();
+                }
+
+                $file_id = $db->get_last_insert_id(); //Récupération de l'id généré par l'ajout de la ligne dans Files
+            }
+            else
+            {
+                //L'utilisateur souhaite conserver l'ancien fichier de la publication associé
+                $res = $db->query(
+                    "SELECT fichier_id FROM Publications WHERE id=:id;",
+                    [
+                        "id" => $id
+                    ]
+                );
+                $file_id = $res->fetch(PDO::FETCH_ASSOC)["fichier_id"];
+            }
+        }
+
+        //Si une publication a été publiée dans un journal
+        $journal_id = null;
+        $journal_edition_id = null;
+        if(isset($publication["journal_titre"]) and isset($publication["journal_editeur"]))
+        {
+            //Récupération de l'id du journal (ou création du journal si besoin)
+            if(($journal_id = self::get_journal_id($publication["journal_titre"], $publication["journal_editeur"])) === false)
+            {
+                //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
+                $db->rollback();
+                return http\internal_error();
+            }
+        }
+        else if(isset($publication["journal_id"]))
+        {
+            $journal_id = $publication["journal_id"];
+        }
+
+        //Si une publication a été présentée lors d'une conférence
+        $conference_id = null;
+        if(isset($publication["conference_nom"]) and isset($publication["conference_date"]) and isset($publication["conference_lieu"]))
+        {
+            //Récupération de l'id du journal (ou création du journal si besoin)
+            if(($conference_id = self::get_conference_id($publication["conference_nom"], $publication["conference_date"], $publication["conference_lieu"])) === false)
+            {
+                //Il y a eu une erreur lors de l'accès à la bdd, on stoppe tout !
+                $db->rollback();
+                return http\internal_error();
+            }
+        }
+        else if(isset($publication["conference_id"]))
+        {
+            $conference_id = $publication["conference_id"];
+        }
+
+        //Ajout de la publication
+        $res = $db->query(
+            "UPDATE Publications SET titre=:titre, description=:description, statut=:statut, categorie=:categorie, annee_publication=:annee_publication,
+            journal_id=:journal_id, journal_volume=:journal_volume, pages=:pages, conference_id=:conference_id, fichier_id=:fichier_id
+            WHERE id = :id;",
+            [
+                "id" => $id,
+                "titre" => $publication["titre"],
+                "description" => (isset($publication["description"]) ? $publication["description"] : null),
+                "statut" => $publication["statut"],
+                "categorie" => $publication["categorie"],
+                "annee_publication" => (isset($publication["annee_publication"]) ? $publication["annee_publication"] : null),
+                "journal_id" => $journal_id,
+                "journal_volume" => (isset($publication["journal_volume"]) ? $publication["journal_volume"] : null),
+                "pages" => (isset($publication["pages"]) ? $publication["pages"] : null),
+                "conference_id" => $conference_id,
+                "fichier_id" => $file_id
+            ]
+        );
+
+        if($res === false)
+        {
+            $db->rollback();
+            return http\internal_error();
+        }
+
+        //On enlève tous les auteurs pour les réajouter dans le bon ordre
+        $db->query(
+            "DELETE FROM RelationsAuteurs WHERE publication_id=:id",
+            [
+                "id" => $id
+            ]
+        );
+
+        //Ajout des auteurs
+        for($i = 0; $i < count($publication["auteurs"]); $i++)
+        {
+            $auteur = $publication["auteurs"][$i];
+            if(isset($auteur["id"]))
+            {
+                $res = $db->query(
+                    "insert into RelationsAuteurs values (:publication_id, :numero, :auteur_id);",
+                    [
+                        "publication_id" => $id,
+                        "numero" => $i,
+                        "auteur_id" => $auteur["id"]
+                    ]
+                );
+                //Pas de traitement particulier en cas d'échec (id qui ne satisfait pas la contraite de clé étrangère)
+                //On ignorera l'auteur
+            }
+            else if(isset($auteur["nom"]) and isset($auteur["prenom"]) and isset($auteur["organisation"]) and isset($auteur["equipe"]))
+            {
+                $res = $db->query(
+                    "insert into RelationsAuteurs values (:publication_id, :numero, :auteur_id);",
+                    [
+                        "publication_id" => $id,
+                        "numero" => $i,
+                        "auteur_id" => self::get_author_id(
+                            $auteur["nom"],
+                            $auteur["prenom"],
+                            $auteur["organisation"],
+                            $auteur["equipe"]
+                        )
+                    ]
+                );
+            }
+        }
+
+        $db->commit();
+
+        return http\success();
     }
 
     public static function get_publications()
