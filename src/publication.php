@@ -681,8 +681,8 @@ class publication
         FROM Publications AS p
         LEFT JOIN Journaux AS j ON p.journal_id = j.id
         LEFT JOIN Conferences AS c ON p.conference_id = c.id
-        WHERE p.titre LIKE '%test%'
-        ORDER BY p.id;",
+        WHERE :field LIKE '%' || :keyword || '%'
+        ORDER BY :order",
         $params
         );
 
