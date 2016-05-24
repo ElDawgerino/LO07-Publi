@@ -9,7 +9,12 @@ app.factory('publi', [
         $http.get('publi').then(function(response){
             then({success: true, content: response.data});
         }, function(response){
-            then({success: false, error: "Erreur inconnue"});
+            if(repsone.status === 500){
+                then({success: false, error: "Erreur interne au serveur"});
+            }
+            else {
+                then({success: false, error: "Erreur inconnue"});
+            }
         });
     };
 
@@ -19,6 +24,9 @@ app.factory('publi', [
             }, function(response){
                 if(response.status === 404) {
                     then({success: false, error: "Publication n°" + id + " introuvable !"});
+                }
+                else if(response.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
                 }
                 else {
                     then({success: false, error: "Erreur inconnue"});
@@ -33,6 +41,9 @@ app.factory('publi', [
             }, function(response){
                 if(response.status === 401){
                     then({success: false, error: "Il faut être connecté pour ajouter une nouvelle publication !"});
+                }
+                else if(response.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
                 }
                 else{
                     then({success: false, error: "Impossible d'ajouter la publication : erreur inconnue"});
@@ -50,14 +61,28 @@ app.factory('publi', [
     };
 
     publi.search = function(params, then){
-
+        $http.post('recherche', params).then(function(response){
+            then({success: true, content: response.data.resultat});
+        }, function(response){
+            if(repsone.status === 500){
+                then({success: false, error: "Erreur interne au serveur"});
+            }
+            else {
+                then({success: false, error: "Erreur inconnue"});
+            }
+        });
     };
 
     publi.getAuteurs = function(then){
         $http.get('auteurs').then(function(response){
                 then({success: true, content: response.data.auteurs});
             }, function(response){
-                then({success: false, error: "Erreur inconnue"});
+                if(repsone.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
+                }
+                else {
+                    then({success: false, error: "Erreur inconnue"});
+                }
             }
         );
     };
@@ -66,7 +91,12 @@ app.factory('publi', [
         $http.get('journaux').then(function(response){
                 then({success: true, content: response.data.journaux});
             }, function(response){
-                then({success: false, error: "Erreur inconnue"});
+                if(repsone.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
+                }
+                else {
+                    then({success: false, error: "Erreur inconnue"});
+                }
             }
         );
     };
@@ -75,7 +105,12 @@ app.factory('publi', [
         $http.get('conferences').then(function(response){
                 then({success: true, content: response.data.conferences});
             }, function(response){
-                then({success: false, error: "Erreur inconnue"});
+                if(repsone.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
+                }
+                else {
+                    then({success: false, error: "Erreur inconnue"});
+                }
             }
         );
     };
@@ -88,7 +123,12 @@ app.factory('publi', [
                     then({success: false, error: "L'auteur n°" + id + " n'existe pas !"});
                 }
                 else{
-                    then({success: false, error: "Erreur inconnue"});
+                    if(repsone.status === 500){
+                        then({success: false, error: "Erreur interne au serveur"});
+                    }
+                    else {
+                        then({success: false, error: "Erreur inconnue"});
+                    }
                 }
             }
         );

@@ -306,3 +306,38 @@ app.controller('Profile', [
             }
         });
 }]);
+
+app.controller('Recherche', [
+    '$scope',
+    '$stateParams',
+    'publi',
+    function($scope, $stateParams, publi){
+        $scope.hasPublis = false;
+
+        //constructeur des fields
+        function f(l, v){
+            return({label: l, value: v});
+        }
+
+        $scope.fields = [f("Id", "p.id"), f("Titre", "p.titre"), f("Description", "p.description"), f("Statut", "p.statut"),
+                f("Année de publication", "p.annee_publication"), f("Titre du journal", "journal_titre"), f("Editeur du journal", "journal_editeur"),
+                f("Nom de la conférence", "conference_nom")];
+
+        $scope.search = function(){
+            publi.search($scope.params, function(response){
+                if(response.success){
+                    if(response.content.length){
+                        $scope.hasPublis = true;
+                        $scope.publis = response.content;
+                    }
+                    else{
+                        $scope.hasPublis = false;
+                    }
+                }
+                else{
+                    $scope.hasPublis = false;
+                    $scope.errors = status.error;
+                }
+            });
+        }
+}]);

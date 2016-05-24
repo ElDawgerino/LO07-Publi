@@ -39,7 +39,13 @@ app.config([
             url: '/profile/{id}',
             templateUrl: 'public/templates/profile.html',
             controller: 'Profile'
-        })
+        });
+
+        $stateProvider.state('recherche',{
+            url: '/recherche',
+            templateUrl: 'public/templates/recherche.html',
+            controller: 'Recherche'
+        });
 
         $urlRouterProvider.otherwise('home');
 }]);
