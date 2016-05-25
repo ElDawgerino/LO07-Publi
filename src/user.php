@@ -214,7 +214,8 @@ class user_management
             "last_name" => $user["nom"],
             "first_name" => $user["prenom"],
             "organisation" => $user["organisation"],
-            "team" => $user["equipe"]
+            "team" => $user["equipe"],
+            "admin" => $user["admin"]
         ];
 
         return http\success($response);

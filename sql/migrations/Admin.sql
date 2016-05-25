@@ -1,0 +1,1 @@
+ALTER TABLE utilisateurs ADD admin BOOLEAN DEFAULT FALSE;
