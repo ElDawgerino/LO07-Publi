@@ -48,6 +48,62 @@ app.controller('Home', [
         });
 }]);
 
+app.controller('NavBar', [
+    '$scope',
+    '$state',
+    '$rootScope',
+    'auth',
+    function($scope, $state, $rootScope, auth){
+        $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams, options){
+            auth.currentUser(function(status){
+                $scope.loggedIn = status.success;
+                if(status.success){
+                    $scope.username = status.username;
+                    $rootScope.id = status.id;
+                    $scope.isAdmin = status.admin;
+                }else{
+                    $scope.username = null;
+                }
+            });
+        });
+
+        $scope.goProfile = function(){
+            $state.go('profile', {id: $rootScope.id});
+        };
+
+        $scope.goPublish = function(){
+            $state.go('publish');
+        };
+
+        $scope.goHome = function(){
+            $state.go('home');
+        };
+
+        $scope.login = function(){
+            $state.go('login');
+        };
+
+        $scope.register = function(){
+            $state.go('register');
+        };
+
+        $scope.logout = function(){
+            auth.logout(function(status){
+                $scope.loggedIn = !status.success;
+                $scope.isAdmin = !status.success;
+                $state.go('home');
+            });
+        };
+
+        $scope.goRecherche = function(){
+            $state.go('recherche');
+        };
+
+        $scope.goAdmin = function(){
+            $state.go('admin');
+        };
+}]);
 
 app.controller('Register', [
     '$scope',
@@ -106,57 +162,6 @@ app.controller('Login',[
                 }
             });
         };
-}]);
-
-app.controller('NavBar', [
-    '$scope',
-    '$state',
-    '$rootScope',
-    'auth',
-    function($scope, $state, $rootScope, auth){
-        $rootScope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams, options){
-            auth.currentUser(function(status){
-                $scope.loggedIn = status.success;
-                if(status.success){
-                    $scope.username = status.username;
-                    $rootScope.id = status.id;
-                }else{
-                    $scope.username = null;
-                }
-            });
-        });
-
-        $scope.goProfile = function(){
-            $state.go('profile', {id: $rootScope.id});
-        };
-
-        $scope.goPublish = function(){
-            $state.go('publish');
-        };
-
-        $scope.goHome = function(){
-            $state.go('home');
-        };
-
-        $scope.login = function(){
-            $state.go('login');
-        };
-
-        $scope.register = function(){
-            $state.go('register');
-        };
-
-        $scope.logout = function(){
-            auth.logout(function(status){
-                $scope.loggedIn = !status.success;
-                $state.go('home');
-            });
-        };
-
-        $scope.goRecherche = function(){
-            $state.go('recherche');
-        }
 }]);
 
 app.controller('Publish', [

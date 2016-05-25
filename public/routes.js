@@ -35,16 +35,22 @@ app.config([
             controller: 'Publi',
         });
 
-        $stateProvider.state('profile',{
+        $stateProvider.state('profile', {
             url: '/profile/{id}',
             templateUrl: 'public/templates/profile.html',
             controller: 'Profile'
         });
 
-        $stateProvider.state('recherche',{
+        $stateProvider.state('recherche', {
             url: '/recherche',
             templateUrl: 'public/templates/recherche.html',
             controller: 'Recherche'
+        });
+
+        $stateProvider.state('admin', {
+            url: '/admin',
+            templateUrl: 'public/templates/admin.html',
+            controlelr: 'Admin'
         });
 
         $urlRouterProvider.otherwise('home');

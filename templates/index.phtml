@@ -27,11 +27,15 @@
           <li class="align-righ">
               <button ng-click="goRecherche()" ng-class="{ active: $state.includes('recherche') }">Recherche</button>
           </li>
+
           <li class="align-right" ng-show="loggedIn">
               <button ng-click="logout()">Déconnexion</button>
           </li>
           <li class="align-right" ng-show="loggedIn">
               <button ng-click="goProfile()">{{username}}</button>
+          </li>
+          <li class="align-right" ng-show="isAdmin">
+              <button ng-click="goAdmin()">Administration</button>
           </li>
           <li class="align-right" ng-hide="loggedIn">
               <button ng-click="register()" ng-class="{ active: $state.includes('register') }">Inscription</button>

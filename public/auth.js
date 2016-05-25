@@ -71,7 +71,8 @@ app.factory('auth', [
                             last_name: response.data.last_name,
                             first_name: response.data.first_name,
                             organisation: response.data.organisation,
-                            team: response.data.team
+                            team: response.data.team,
+                            admin: response.data.admin
                         });
                     }, function(response){
                         then({success: false, error: "Erreur inconnue !"});
