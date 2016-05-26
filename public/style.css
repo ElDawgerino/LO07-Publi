@@ -106,7 +106,7 @@ footer {
 
 h1 {
     color: rgb(40, 40, 40);
-    /*letter-spacing: -3px;*/
+    letter-spacing: -3px;
     font-family: 'Lato', sans-serif;
     font-size: 100px;
     font-weight: 200;

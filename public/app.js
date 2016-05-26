@@ -61,7 +61,7 @@ app.controller('NavBar', [
                 if(status.success){
                     $scope.username = status.username;
                     $rootScope.id = status.id;
-                    $scope.isAdmin = status.admin;
+                    $scope.isAdmin = (status.admin === 1);
                 }else{
                     $scope.username = null;
                 }

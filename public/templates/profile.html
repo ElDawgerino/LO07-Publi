@@ -1,16 +1,12 @@
-<h1>{{username}}</h1>
 <div ng-if='errors && errors != ""'>
     Echec de la connexion : {{errors}}
 </div>
 
-<h3>Identité : </h3>
-<ul>
-    <li>{{auteur.prenom}} {{auteur.nom}}</li>
-    <li>{{auteur.organisation}}</li>
-    <li>{{auteur.equipe}}</li>
-</ul>
-<br>
-<h3>Publications : </h3>
+<h1>{{auteur.prenom}} {{auteur.nom}}</h1>
+<p><b>Organisation :</b> {{auteur.organisation}}</p>
+<p><b>Equipe :</b> {{auteur.equipe}}</p>
+
+<h2>Publications de cet auteur</h2>
 <table ng-show="hasPublis">
   <tr>
     <th>Titre</th>
@@ -27,3 +23,6 @@
     <td>{{publi.annee_publication}}</td>
   </tr>
 </table>
+<p ng-hide="hasPublis">
+    Cet auteur n'a pas de publications.
+</p>
