@@ -674,16 +674,15 @@ class publication
             return http\internal_error();
         }
 
+        //Note : prepare ne marche pas avec des colonnes en paramètre
+        $query = $db->build_search_query($params["field"]);
+
         $result = $db->query(
-        "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication, p.journal_volume, p.pages,
-        j.titre as journal_titre, j.editeur as journal_editeur,
-        c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
-        FROM Publications AS p
-        LEFT JOIN Journaux AS j ON p.journal_id = j.id
-        LEFT JOIN Conferences AS c ON p.conference_id = c.id
-        WHERE :field LIKE '%' || :keyword || '%'
-        ORDER BY :order",
-        $params
+            $query,
+            [
+                "keyword" => $params["keyword"],
+                "order" => $params["order"]
+            ]
         );
 
         $result_lines = $result->fetchAll(PDO::FETCH_ASSOC);

@@ -347,5 +347,5 @@ app.controller('Recherche', [
                     $scope.errors = status.error;
                 }
             });
-        }
+        };
 }]);
