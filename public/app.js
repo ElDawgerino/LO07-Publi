@@ -1,4 +1,4 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module', 'routes-module'])
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'angular.filter', 'naif.base64', 'publi-module', 'routes-module'])
 
 app.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -406,8 +406,14 @@ app.directive('projetListePublications', function(){
     return {
         restrict: 'E',
         scope: {
-            liste: '=liste'
+            liste: '=liste',
+            groupBy: '@groupBy',
+            orderBy: '@orderBy'
         },
-        templateUrl: 'public/templates/directives/listepublications.html'
+        templateUrl: 'public/templates/directives/listepublications.html',
+        controller: function($scope){
+            $scope.groupBy = angular.isDefined($scope.groupBy) ? $scope.groupBy : 'categorie';
+            $scope.orderBy = angular.isDefined($scope.orderBy) ? $scope.orderBy : '-annee_publication';
+        }
     };
 });

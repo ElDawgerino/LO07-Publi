@@ -1,17 +1,10 @@
-<table ng-show="liste.length > 0">
-  <tr>
-    <th>Titre</th>
-    <th>Description</th>
-    <th>Statut</th>
-    <th>Catégorie</th>
-    <th>Année</th>
-  </tr>
-  <tr ng-repeat="publi in liste">
-    <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
-    <td>{{publi.description}}</td>
-    <td>{{publi.statut}}</td>
-    <td>{{publi.categorie}}</td>
-    <td>{{publi.annee_publication}}</td>
-  </tr>
-</table>
-<p ng-show="liste.length == 0">Pas de publications.</p>
+<div class="projet-liste-publications">
+    <div class="group-by-box" ng-repeat="(orderByLabel, subliste) in liste | orderBy: orderBy | groupBy: groupBy">
+        <h3>{{orderByLabel}}</h3>
+        <div class="publication-box" ng-repeat="publi in subliste | orderBy: orderBy">
+            <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
+            <div class="publication-infos">{{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}</div>
+        </div>
+    </div>
+    <p ng-show="liste.length == 0">Pas de publications.</p>
+</div>

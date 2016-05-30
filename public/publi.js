@@ -64,7 +64,7 @@ app.factory('publi', [
         $http.post('recherche', params).then(function(response){
             then({success: true, content: response.data.resultat});
         }, function(response){
-            if(repsone.status === 500){
+            if(reponse.status === 500){
                 then({success: false, error: "Erreur interne au serveur"});
             }
             else {

@@ -11,4 +11,4 @@
     <select type="text" ng-model="params.order" ng-options="field.value as field.label for field in fields" ng-init="params.order = fields[0].value"></select>
     <button type="button" ng-click=search()>Rechercher</button>
 </form>
-<projet-liste-publications liste="publis"></projet-liste-publications>
+<projet-liste-publications liste="publis" order-by=""></projet-liste-publications>
