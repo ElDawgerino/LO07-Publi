@@ -1,9 +1,11 @@
 <div class="projet-liste-publications">
     <div class="group-by-box" ng-repeat="(orderByLabel, subliste) in liste | orderBy: orderBy | groupBy: groupBy">
-        <h3>{{orderByLabel}}</h3>
-        <div class="publication-box" ng-repeat="publi in subliste | orderBy: orderBy">
-            <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
-            <div class="publication-infos">{{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}</div>
+        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>{{orderByLabel}}</h3>
+        <div class="group-publication-list">
+            <div class="publication-box" ng-repeat="publi in subliste | orderBy: orderBy">
+                <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
+                <div class="publication-infos">{{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}</div>
+            </div>
         </div>
     </div>
     <p ng-show="liste.length == 0">Pas de publications.</p>

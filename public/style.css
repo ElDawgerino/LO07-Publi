@@ -200,3 +200,30 @@ form select:hover {
 .expand {
     width: 100%
 }
+
+.projet-liste-publications {
+    margin: 0px;
+    padding: 5px;
+}
+
+.projet-liste-publications .group-by-box {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid rgb(220, 220, 220);
+}
+
+.projet-liste-publications .group-by-box h3 {
+    padding: 5px;
+    background-color: rgb(220, 220, 220);
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.projet-liste-publications .group-by-box .group-publication-list {
+    transition: height 0.5s;
+    overflow: hidden;
+}
+
+.projet-liste-publications .group-by-box .publication-box {
+    margin: 10px;
+}
