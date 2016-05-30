@@ -8,22 +8,8 @@
 
 <div ng-show="hasPublis">
 <h2>Publications de cet auteur</h2>
-    <table>
-        <tr>
-            <th>Titre</th>
-            <th>Description</th>
-            <th>Statut</th>
-            <th>Catégorie</th>
-            <th>Année</th>
-        </tr>
-        <tr ng-repeat="publi in publis">
-            <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
-            <td>{{publi.description}}</td>
-            <td>{{publi.statut}}</td>
-            <td>{{publi.categorie}}</td>
-            <td>{{publi.annee_publication}}</td>
-        </tr>
-    </table>
+    <projet-liste-publications liste="publis"></projet-liste-publications>
+    
 <h2>Co-Auteurs :</h2>
     <table>
         <tr>

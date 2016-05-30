@@ -11,20 +11,4 @@
     <select type="text" ng-model="params.order" ng-options="field.value as field.label for field in fields" ng-init="params.order = fields[0].value"></select>
     <button type="button" ng-click=search()>Rechercher</button>
 </form>
-<table ng-show="hasPublis">
-  <tr>
-    <th>Titre</th>
-    <th>Description</th>
-    <th>Statut</th>
-    <th>Catégorie</th>
-    <th>Année</th>
-  </tr>
-  <tr ng-repeat="publi in publis">
-    <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
-    <td>{{publi.description}}</td>
-    <td>{{publi.statut}}</td>
-    <td>{{publi.categorie}}</td>
-    <td>{{publi.annee_publication}}</td>
-  </tr>
-</table>
-<p ng-hide="hasPublis">Il n'y pour le moment aucune publication sur le site.</p>
+<projet-liste-publications liste="publis"></projet-liste-publications>
