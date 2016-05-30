@@ -6,23 +6,36 @@
 <p><b>Organisation :</b> {{auteur.organisation}}</p>
 <p><b>Equipe :</b> {{auteur.equipe}}</p>
 
+<div ng-show="hasPublis">
 <h2>Publications de cet auteur</h2>
-<table ng-show="hasPublis">
-  <tr>
-    <th>Titre</th>
-    <th>Description</th>
-    <th>Statut</th>
-    <th>Catégorie</th>
-    <th>Année</th>
-  </tr>
-  <tr ng-repeat="publi in publis">
-    <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
-    <td>{{publi.description}}</td>
-    <td>{{publi.statut}}</td>
-    <td>{{publi.categorie}}</td>
-    <td>{{publi.annee_publication}}</td>
-  </tr>
-</table>
+    <table>
+        <tr>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Statut</th>
+            <th>Catégorie</th>
+            <th>Année</th>
+        </tr>
+        <tr ng-repeat="publi in publis">
+            <td><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></td>
+            <td>{{publi.description}}</td>
+            <td>{{publi.statut}}</td>
+            <td>{{publi.categorie}}</td>
+            <td>{{publi.annee_publication}}</td>
+        </tr>
+    </table>
+<h2>Co-Auteurs :</h2>
+    <table>
+        <tr>
+            <th>Co-Auteurs</th>
+            <th>Nombre de co-publications</th>
+        </tr>
+        <tr ng-repeat="coAuteur in coAuteurs | unique: 'id'">
+            <th>{{coAuteur.prenom}} {{coAuteur.nom}}</th>
+            <th>{{countCoPublis(coAuteur.id)}}</th>
+        <tr>
+    <table>
+</div>
 <p ng-hide="hasPublis">
     Cet auteur n'a pas de publications.
 </p>

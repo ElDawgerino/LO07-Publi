@@ -1,4 +1,6 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module', 'routes-module']).run(function ($rootScope, $state, $stateParams) {
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'naif.base64', 'publi-module', 'routes-module'])
+
+app.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 });
@@ -26,6 +28,23 @@ app.filter('bytes', function() {
         }
         return (bytes / Math.pow(1024, measure)).toFixed(precision) + units[measure];
     }
+});
+
+app.filter('unique', function() {
+   return function(collection, keyname) {
+      var output = [],
+          keys = [];
+
+      angular.forEach(collection, function(item) {
+          var key = item[keyname];
+          if(keys.indexOf(key) === -1) {
+              keys.push(key);
+              output.push(item);
+          }
+      });
+
+      return output;
+   };
 });
 
 app.controller('Home', [
@@ -299,6 +318,7 @@ app.controller('Profile', [
     'publi',
     function($scope, $stateParams, publi){
         $scope.hasPublis = false;
+        $scope.coAuteurs = [];
 
         publi.getAuteur($stateParams.id, function(response){
             if(response.success){
@@ -306,6 +326,22 @@ app.controller('Profile', [
                 if(response.publis.length){
                     $scope.publis = response.publis;
                     $scope.hasPublis = true;
+
+                    //Récupération des co-auteurs
+                    for(var i = 0; i < $scope.publis.length; i++){
+                        publi.get($scope.publis[i].id, function(response){
+                            if(response.success){
+                                for(var j = 0; j < response.content.auteurs.length; j++){
+                                    if(response.content.auteurs[j].id != $stateParams.id){
+                                        $scope.coAuteurs.push(response.content.auteurs[j]);
+                                    }
+                                }
+                            } else {
+                                $scope.errors = response.error;
+                            }
+                        });
+                    }
+
                 } else {
                     $scope.hasPublis = false;
                 }
@@ -314,6 +350,16 @@ app.controller('Profile', [
                 $scope.errors = response.error;
             }
         });
+
+        $scope.countCoPublis = function(id){
+            var result = 0;
+            for(var i = 0; i<$scope.coAuteurs.length; i++){
+                if($scope.coAuteurs[i].id == id){
+                    result++
+                }
+            }
+            return result;
+        };
 }]);
 
 app.controller('Recherche', [
