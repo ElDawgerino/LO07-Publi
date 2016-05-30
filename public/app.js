@@ -395,3 +395,19 @@ app.controller('Recherche', [
             });
         };
 }]);
+
+/**
+ * Directive pour afficher une liste de publications
+ *
+ * Paramètres :
+ * - liste = la variable contenant une liste des publications à afficher
+ */
+app.directive('projetListePublications', function(){
+    return {
+        restrict: 'E',
+        scope: {
+            liste: '=liste'
+        },
+        templateUrl: 'public/templates/directives/listepublications.html'
+    };
+});
