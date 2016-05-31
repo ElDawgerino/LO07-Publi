@@ -80,7 +80,7 @@ app.controller('NavBar', [
                 if(status.success){
                     $scope.username = status.username;
                     $rootScope.id = status.id;
-                    $scope.isAdmin = (status.admin === 1);
+                    $scope.isAdmin = (status.admin == 1);
                 }else{
                     $scope.username = null;
                 }
@@ -110,7 +110,7 @@ app.controller('NavBar', [
         $scope.logout = function(){
             auth.logout(function(status){
                 $scope.loggedIn = !status.success;
-                $scope.isAdmin = !status.success;
+                $scope.isAdmin = false;
                 $state.go('home');
             });
         };
