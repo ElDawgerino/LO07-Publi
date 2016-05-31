@@ -8,13 +8,9 @@ var Folding = {
 
         if(!folded && folded !== "false"){
             folded = "false";
-
-            //On stocke la taille à la première utilisation
-            titleObject.dataset.originalHeight = groupPublicationsList.clientHeight;
-            groupPublicationsList.style.height = titleObject.dataset.originalHeight; //Et on l'affecte pour la future transition
         }
 
-        groupPublicationsList.style.height = (folded === "true" ? titleObject.dataset.originalHeight : "0");
+        groupPublicationsList.style.display = (folded === "true" ? "" : "none");
         arrowSpan.innerHTML = (folded === "true" ? "⏷" : "⏵");
 
         titleObject.dataset.folded = (folded === "true" ? "false" : "true");

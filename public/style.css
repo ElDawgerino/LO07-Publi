@@ -203,27 +203,56 @@ form select:hover {
 
 .projet-liste-publications {
     margin: 0px;
-    padding: 5px;
+    padding: 0px;
 }
 
-.projet-liste-publications .group-by-box {
+.group-by-box {
     margin: 0px;
     padding: 0px;
     border: 1px solid rgb(220, 220, 220);
 }
 
-.projet-liste-publications .group-by-box h3 {
+.group-by-box h3 {
     padding: 5px;
     background-color: rgb(220, 220, 220);
     margin-top: 0px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
+    border-bottom: 1px solid rgb(180, 180, 180);
+
+    transition: background-color 0.2s;
 }
 
-.projet-liste-publications .group-by-box .group-publication-list {
-    transition: height 0.5s;
+.group-by-box h3:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.group-publication-list {
     overflow: hidden;
 }
 
-.projet-liste-publications .group-by-box .publication-box {
-    margin: 10px;
+.publication-box {
+    padding: 10px;
+    background-color: white;
+
+    transition: background-color 0.2s;
+}
+
+.publication-box:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.publication-box .publication-title {
+    font-weight: bold;
+}
+
+.publication-box .publication-infos {
+    font-size: 10.5pt;
+}
+
+.publication-box a {
+    color: rgb(80, 80, 180);
+}
+
+.publication-box a:hover {
+    color: rgb(100, 100, 255);
 }
