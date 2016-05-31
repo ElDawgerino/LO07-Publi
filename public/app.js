@@ -288,10 +288,12 @@ app.controller('Publish', [
 app.controller('Publi', [
     '$scope',
     '$stateParams',
+    '$rootScope',
     'publi',
-    function($scope, $stateParams, publi){
+    function($scope, $stateParams, $rootScope, publi){
         $scope.hasJournal = false;
         $scope.hasConference = false;
+        $scope.isAuteur = false;
 
         $scope.download = function(){
             window.open("download/" + $scope.publi.id, '_blank');
@@ -306,10 +308,19 @@ app.controller('Publi', [
                 if(response.content.conference_nom != null){
                     $scope.hasConference = true;
                 }
+                for(var i=0; i<$scope.publi.auteurs.length; i++){
+                    if($scope.publi.auteurs[i].id == $rootScope.id){
+                        $scope.isAuteur = true;
+                    }
+                }
             } else {
                 $scope.errors = response.error;
             }
-        })
+        });
+
+        $scope.goUpdate = function(){
+            $state.go('update', {id: $stateParams.id});
+        };
 }]);
 
 app.controller('Profile', [
