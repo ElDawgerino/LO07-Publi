@@ -289,8 +289,9 @@ app.controller('Publi', [
     '$scope',
     '$stateParams',
     '$rootScope',
+    '$state',
     'publi',
-    function($scope, $stateParams, $rootScope, publi){
+    function($scope, $stateParams, $rootScope, $state, publi){
         $scope.hasJournal = false;
         $scope.hasConference = false;
         $scope.isAuteur = false;
@@ -405,6 +406,36 @@ app.controller('Recherche', [
                 }
             });
         };
+}]);
+
+app.controller('Update', [
+    '$scope',
+    '$stateParams',
+    '$rootScope',
+    'publi',
+    function($scope, $stateParams, $rootScope, publi){
+        $scope.hasJournal = false;
+        $scope.hasConference = false;
+        $scope.isAuteur = false;
+
+        publi.get($stateParams.id, function(response){
+            if(response.success){
+                $scope.publi = response.content;
+                if(response.content.journal_titre != null){
+                    $scope.hasJournal = true;
+                }
+                if(response.content.conference_nom != null){
+                    $scope.hasConference = true;
+                }
+                for(var i=0; i<$scope.publi.auteurs.length; i++){
+                    if($scope.publi.auteurs[i].id == $rootScope.id){
+                        $scope.isAuteur = true;
+                    }
+                }
+            } else {
+                $scope.errors = response.error;
+            }
+        });
 }]);
 
 /**

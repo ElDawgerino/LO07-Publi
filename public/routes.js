@@ -53,5 +53,11 @@ app.config([
             controlelr: 'Admin'
         });
 
+        $stateProvider.state('update', {
+            url: '/update/{id}',
+            templateUrl : 'public/templates/publish.html',
+            controller: 'Update'
+        });
+
         $urlRouterProvider.otherwise('home');
 }]);

@@ -42,9 +42,9 @@
   <br><br>
 
   <h3>Journal</h3>
-  <label for="isJournal" class="no-line-return">La publication fait partie d'un journal : </label>
-  <input type="checkbox" id="isJournal" class="no-expand" ng-model="isJournal"><br ng-show="isJournal">
-  <div ng-show="isJournal">
+  <label for="hasJournal" class="no-line-return">La publication fait partie d'un journal : </label>
+  <input type="checkbox" id="hasJournal" class="no-expand" ng-model="hasJournal"><br ng-show="hasJournal">
+  <div ng-show="hasJournal">
     <label for="journal_titre">Titre : </label>
     <input type="text" id="journal_titre" ng-model="publi.journal_titre" list="liste-titre-journaux" ng-change="associateJournal()"><br>
     <label for="journal_editeur">Editeur : </label>
@@ -60,10 +60,10 @@
   <br><br>
 
   <h3>Conférence</h3>
-  <label for="isConf" class="no-line-return">La publication est liée à une conférence : </label>
-  <input type="checkbox" id="isConf" class="no-expand" ng-model="isConf">
-  <div ng-show="isConf" ng-show="isConf">
-    <br ng-show="isConf">
+  <label for="hasConference" class="no-line-return">La publication est liée à une conférence : </label>
+  <input type="checkbox" id="hasConference" class="no-expand" ng-model="hasConference">
+  <div ng-show="hasConference" ng-show="hasConference">
+    <br ng-show="hasConference">
     <label for="conference_nom">Nom : </label>
     <input type="text" id="conference_nom" ng-model="publi.conference_nom" list="liste-nom-conferences" ng-change="associateConf()"><br >
     <label for="conference_date">Date : </label>
