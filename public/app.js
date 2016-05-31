@@ -411,12 +411,85 @@ app.controller('Recherche', [
 app.controller('Update', [
     '$scope',
     '$stateParams',
+    '$state',
     '$rootScope',
     'publi',
-    function($scope, $stateParams, $rootScope, publi){
+    function($scope, $stateParams, $state, $rootScope, publi){
         $scope.hasJournal = false;
         $scope.hasConference = false;
         $scope.isAuteur = false;
+
+        $scope.publi = {};
+        $scope.publi.auteurs = [];
+        $scope.auteur = {};
+        $scope.auteurs= [];
+        $scope.journaux = [];
+        $scope.conferences = [];
+
+        publi.getAuteurs(function(status){
+            if(status.success){
+                $scope.auteurs = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
+            }
+        });
+
+        publi.getJournaux(function(status){
+            if(status.success){
+                $scope.journaux = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
+            }
+        });
+
+        publi.getConferences(function(status){
+            if(status.success){
+                $scope.conferences = status.content;
+            } else if(status.message != "empty"){
+                $scope.errors = status.error;
+            }
+        });
+
+        $scope.associateAuteur = function(){
+            for(var i = 0; i < $scope.auteurs.length; i++){
+                if($scope.auteurs[i].nom == $scope.auteur.nom){
+                    $scope.auteur.prenom = $scope.auteurs[i].prenom;
+                    $scope.auteur.organisation = $scope.auteurs[i].organisation;
+                    $scope.auteur.equipe = $scope.auteurs[i].equipe;
+                    return;
+                }
+            }
+        };
+
+        $scope.associateJournal = function(){
+            for(var i = 0; i < $scope.journaux.length; i++){
+                if($scope.journaux[i].titre == $scope.publi.journal_titre){
+                    $scope.publi.journal_editeur = $scope.journaux[i].editeur;
+                }
+            }
+        };
+
+        $scope.associateConf = function(){
+            for(var i = 0; i < $scope.conferences.length; i++){
+                if($scope.conferences[i].nom == $scope.publi.conference_nom){
+                    $scope.publi.conference_lieu = $scope.conferences[i].lieu;
+                    $scope.publi.conference_date = $scope.conferences[i].date_conference;
+                }
+            }
+        };
+
+        $scope.addAuteur = function(){
+          $scope.publi.auteurs.push({
+            prenom : $scope.auteur.prenom,
+            nom : $scope.auteur.nom,
+            organisation : $scope.auteur.organisation,
+            equipe : $scope.auteur.equipe
+          });
+        };
+
+        $scope.removeAuteur = function(index){
+          $scope.publi.auteurs.splice(index, 1);
+        };
 
         publi.get($stateParams.id, function(response){
             if(response.success){
@@ -436,6 +509,16 @@ app.controller('Update', [
                 $scope.errors = response.error;
             }
         });
+
+        $scope.update = function(){
+            publi.put($stateParams.id, $scope.publi, function(response){
+                if(response.success){
+                    $state.go('publi', {id: response.id});
+                } else {
+                    $scope.errors = response.error;
+                }
+            });
+        };
 }]);
 
 /**

@@ -57,7 +57,19 @@ app.factory('publi', [
     };
 
     publi.put = function(id, content, then){
-
+        $http.put('publi/' + id, content).then(function(response){
+            then({success: true, id: response.data.id});
+        }, function(response){
+            if(response.status === 401){
+                then({success: false, error: "Vous n'êtes pas autorisé à mettre à jour cette publication !"});
+            }
+            else if(response.status === 500){
+                then({success: false, error: "Erreur interne au serveur"});
+            }
+            else{
+                then({success: false, error: "Impossible d'ajouter la publication : erreur inconnue"});
+            }
+        });
     };
 
     publi.search = function(params, then){

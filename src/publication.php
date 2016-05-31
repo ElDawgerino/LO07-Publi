@@ -429,7 +429,8 @@ class publication
 
         $db->commit();
 
-        return http\success();
+        $data["id"] = $id;
+        return http\success($data);
     }
 
     public static function get_publications()
