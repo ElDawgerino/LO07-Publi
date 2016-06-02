@@ -162,7 +162,7 @@ $app->get('/compte/{id}', function ($request, $response, $args) {
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {
-  //TODO : supprimer un compte
+  return build_response($response, user_management::delete_user($args['id']));
 });
 
 $app->get('/anomalies', function ($request, $response, $args) {

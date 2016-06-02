@@ -76,9 +76,9 @@
   </datalist>
   <br><br>
 
-        <h3>Upload</h3>
-        <label for="file">Fichier : </label>
-        <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')"><br>
+    <h3>Upload</h3>
+    <label for="file">Fichier : </label>
+    <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')"><br>
 
     <div ng-show="$state.includes('publish')">
         <button ng-click="publish()">Publier</button>

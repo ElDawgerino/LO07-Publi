@@ -22,7 +22,7 @@ class user_management
         //Pour les tests seulement
 
         $res = $db->query(
-            "select id, mdp from Utilisateurs where login = :username",
+            "select id, mdp, admin from Utilisateurs where login = :username",
             array('username' => $username)
         );
 
@@ -35,6 +35,7 @@ class user_management
             // => pas besoin de token donc.
             $_SESSION["connected"] = true;
             $_SESSION["id"] = $user_line["id"];
+            $_SESSION["admin"] = $user_line["admin"];
             //TODO: Récupérer les droits de l'utilisateur et autres infos
 
             return $response;
@@ -155,6 +156,15 @@ class user_management
         }
     }
 
+    public static function isAdmin(){
+        if(isset($_SESSION["admin"]) && $_SESSION["admin"] == 1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public static function get_users()
     {
         $db = database_factory::get_db();
@@ -219,5 +229,30 @@ class user_management
         ];
 
         return http\success($response);
+    }
+
+    public static function delete_user($id){
+        $db = database_factory::get_db();
+        if(!$db->is_ok())
+        {
+            return http\internal_error();
+        }
+
+        if(!user_management::check_connection())
+        {
+            return http\unauthorized();
+        }
+        else if(!($_SESSION["id"] == $id || $_SESSION["admin"] == 1)){
+            return http\unauthorized();
+        }
+
+        $res = $db->query(
+            "DELETE FROM Utilisateurs WHERE id = :id",
+            array("id" => $id)
+        );
+
+        $response["id"] = $id;
+        return http\success($response);
+
     }
 }
