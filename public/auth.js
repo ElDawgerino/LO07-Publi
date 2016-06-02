@@ -64,16 +64,22 @@ app.factory('auth', [
         $http.get('compte').then(function(response){
                 $http.get('compte/' + response.data.id).then(
                     function(response){
-                        then({
-                            success: true,
-                            id: response.data.id,
-                            username: response.data.username,
-                            last_name: response.data.last_name,
-                            first_name: response.data.first_name,
-                            organisation: response.data.organisation,
-                            team: response.data.team,
-                            admin: response.data.admin
-                        });
+                        if(response.data.id == null){
+                            if(response.status === 401){
+                                then({success: false, error: "Compte inexistant !"});
+                            }
+                        } else {
+                            then({
+                                success: true,
+                                id: response.data.id,
+                                username: response.data.username,
+                                last_name: response.data.last_name,
+                                first_name: response.data.first_name,
+                                organisation: response.data.organisation,
+                                team: response.data.team,
+                                admin: response.data.admin
+                            });
+                        }
                     }, function(response){
                         then({success: false, error: "Erreur inconnue !"});
                     }
@@ -87,6 +93,19 @@ app.factory('auth', [
                 }
             }
         );
+    };
+
+    auth.delete = function(id, then){
+        $http.delete('compte/' + id).then(function(response){
+            then({success: true});
+        }, function(response){
+            if(response.status === 401){
+                then({success: false, error: "Vous n'avez pas le droit de suppimer ce compte !"});
+            }
+            else{
+                then({success: false, error: "Erreur inconnue !"});
+            }
+        });
     };
 
     return auth;

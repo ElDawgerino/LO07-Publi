@@ -326,11 +326,15 @@ app.controller('Publi', [
 
 app.controller('Profile', [
     '$scope',
+    '$state',
     '$stateParams',
+    '$rootScope',
     'publi',
-    function($scope, $stateParams, publi){
+    'auth',
+    function($scope, $state, $stateParams, $rootScope, publi, auth){
         $scope.hasPublis = false;
         $scope.coAuteurs = [];
+        $scope.isSelf = ($rootScope.id == $stateParams.id);
 
         publi.getAuteur($stateParams.id, function(response){
             if(response.success){
@@ -371,6 +375,16 @@ app.controller('Profile', [
                 }
             }
             return result;
+        };
+
+        $scope.delete = function(){
+            auth.delete($stateParams.id, function(response){
+                if(!response.success){
+                    $scope.errors = response.error;
+                } else {
+                    $state.go('home');
+                }
+            });
         };
 }]);
 

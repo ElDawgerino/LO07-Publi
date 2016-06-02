@@ -251,6 +251,10 @@ class user_management
             array("id" => $id)
         );
 
+        if($_SESSION["id"] == $id){
+                session_destroy();
+        }
+
         $response["id"] = $id;
         return http\success($response);
 
