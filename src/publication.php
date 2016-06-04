@@ -700,14 +700,14 @@ class publication
         }
 
         $annee = $db->query(
-        "SELECT annee_publication, COUNT(id) FROM `publications` GROUP BY annee_publication;",
+        "SELECT annee_publication, COUNT(id) AS nbrPublis FROM `publications` GROUP BY annee_publication;",
         []
         );
 
         $statsAnnee = $annee->fetchAll(PDO::FETCH_ASSOC);
 
         $auteurs = $db->query(
-        "SELECT nom, prenom, COUNT(publication_id) FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
+        "SELECT nom, prenom, COUNT(publication_id) AS nbrPublis FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
         []
         );
 
