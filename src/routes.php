@@ -170,7 +170,7 @@ $app->get('/anomalies', function ($request, $response, $args) {
 });
 
 $app->get('/stats', function ($request, $response, $args) {
-  //TODO : envoyer les stats
+  return build_response($response, publication::stats());
 });
 
 //Renvoie la liste des journaux en base de données

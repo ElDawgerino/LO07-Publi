@@ -692,4 +692,30 @@ class publication
             "resultat" => $result_lines
         ]);
     }
+
+    public static function stats(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return http\internal_error();
+        }
+
+        $annee = $db->query(
+        "SELECT annee_publication, COUNT(id) FROM `publications` GROUP BY annee_publication;",
+        []
+        );
+
+        $statsAnnee = $annee->fetchAll(PDO::FETCH_ASSOC);
+
+        $auteurs = $db->query(
+        "SELECT nom, prenom, COUNT(publication_id) FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
+        []
+        );
+
+        $statsAuteurs = $auteurs->fetchAll(PDO::FETCH_ASSOC);
+
+        return http\success([
+            "auteurs" => $statsAuteurs,
+            "annee" => $statsAnnee
+        ]);
+    }
 }
