@@ -718,4 +718,26 @@ class publication
             "annee" => $statsAnnee
         ]);
     }
+
+    public static function anomalies(){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return http\internal_error();
+        }
+
+        $doublons = $db->query(
+        "SELECT   COUNT(titre) AS nbr_doublon, titre
+        FROM     publications
+        GROUP BY titre
+        HAVING   COUNT(titre) > 1",
+        []
+        );
+
+        $doublonsLines = $doublons->fetchAll(PDO::FETCH_ASSOC);
+
+        return http\success([
+            "doublons" => $doublonsLines
+        ]);
+
+    }
 }

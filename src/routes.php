@@ -162,15 +162,15 @@ $app->get('/compte/{id}', function ($request, $response, $args) {
 });
 
 $app->delete('/compte/{id}', function ($request, $response, $args) {
-  return build_response($response, user_management::delete_user($args['id']));
+    return build_response($response, user_management::delete_user($args['id']));
 });
 
 $app->get('/anomalies', function ($request, $response, $args) {
-  //TODO : envoyer les anomalies
+    return build_response($response, publication::anomalies());
 });
 
 $app->get('/stats', function ($request, $response, $args) {
-  return build_response($response, publication::stats());
+    return build_response($response, publication::stats());
 });
 
 //Renvoie la liste des journaux en base de données
