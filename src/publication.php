@@ -729,14 +729,44 @@ class publication
         "SELECT   COUNT(titre) AS nbr_doublon, titre
         FROM     publications
         GROUP BY titre
-        HAVING   COUNT(titre) > 1",
+        HAVING   COUNT(titre) > 1;",
         []
         );
 
         $doublonsLines = $doublons->fetchAll(PDO::FETCH_ASSOC);
 
+        $publisAuteurs = $db->query(
+        "SELECT publication_id, nom, prenom, organisation
+        FROM `relationsauteurs`
+        JOIN auteurs ON auteurs.id = auteur_id
+        ORDER BY publication_id;",
+        []
+        );
+
+        $publisAuteursLines = $publisAuteurs->fetchAll(PDO::FETCH_ASSOC);
+
+        $result = [];
+        foreach ($publisAuteursLines as $line) {
+            if(!isset($result[$line["publication_id"]]) || $result[$line["publication_id"]] != true){
+                if($line["organisation"] == "UTT"){
+                    $result[$line["publication_id"]] = true;
+                }
+                else {
+                    $result[$line["publication_id"]] = false;
+                }
+            };
+        }
+
+        $publisSansUTT = [];
+        foreach ($result as $key => $value) {
+            if(!$value){
+                array_push($publisSansUTT, $key);
+            }
+        }
+
         return http\success([
-            "doublons" => $doublonsLines
+            "doublons" => $doublonsLines,
+            "publis" => $publisSansUTT
         ]);
 
     }
