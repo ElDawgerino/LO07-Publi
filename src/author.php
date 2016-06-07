@@ -37,11 +37,17 @@ class author
         }
 
         $publis = $db->query(
-            "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication
+            "SELECT p.id, p.titre, p.description, p.statut, p.categorie, p.annee_publication,
+            j.titre as journal_titre, j.editeur as journal_editeur,
+            c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
             FROM RelationsAuteurs as ra, Publications as p
+            LEFT JOIN Journaux AS j ON p.journal_id = j.id
+            LEFT JOIN Conferences AS c ON p.conference_id = c.id
             WHERE ra.auteur_id = :id AND ra.publication_id = p.id
             GROUP BY p.id;",
-            ["id" => $id]
+            [
+                "id" => $id
+            ]
         );
 
         $publis_lines = $publis->fetchAll(PDO::FETCH_ASSOC);
