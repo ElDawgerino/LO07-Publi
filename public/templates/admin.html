@@ -2,3 +2,23 @@
 <div ng-if='errors && errors != ""'>
     Echec de la connexion : {{errors}}
 </div>
+
+<div ng-show="doublons.length > 0" class="projet-liste-publications">
+    <div class="group-by-box">
+        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Doublons</h3>
+        <div class="group-publication-list">
+            <div class="publication-box" ng-repeat="publi in doublons | orderBy: orderBy">
+                <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
+                <div class="publication-infos">
+                    {{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}.<br/>
+                    <span ng-show="publi.journal_titre !== null">
+                        <i>Publiée dans {{publi.journal_titre}} ({{publi.journal_editeur}}) vol. {{publi.journal_volume}}, pages {{publi.pages}}</i>
+                    </span>
+                    <span ng-show="publi.conference_nom !== null">
+                        <i>Présentée lors de {{publi.conference_nom}}, à {{publi.conference_lieu}} le {{publi.conference_date}}.</i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

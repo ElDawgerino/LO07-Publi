@@ -1,4 +1,4 @@
-var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'angular.filter', 'naif.base64', 'publi-module', 'routes-module'])
+var app = angular.module('LO07-publi', ['ui.router', 'auth-module', 'admin-module', 'angular.filter', 'naif.base64', 'publi-module', 'routes-module']);
 
 app.run(function ($rootScope, $state, $stateParams) {
     $rootScope.$state = $state;
@@ -533,6 +533,31 @@ app.controller('Update', [
                 }
             });
         };
+}]);
+
+app.controller('Admin', [
+    '$scope',
+    '$state',
+    'admin',
+    'publi',
+    function($scope, $state, admin, publi){
+        admin.anomalies(function(response){
+            if(response.success){
+                $scope.doublons = response.doublons;
+                $scope.publications = response.publications;
+            } else {
+                $scope.errors = response.error;
+            }
+        });
+
+        admin.stats(function(response){
+            if(response.success){
+                $scope.auteurs = response.auteurs;
+                $scope.annees = response.annees;
+            } else {
+                $scope.errors = response.error;
+            }
+        });
 }]);
 
 /**

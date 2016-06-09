@@ -715,7 +715,7 @@ class publication
 
         return http\success([
             "auteurs" => $statsAuteurs,
-            "annee" => $statsAnnee
+            "annees" => $statsAnnee
         ]);
     }
 
@@ -726,7 +726,7 @@ class publication
         }
 
         $doublons = $db->query(
-        "SELECT   COUNT(titre) AS nbr_doublon, titre
+        "SELECT   COUNT(titre) AS nbr_doublon, id, titre, statut, categorie, annee_publication
         FROM     publications
         GROUP BY titre
         HAVING   COUNT(titre) > 1;",

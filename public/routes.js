@@ -50,7 +50,7 @@ app.config([
         $stateProvider.state('admin', {
             url: '/admin',
             templateUrl: 'public/templates/admin.html',
-            controlelr: 'Admin'
+            controller: 'Admin'
         });
 
         $stateProvider.state('update', {
