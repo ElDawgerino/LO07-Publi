@@ -33,14 +33,18 @@
 <div class="projet-liste-publications">
     <div class="group-by-box">
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Nombre de publications par auteurs</h3>
-        <div class="publication-box" ng-repeat="auteur in auteurs | orderBy: orderBy">
-            <a href="#/profile/{{auteur.id}}">{{auteur.prenom}} {{auteur.nom}}</a> : {{auteur.nbrPublis}}
+        <div class="group-publication-list">
+            <div class="publication-box" ng-repeat="auteur in auteurs | orderBy: orderBy">
+                <a href="#/profile/{{auteur.id}}">{{auteur.prenom}} {{auteur.nom}}</a> : {{auteur.nbrPublis}}
+            </div>
         </div>
     </div>
     <div class="group-by-box">
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Nombre de publications par année</h3>
-        <div class="publication-box" ng-repeat="annee in annees | orderBy: orderBy">
-            {{annee.annee_publication}} : {{annee.nbrPublis}}
+        <div class="group-publication-list">
+            <div class="publication-box" ng-repeat="annee in annees | orderBy: orderBy">
+                {{annee.annee_publication}} : {{annee.nbrPublis}}
+            </div>
         </div>
     </div>
 </div>
@@ -48,11 +52,13 @@
 <h2>Utilisateurs</h2>
 <div class="projet-liste-publications">
     <div class="group-by-box">
-        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Nombre de publications par auteurs</h3>
-        <div class="publication-box" ng-repeat="utilisateur in utilisateurs | orderBy: orderBy">
-            <div class="publication-title"><a href="#/profile/{{utilisateur.id}}">{{utilisateur.first_name}} {{utilisateur.last_name}}</a></div>
-            <div class="publication-infos">
-                {{utilisateur.organisation}}, {{utilisateur.team}}, {{utilisateur.username}}<br/>
+        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Utilisateurs inscrits</h3>
+        <div class="group-publication-list">
+            <div class="publication-box" ng-repeat="utilisateur in utilisateurs | orderBy: orderBy">
+                <div class="publication-title"><a href="#/profile/{{utilisateur.id}}">{{utilisateur.first_name}} {{utilisateur.last_name}}</a></div>
+                <div class="publication-infos">
+                    {{utilisateur.organisation}}, {{utilisateur.team}}, {{utilisateur.username}}<br/>
+                </div>
             </div>
         </div>
     </div>

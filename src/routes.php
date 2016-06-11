@@ -121,7 +121,7 @@ $app->put('/publi/{id}', function ($request, $response, $args) {
 });
 
 $app->delete('/publi/{id}', function ($request, $response, $args) {
-  //TODO : supprimer une publi
+    return build_response($response, publication::deletePublication($args["id"]));
 });
 
 /**

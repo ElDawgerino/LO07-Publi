@@ -699,6 +699,10 @@ class publication
             return http\internal_error();
         }
 
+        if(!user_management::isAdmin()){
+            return http\unauthorized();
+        }
+
         $annee = $db->query(
         "SELECT annee_publication, COUNT(id) AS nbrPublis FROM `publications` GROUP BY annee_publication;",
         []
@@ -724,6 +728,10 @@ class publication
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
+        }
+
+        if(!user_management::isAdmin()){
+            return http\unauthorized();
         }
 
         $doublons = $db->query(
@@ -773,5 +781,39 @@ class publication
             "publis" => $publisSansUTT
         ]);
 
+    }
+
+    public static function deletePublication($id){
+        $db = database_factory::get_db();
+        if(!$db->is_ok()){
+            return http\internal_error();
+        }
+
+        if(!user_management::check_connection()){
+            return http\unauthorized();
+        }
+
+        $auteurCheck = $db->query("SELECT auteur_id FROM relationsauteurs
+            WHERE publication_id = :id", ["id" => $id]);
+
+        $isAuteur = false;
+        foreach ($auteurCheck->fetchAll(PDO::FETCH_ASSOC) as $auteur) {
+            if($_SESSION["id"] == $auteur["auteur_id"]){
+                $isAuteur = true;
+            }
+        }
+
+        if(!$isAuteur && !user_management::isAdmin()){
+            return http\unauthorized();
+        }
+
+        $deletePublications = $db->query("DELETE FROM publications WHERE id = :id", ["id" => $id]);
+        $deleteRelations =  $db->querey("DELETE FROM relationsauteurs WHERE publication_id = :id", ["id" => $id]);
+
+        if($result){
+            return http\success(["id" => $id]);
+        } else {
+            return http\internal_error();
+        }
     }
 }
