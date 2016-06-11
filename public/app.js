@@ -558,6 +558,14 @@ app.controller('Admin', [
                 $scope.errors = response.error;
             }
         });
+
+        admin.comptes(function(response){
+            if(response.success){
+                $scope.utilisateurs = response.utilisateurs;
+            } else {
+                $scope.errors = response.error;
+            }
+        });
 }]);
 
 /**

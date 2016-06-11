@@ -31,5 +31,18 @@ app.factory('admin', [
             });
         };
 
+        admin.comptes = function(then){
+            $http.get('comptes').then(function(response){
+                then({success: true, utilisateurs: response.data})
+            }, function(response){
+                if(response.status === 500){
+                    then({success: false, error: "Erreur interne au serveur"});
+                }
+                else {
+                    then({success: false, error: "Erreur inconnue"});
+                }
+            });
+        }
+
         return admin;
 }]);
