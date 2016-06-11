@@ -553,13 +553,16 @@ app.controller('Update', [
 app.controller('Admin', [
     '$scope',
     '$state',
+    '$window',
     'admin',
     'publi',
-    function($scope, $state, admin, publi){
+    function($scope, $state, $window, admin, publi){
         admin.anomalies(function(response){
             if(response.success){
                 $scope.doublons = response.doublons;
-                $scope.publications = response.publications;
+                if($scope.publications[0] != false){
+                    $scope.publications = response.publications;
+                }
             } else {
                 $scope.errors = response.error;
             }
@@ -581,6 +584,20 @@ app.controller('Admin', [
                 $scope.errors = response.error;
             }
         });
+
+        $scope.delete = function(id){
+            var confirmation = $window.confirm("Vous êtes sur le point de supprimer cette publication!");
+            if(confirmation){
+                publi.delete(id, function(response){
+                    if(response.success){
+                        $state.go($state.current, {}, {reload: true});
+                    }
+                    else {
+                        $scope.errors = response.error;
+                    }
+                });
+            }
+        };
 }]);
 
 /**

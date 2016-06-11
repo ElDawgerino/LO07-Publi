@@ -9,7 +9,10 @@
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Doublons</h3>
         <div class="group-publication-list">
             <div class="publication-box" ng-repeat="publi in doublons | orderBy: orderBy">
-                <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
+                <div class="publication-title">
+                    <button class="material-icons" ng-click="delete(publi.id)" style="font-size:18px; color:#151515">delete_forever</button>
+                    <a href="#/publi/{{publi.id}}">{{publi.titre}}</a>
+                </div>
                 <div class="publication-infos">
                     {{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}.<br/>
                 </div>
@@ -20,7 +23,10 @@
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Publications sans auteurs de l'UTT</h3>
         <div class="group-publication-list">
             <div class="publication-box" ng-repeat="publi in publications | orderBy: orderBy">
-                <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>
+                <div class="publication-title">
+                    <button class="material-icons" ng-click="delete(publi.id)" style="font-size:18px; color:#151515">delete_forever</button>
+                    <a href="#/publi/{{publi.id}}">{{publi.titre}}</a>
+                </div>
                 <div class="publication-infos">
                     {{publi.statut}}, {{publi.categorie}}, {{publi.annee_publication}}.<br/>
                 </div>

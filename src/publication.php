@@ -809,7 +809,7 @@ class publication
 
         $deletePublications = $db->query("DELETE FROM publications WHERE id = :id", ["id" => $id]);
 
-        if($result){
+        if($deletePublications){
             return http\success(["id" => $id]);
         } else {
             return http\internal_error();
