@@ -3,6 +3,7 @@
     Echec de la connexion : {{errors}}
 </div>
 
+<h2>Anomalies</h2>
 <div class="projet-liste-publications">
     <div class="group-by-box">
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Doublons</h3>
@@ -26,4 +27,19 @@
             </div>
         </div>
     </div>
+</div>
+
+<h2>Stats</h2>
+<div class="projet-liste-publications">
+    <div class="group-by-box">
+        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Nombre de publications par auteurs</h3>
+        <div class="publication-box" ng-repeat="auteur in auteurs | orderBy: orderBy">
+            <a href="#/profile/{{auteur.id}}">{{auteur.prenom}} {{auteur.nom}}</a> : {{auteur.nbrPublis}}
+        </div>
+    </div>
+    <div class="group-by-box">
+        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Nombre de publications par année</h3>
+        <div class="publication-box" ng-repeat="annee in annees | orderBy: orderBy">
+            {{annee.annee_publication}} : {{annee.nbrPublis}}
+        </div>
 </div>

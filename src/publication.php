@@ -707,7 +707,8 @@ class publication
         $statsAnnee = $annee->fetchAll(PDO::FETCH_ASSOC);
 
         $auteurs = $db->query(
-        "SELECT nom, prenom, COUNT(publication_id) AS nbrPublis FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
+        "SELECT auteur_id, nom, prenom, COUNT(publication_id) AS nbrPublis
+        FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
         []
         );
 
