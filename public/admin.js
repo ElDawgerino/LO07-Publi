@@ -7,7 +7,7 @@ app.factory('admin', [
 
         admin.anomalies = function(then){
             $http.get('anomalies').then(function(response){
-                then({success: true, doublons: response.data.doublons, publications: response.data.publications});
+                then({success: true, doublons: response.data.doublons, publications: response.data.publis});
             }, function(response){
                 if(response.status === 500){
                     then({success: false, error: "Erreur interne au serveur"});

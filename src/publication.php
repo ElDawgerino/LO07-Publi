@@ -760,7 +760,10 @@ class publication
         $publisSansUTT = [];
         foreach ($result as $key => $value) {
             if(!$value){
-                array_push($publisSansUTT, $key);
+                $publi = $db->query("SELECT id, titre, statut, categorie, annee_publication
+                    FROM publications WHERE id = :key",
+                    ["key" => $key]);
+                    array_push($publisSansUTT, $publi->fetch(PDO::FETCH_ASSOC));
             }
         }
 
