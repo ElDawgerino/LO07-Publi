@@ -61,7 +61,10 @@
         <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>Utilisateurs inscrits</h3>
         <div class="group-publication-list">
             <div class="publication-box" ng-repeat="utilisateur in utilisateurs | orderBy: orderBy">
-                <div class="publication-title"><a href="#/profile/{{utilisateur.id}}">{{utilisateur.first_name}} {{utilisateur.last_name}}</a></div>
+                <div class="publication-title">
+                    <button class="material-icons" ng-click="deleteUser(utilisateur.id)" style="font-size:18px; color:#151515">delete_forever</button>
+                    <a href="#/profile/{{utilisateur.id}}">{{utilisateur.first_name}} {{utilisateur.last_name}}</a>
+                </div>
                 <div class="publication-infos">
                     {{utilisateur.organisation}}, {{utilisateur.team}}, {{utilisateur.username}}<br/>
                 </div>

@@ -556,7 +556,8 @@ app.controller('Admin', [
     '$window',
     'admin',
     'publi',
-    function($scope, $state, $window, admin, publi){
+    'auth',
+    function($scope, $state, $window, admin, publi, auth){
         admin.anomalies(function(response){
             if(response.success){
                 $scope.doublons = response.doublons;
@@ -593,6 +594,19 @@ app.controller('Admin', [
                         $state.go($state.current, {}, {reload: true});
                     }
                     else {
+                        $scope.errors = response.error;
+                    }
+                });
+            }
+        };
+
+        $scope.deleteUser = function(id){
+            var confirmation = $window.confirm("Vous êtes sur le point de supprimer cet utilisateur!")
+            if(confirmation){
+                auth.delete(id, function(response){
+                    if(response.success){
+                        $state.go($state.current, {}, {reload: true});
+                    } else {
                         $scope.errors = response.error;
                     }
                 });
