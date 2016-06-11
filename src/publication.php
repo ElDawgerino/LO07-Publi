@@ -808,7 +808,6 @@ class publication
         }
 
         $deletePublications = $db->query("DELETE FROM publications WHERE id = :id", ["id" => $id]);
-        $deleteRelations =  $db->querey("DELETE FROM relationsauteurs WHERE publication_id = :id", ["id" => $id]);
 
         if($result){
             return http\success(["id" => $id]);

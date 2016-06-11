@@ -290,15 +290,16 @@ app.controller('Publi', [
     '$stateParams',
     '$rootScope',
     '$state',
+    '$window',
     'publi',
-    function($scope, $stateParams, $rootScope, $state, publi){
+    function($scope, $stateParams, $rootScope, $state, $window, publi){
         $scope.hasJournal = false;
         $scope.hasConference = false;
         $scope.isAuteur = false;
 
         $scope.download = function(){
             window.open("download/" + $scope.publi.id, '_blank');
-        }
+        };
 
         publi.get($stateParams.id, function(response){
             if(response.success){
@@ -321,6 +322,20 @@ app.controller('Publi', [
 
         $scope.goUpdate = function(){
             $state.go('update', {id: $stateParams.id});
+        };
+
+        $scope.delete = function(){
+            var confirmation = $window.confirm("Vous êtes sur le point de supprimer cette publication!");
+            if(confirmation){
+                publi.delete($stateParams.id, function(response){
+                    if(response.success){
+                        $state.go('home');
+                    }
+                    else {
+                        $scope.errors = response.error;
+                    }
+                });
+            }
         };
 }]);
 

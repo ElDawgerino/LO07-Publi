@@ -53,7 +53,17 @@ app.factory('publi', [
     };
 
     publi.delete = function(id, then){
-
+        $http.delete('publi/' + id).then(function(respone){
+            then({success: true})
+        }, function(response){
+            if(response.status === 500){
+                then({success: false, error: "Erreur interne au serveur"});
+            } else if(response.status === 401){
+                then({success: false, error: "Vous n'êtes pas autorisé à mettre à jour cette publication !"});
+            } else {
+                then({success: false, error: "Erreur inconnue"});
+            }
+        });
     };
 
     publi.put = function(id, content, then){

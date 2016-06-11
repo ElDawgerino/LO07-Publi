@@ -2,6 +2,7 @@
 
 <button class="expand" ng-click="download()"><i class="material-icons">get_app</i> <b>Télécharger la publication</b> <span ng-show="publi.fichier">({{publi.fichier.nom}}, {{publi.fichier.taille|bytes}})</span></button>
 <button class="expand" ng-click="goUpdate()" ng-show="isAuteur"><b>Mettre à jour</b></button>
+<button class="expand" ng-click="delete()" ng-show="isAuteur || isAdmin"><b>Supprimer</b></button>
 
 <h3>Description : </h3>
 <p>{{publi.description}}</p>
