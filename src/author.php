@@ -12,7 +12,7 @@ class author
         }
 
         $auteurs = $db->query(
-            "SELECT nom, prenom, organisation, equipe
+            "SELECT id, nom, prenom, organisation, equipe
             FROM Auteurs;",
             []
         );

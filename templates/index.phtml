@@ -29,6 +29,9 @@
           <li class="align-righ">
               <button ng-click="goRecherche()" ng-class="{ active: $state.includes('recherche') }">Recherche</button>
           </li>
+          <li class="align-righ">
+              <button ng-click="goAuteurs()" ng-class="{ active: $state.includes('auteurs') }">Auteurs</button>
+          </li>
 
           <li class="align-right" ng-show="loggedIn">
               <button ng-click="logout()">Déconnexion</button>

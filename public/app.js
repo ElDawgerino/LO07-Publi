@@ -122,6 +122,10 @@ app.controller('NavBar', [
         $scope.goAdmin = function(){
             $state.go('admin');
         };
+
+        $scope.goAuteurs = function(){
+            $state.go('auteurs');
+        };
 }]);
 
 app.controller('Register', [
@@ -539,6 +543,9 @@ app.controller('Update', [
             if($scope.isSame){
                 $scope.publi.fichier = "garder";
             }
+            if($scope.form.inputFichier.$pristine){
+                $scope.publi.fichier = null;
+            }
             publi.put($stateParams.id, $scope.publi, function(response){
                 if(response.success){
                     $state.go('publi', {id: response.id});
@@ -611,6 +618,19 @@ app.controller('Admin', [
                 });
             }
         };
+}]);
+
+app.controller('Auteurs', [
+    '$scope',
+    'publi',
+    function($scope, publi){
+        publi.getAuteurs(function(response){
+            if(response.success){
+                $scope.auteurs = response.content;
+            } else {
+                $scope.errors = response.error;
+            }
+        });
 }]);
 
 /**

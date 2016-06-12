@@ -9,7 +9,7 @@ app.factory('publi', [
         $http.get('publi').then(function(response){
             then({success: true, content: response.data});
         }, function(response){
-            if(repsone.status === 500){
+            if(response.status === 500){
                 then({success: false, error: "Erreur interne au serveur"});
             }
             else {
@@ -86,7 +86,7 @@ app.factory('publi', [
         $http.post('recherche', params).then(function(response){
             then({success: true, content: response.data.resultat});
         }, function(response){
-            if(reponse.status === 500){
+            if(response.status === 500){
                 then({success: false, error: "Erreur interne au serveur"});
             }
             else {
@@ -99,7 +99,7 @@ app.factory('publi', [
         $http.get('auteurs').then(function(response){
                 then({success: true, content: response.data.auteurs});
             }, function(response){
-                if(repsone.status === 500){
+                if(response.status === 500){
                     then({success: false, error: "Erreur interne au serveur"});
                 }
                 else {
@@ -113,7 +113,7 @@ app.factory('publi', [
         $http.get('journaux').then(function(response){
                 then({success: true, content: response.data.journaux});
             }, function(response){
-                if(repsone.status === 500){
+                if(response.status === 500){
                     then({success: false, error: "Erreur interne au serveur"});
                 }
                 else {
@@ -127,7 +127,7 @@ app.factory('publi', [
         $http.get('conferences').then(function(response){
                 then({success: true, content: response.data.conferences});
             }, function(response){
-                if(repsone.status === 500){
+                if(response.status === 500){
                     then({success: false, error: "Erreur interne au serveur"});
                 }
                 else {
@@ -145,7 +145,7 @@ app.factory('publi', [
                     then({success: false, error: "L'auteur n°" + id + " n'existe pas !"});
                 }
                 else{
-                    if(repsone.status === 500){
+                    if(response.status === 500){
                         then({success: false, error: "Erreur interne au serveur"});
                     }
                     else {
