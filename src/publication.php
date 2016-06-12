@@ -704,7 +704,7 @@ class publication
         }
 
         $annee = $db->query(
-        "SELECT annee_publication, COUNT(id) AS nbrPublis FROM `publications` GROUP BY annee_publication;",
+        "SELECT annee_publication, COUNT(id) AS nbrPublis FROM Publications GROUP BY annee_publication;",
         []
         );
 
@@ -712,7 +712,7 @@ class publication
 
         $auteurs = $db->query(
         "SELECT auteur_id, nom, prenom, COUNT(publication_id) AS nbrPublis
-        FROM `relationsauteurs` JOIN auteurs ON auteur_id = id GROUP BY auteur_id;",
+        FROM RelationsAuteurs JOIN Auteurs ON auteur_id = id GROUP BY auteur_id;",
         []
         );
 
@@ -735,21 +735,21 @@ class publication
         }
 
         $doublons = $db->query(
-        "SELECT   COUNT(titre) AS nbr_doublon, id, titre, statut, categorie, annee_publication
-        FROM     publications
-        GROUP BY titre
-        HAVING   COUNT(titre) > 1;",
-        []
+            "SELECT   COUNT(titre) AS nbr_doublon, id, titre, statut, categorie, annee_publication
+            FROM     Publications
+            GROUP BY titre
+            HAVING   COUNT(titre) > 1;",
+            []
         );
 
         $doublonsLines = $doublons->fetchAll(PDO::FETCH_ASSOC);
 
         $publisAuteurs = $db->query(
-        "SELECT publication_id, nom, prenom, organisation
-        FROM `relationsauteurs`
-        JOIN auteurs ON auteurs.id = auteur_id
-        ORDER BY publication_id;",
-        []
+            "SELECT publication_id, nom, prenom, organisation
+            FROM RelationsAuteurs
+            JOIN auteurs ON auteurs.id = auteur_id
+            ORDER BY publication_id;",
+            []
         );
 
         $publisAuteursLines = $publisAuteurs->fetchAll(PDO::FETCH_ASSOC);
@@ -770,9 +770,10 @@ class publication
         foreach ($result as $key => $value) {
             if(!$value){
                 $publi = $db->query("SELECT id, titre, statut, categorie, annee_publication
-                    FROM publications WHERE id = :key",
-                    ["key" => $key]);
-                    array_push($publisSansUTT, $publi->fetch(PDO::FETCH_ASSOC));
+                    FROM Publications WHERE id = :key",
+                    ["key" => $key]
+                );
+                array_push($publisSansUTT, $publi->fetch(PDO::FETCH_ASSOC));
             }
         }
 
@@ -807,7 +808,7 @@ class publication
             return http\unauthorized();
         }
 
-        $deletePublications = $db->query("DELETE FROM publications WHERE id = :id", ["id" => $id]);
+        $deletePublications = $db->query("DELETE FROM Publications WHERE id = :id", ["id" => $id]);
 
         if($deletePublications){
             return http\success(["id" => $id]);
