@@ -25,7 +25,7 @@ class database
 
     public function commit()
     {
-        $this->pdo->commit();
+        return $this->pdo->commit();
     }
 
     public function rollback()

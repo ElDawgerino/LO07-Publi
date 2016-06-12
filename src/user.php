@@ -19,8 +19,6 @@ class user_management
             return http\forbidden();
         }
 
-        //Pour les tests seulement
-
         $res = $db->query(
             "select id, mdp, admin from Utilisateurs where login = :username",
             array('username' => $username)
@@ -32,11 +30,9 @@ class user_management
             $response = http\success([ "id" => $user_line["id"] ]);
 
             //On stocke l'état de connexion dans une session (contrainte du projet)
-            // => pas besoin de token donc.
             $_SESSION["connected"] = true;
             $_SESSION["id"] = $user_line["id"];
             $_SESSION["admin"] = $user_line["admin"];
-            //TODO: Récupérer les droits de l'utilisateur et autres infos
 
             return $response;
         }

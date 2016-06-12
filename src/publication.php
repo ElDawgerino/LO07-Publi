@@ -769,7 +769,8 @@ class publication
         $publisSansUTT = [];
         foreach ($result as $key => $value) {
             if(!$value){
-                $publi = $db->query("SELECT id, titre, statut, categorie, annee_publication
+                $publi = $db->query(
+                    "SELECT id, titre, statut, categorie, annee_publication
                     FROM Publications WHERE id = :key",
                     ["key" => $key]
                 );
@@ -794,7 +795,7 @@ class publication
             return http\unauthorized();
         }
 
-        $auteurCheck = $db->query("SELECT auteur_id FROM relationsauteurs
+        $auteurCheck = $db->query("SELECT auteur_id FROM RelationsAuteurs
             WHERE publication_id = :id", ["id" => $id]);
 
         $isAuteur = false;
@@ -805,14 +806,20 @@ class publication
         }
 
         if(!$isAuteur && !user_management::isAdmin()){
-            return http\unauthorized();
+            return http\forbidden();
         }
 
-        $deletePublications = $db->query("DELETE FROM Publications WHERE id = :id", ["id" => $id]);
+        $db->begin_transaction();
+        //On supprime les RelationsAuteurs nécessaires
+        $db->query("DELETE FROM RelationsAuteurs WHERE publication_id = :id;", ["id" => $id]);
+        //On supprime la publication
+        $db->query("DELETE FROM Publications WHERE id = :id;", ["id" => $id]);
 
-        if($deletePublications){
+        $successful = $db->commit();
+        if($successful){
             return http\success(["id" => $id]);
-        } else {
+        }
+        else {
             return http\internal_error();
         }
     }
