@@ -59,5 +59,11 @@ app.config([
             controller: 'Update'
         });
 
+        $stateProvider.state('auteurs', {
+            url: '/auteurs',
+            templateUrl : 'public/templates/auteurs.html',
+            controller: 'Auteurs'
+        });
+
         $urlRouterProvider.otherwise('home');
 }]);
