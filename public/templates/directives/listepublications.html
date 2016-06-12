@@ -1,6 +1,29 @@
 <div ng-show="liste.length > 0" class="projet-liste-publications">
+    <div class="display-option-box">
+        Grouper par :
+        <select ng-model="groupBy">
+            <option value="categorie">Catégories</option>
+            <option value="conference_nom">Conférences</option>
+            <option value="journal_titre">Journaux</option>
+            <option value="annee_publication">Années</option>
+        </select>
+        Trier par :
+        <select ng-model="orderBy">
+            <option value="-annee_publication">Années ↑</option>
+            <option value="annee_publication">Années ↓</option>
+            <option value="-titre">Titre ↑</option>
+            <option value="titre">Titre ↓</option>
+            <option value="-categorie">Catégorie ↑</option>
+            <option value="categorie">Catégorie ↓</option>
+        </select>
+        <button ng-click="reset()">Réinitialiser</button>
+    </div>
     <div class="group-by-box" ng-repeat="(orderByLabel, subliste) in liste | orderBy: orderBy | groupBy: groupBy">
-        <h3 onclick="Folding.toggleFolder(this);"><span class="arrow">⏷</span>{{orderByLabel}}</h3>
+        <h3 onclick="Folding.toggleFolder(this);">
+            <span class="arrow">⏷</span>
+            <span ng-show="orderByLabel != 'null'">{{orderByLabel}}</span>
+            <span ng-hide="orderByLabel != 'null'">Aucun(e) / Non défini(e)</span>
+        </h3>
         <div class="group-publication-list">
             <div class="publication-box" ng-repeat="publi in subliste | orderBy: orderBy">
                 <div class="publication-title"><a href="#/publi/{{publi.id}}">{{publi.titre}}</a></div>

@@ -414,7 +414,7 @@ app.controller('Recherche', [
         $scope.search = function(){
             $scope.hasPublis = false;
             $scope.publis = {};
-            
+
             publi.search($scope.params, function(response){
                 if(response.success){
                     if(response.content.length){
@@ -624,13 +624,16 @@ app.directive('projetListePublications', function(){
         restrict: 'E',
         scope: {
             liste: '=liste',
-            groupBy: '@groupBy',
-            orderBy: '@orderBy'
         },
         templateUrl: 'public/templates/directives/listepublications.html',
         controller: function($scope){
-            $scope.groupBy = angular.isDefined($scope.groupBy) ? $scope.groupBy : 'categorie';
-            $scope.orderBy = angular.isDefined($scope.orderBy) ? $scope.orderBy : '-annee_publication';
+            $scope.groupBy = 'categorie';
+            $scope.orderBy = '-annee_publication';
+
+            $scope.reset = function() {
+                $scope.groupBy = 'categorie';
+                $scope.orderBy = '-annee_publication';
+            }
         }
     };
 });
