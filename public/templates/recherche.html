@@ -3,12 +3,10 @@
     Echec de la connexion : {{errors}}
 </div>
 <form>
-    <label for="keyword">Mot clé :</label>
-    <input type="text" name="keyword" ng-model="params.keyword" required>
-    <label for="field">Champ :</label>
-    <select type="text" ng-model="params.field" ng-options="field.value as field.label for field in fields" ng-init="params.field = fields[1].value"></select>
-    <label for="order">Trier par :</label>
-    <select type="text" ng-model="params.order" ng-options="field.value as field.label for field in fields" ng-init="params.order = fields[0].value"></select>
+    <label for="field">Laboratoire :</label>
+    <select type="text" ng-model="params.lab" ng-options="lab as lab for lab in labs" ng-init="params.lab = labs[0]"></select>
+    <label for="order">Année :</label>
+    <input type="number" ng-model="params.annee" ng-init="params.annee = 2010">
     <button type="button" ng-click=search()>Rechercher</button>
 </form>
 <projet-liste-publications liste="publis" order-by=""></projet-liste-publications>

@@ -40,25 +40,6 @@ class database
         return ($success ? $prepared : false);
     }
 
-    //évite les injectiosn SQL pendant la recherche
-    public function build_search_query($field){
-        if($field == "p.id" || $field == "p.titre" || $field == "p.description" || $field == "p.statut"
-        || $field == "p.annee_publication" || $field == "journal_titre" || $field == "journal_editeur"
-        || $field == "conference_nom") {
-            return "SELECT p.id, p.titre, p.description, p.statut, p.categorie,
-                    p.annee_publication, p.journal_volume, p.pages,
-                    j.titre as journal_titre, j.editeur as journal_editeur,
-                    c.nom as conference_nom, c.date_conference as conference_date, c.lieu as conference_lieu
-                    FROM Publications AS p
-                    LEFT JOIN Journaux AS j ON p.journal_id = j.id
-                    LEFT JOIN Conferences AS c ON p.conference_id = c.id
-                    WHERE ".$field." LIKE CONCAT('%', :keyword, '%')
-                    ORDER BY :order";
-        } else {
-            return false;
-        }
-    }
-
     public function get_last_insert_id()
     {
         return $this->pdo->lastInsertId();

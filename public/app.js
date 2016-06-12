@@ -409,16 +409,12 @@ app.controller('Recherche', [
     function($scope, publi){
         $scope.hasPublis = false;
 
-        //constructeur des fields
-        function f(l, v){
-            return({label: l, value: v});
-        }
-
-        $scope.fields = [f("Id", "p.id"), f("Titre", "p.titre"), f("Description", "p.description"), f("Statut", "p.statut"),
-                f("Année de publication", "p.annee_publication"), f("Titre du journal", "journal_titre"), f("Editeur du journal", "journal_editeur"),
-                f("Nom de la conférence", "conference_nom")];
+        $scope.labs = ["CREIDD", "ERA", "GAMMA3", "LASMIS", "LM2S", "LNIO", "LOSI", "Tech-CICO"];
 
         $scope.search = function(){
+            $scope.hasPublis = false;
+            $scope.publis = {};
+            
             publi.search($scope.params, function(response){
                 if(response.success){
                     if(response.content.length){
