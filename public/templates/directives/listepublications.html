@@ -1,14 +1,14 @@
 <div ng-show="liste.length > 0" class="projet-liste-publications">
     <div class="display-option-box">
         Grouper par :
-        <select ng-model="groupBy">
+        <select ng-model="groupBy" ng-change="saveGroupByToLocalStorage()">
             <option value="categorie">Catégories</option>
             <option value="conference_nom">Conférences</option>
             <option value="journal_titre">Journaux</option>
             <option value="annee_publication">Années</option>
         </select>
         Trier par :
-        <select ng-model="orderBy">
+        <select ng-model="orderBy" ng-change="saveOrderByToLocalStorage();">
             <option value="-annee_publication">Années ↑</option>
             <option value="annee_publication">Années ↓</option>
             <option value="-titre">Titre ↑</option>

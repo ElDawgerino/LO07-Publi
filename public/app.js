@@ -647,12 +647,40 @@ app.directive('projetListePublications', function(){
         },
         templateUrl: 'public/templates/directives/listepublications.html',
         controller: function($scope){
-            $scope.groupBy = 'categorie';
-            $scope.orderBy = '-annee_publication';
 
+            //Chargement du groupage sauvegardé par l'utilisateur
+            if(localStorage.getItem("listePublicationsGroupBy")) {
+                $scope.groupBy = localStorage.getItem("listePublicationsGroupBy");
+            }
+            else {
+                $scope.groupBy = 'categorie';
+            }
+
+            //Chargement du tri sauvegardé par l'utilisateur
+            if(localStorage.getItem("listePublicationsOrderBy")) {
+                $scope.orderBy = localStorage.getItem("listePublicationsOrderBy");
+            }
+            else {
+                $scope.orderBy = '-annee_publication';
+            }
+
+            //Fonction appelée par le bouton "Réinitialiser"
             $scope.reset = function() {
                 $scope.groupBy = 'categorie';
                 $scope.orderBy = '-annee_publication';
+
+                this.saveGroupByToLocalStorage();
+                this.saveOrderByToLocalStorage();
+            }
+
+            //Appelée lors d'un changement dans le select du groupage
+            $scope.saveGroupByToLocalStorage = function() {
+                localStorage.setItem("listePublicationsGroupBy", $scope.groupBy);
+            }
+
+            //Appelée lors d'un changement dans le select du tri
+            $scope.saveOrderByToLocalStorage = function() {
+                localStorage.setItem("listePublicationsOrderBy", $scope.orderBy);
             }
         }
     };
