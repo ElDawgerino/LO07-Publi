@@ -3,7 +3,7 @@
     Echec de la connexion : {{errors}}
 </div>
 
-<form>
+<form name="form">
   <h3>Publication</h3>
   <label for="title">Titre : </label>
   <input type="text" id="title" ng-model="publi.titre" required><br>
@@ -82,7 +82,7 @@
         <label for="isSame">Conserver le même fichier</label>
         <input type="checkbox" id="isSame" class="no-expand" ng-model="isSame">
     </div>
-    <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')" ng-disabled="isSame"><br>
+    <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')" ng-disabled="isSame" name="inputFichier"><br>
 
     <div ng-show="$state.includes('publish')">
         <button ng-click="publish()">Publier</button>

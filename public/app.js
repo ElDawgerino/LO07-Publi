@@ -414,7 +414,7 @@ app.controller('Recherche', [
         $scope.search = function(){
             $scope.hasPublis = false;
             $scope.publis = {};
-            
+
             publi.search($scope.params, function(response){
                 if(response.success){
                     if(response.content.length){
@@ -538,6 +538,9 @@ app.controller('Update', [
         $scope.update = function(){
             if($scope.isSame){
                 $scope.publi.fichier = "garder";
+            }
+            if($scope.form.inputFichier.$pristine){
+                $scope.publi.fichier = null;
             }
             publi.put($stateParams.id, $scope.publi, function(response){
                 if(response.success){
