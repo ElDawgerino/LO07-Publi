@@ -78,7 +78,11 @@
 
     <h3>Upload</h3>
     <label for="file">Fichier : </label>
-    <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')"><br>
+    <div ng-show="$state.includes('update')">
+        <label for="isSame">Conserver le même fichier</label>
+        <input type="checkbox" id="isSame" class="no-expand" ng-model="isSame">
+    </div>
+    <input type='file' ng-model='publi.fichier' base-sixty-four-input ng-required="$state.includes('publish')" ng-disabled="isSame"><br>
 
     <div ng-show="$state.includes('publish')">
         <button ng-click="publish()">Publier</button>

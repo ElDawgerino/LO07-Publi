@@ -540,6 +540,9 @@ app.controller('Update', [
         });
 
         $scope.update = function(){
+            if($scope.isSame){
+                $scope.publi.fichier = "garder";
+            }
             publi.put($stateParams.id, $scope.publi, function(response){
                 if(response.success){
                     $state.go('publi', {id: response.id});
