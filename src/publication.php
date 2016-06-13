@@ -748,43 +748,26 @@ class publication
 
         $doublonsLines = $doublons->fetchAll(PDO::FETCH_ASSOC);
 
-        $publisAuteurs = $db->query(
-            "SELECT publication_id, nom, prenom, organisation
-            FROM RelationsAuteurs
-            JOIN Auteurs ON Auteurs.id = auteur_id
-            ORDER BY publication_id;",
+        $publiIdsSansAuteursUTTQuery = $db->query(
+            "SELECT ra.publication_id FROM RelationsAuteurs AS ra
+            WHERE NOT EXISTS
+                ( SELECT * FROM Auteurs AS a WHERE a.id = ra.auteur_id AND (a.organisation = 'UTT' OR a.organisation = 'utt') );",
             []
         );
 
-        $publisAuteursLines = $publisAuteurs->fetchAll(PDO::FETCH_ASSOC);
+        $publiIdsSansAuteursUTT = $publiIdsSansAuteursUTTQuery->fetchAll(PDO::FETCH_COLUMN, 0); //Récupération sous forme d'un tableau direct des ids
 
-        $result = [];
-        foreach ($publisAuteursLines as $line) {
-            if(!isset($result[$line["publication_id"]]) || $result[$line["publication_id"]] != true){
-                if($line["organisation"] == "UTT"){
-                    $result[$line["publication_id"]] = true;
-                }
-                else {
-                    $result[$line["publication_id"]] = false;
-                }
-            };
-        }
-
-        $publisSansUTT = [];
-        foreach ($result as $key => $value) {
-            if(!$value){
-                $publi = $db->query(
-                    "SELECT id, titre, statut, categorie, annee_publication
-                    FROM Publications WHERE id = :key",
-                    ["key" => $key]
-                );
-                array_push($publisSansUTT, $publi->fetch(PDO::FETCH_ASSOC));
+        $publisSansUTT = array_values(array_filter(
+            self::get_publications(),
+            function($publi) use ($publiIdsSansAuteursUTT)
+            {
+                return in_array($publi["id"], $publiIdsSansAuteursUTT);
             }
-        }
+        ));
 
         return http\success([
             "doublons" => $doublonsLines,
-            "publis" => $publisSansUTT
+            "publications_non_utt" => $publisSansUTT
         ]);
 
     }

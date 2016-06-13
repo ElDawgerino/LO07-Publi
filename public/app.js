@@ -567,9 +567,7 @@ app.controller('Admin', [
         admin.anomalies(function(response){
             if(response.success){
                 $scope.doublons = response.doublons;
-                if($scope.publications[0] != false){
-                    $scope.publications = response.publications;
-                }
+                $scope.publications = response.publications_non_utt;
             } else {
                 $scope.errors = response.error;
             }
