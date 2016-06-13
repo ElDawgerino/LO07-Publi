@@ -738,15 +738,28 @@ class publication
             return http\unauthorized();
         }
 
-        $doublons = $db->query(
-            "SELECT   COUNT(titre) AS nbr_doublon, id, titre, statut, categorie, annee_publication
-            FROM     Publications
-            GROUP BY titre
-            HAVING   COUNT(titre) > 1;",
+        //Calcul des publications en doublon
+
+        $doublonsQuery = $db->query(
+            "SELECT p1.id FROM Publications AS p1
+            WHERE EXISTS(
+                SELECT * FROM Publications AS p2
+                WHERE p1.titre = p2.titre AND p2.id <> p1.id
+            );",
             []
         );
 
-        $doublonsLines = $doublons->fetchAll(PDO::FETCH_ASSOC);
+        $doublonsIds = $doublonsQuery->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        $doublons = array_values(array_filter(
+            self::get_publications(),
+            function($publi) use ($doublonsIds)
+            {
+                return in_array($publi["id"], $doublonsIds);
+            }
+        ));
+
+        //Calcul des publications sans auteurs
 
         $publiIdsSansAuteursUTTQuery = $db->query(
             "SELECT ra.publication_id FROM RelationsAuteurs AS ra
@@ -766,7 +779,7 @@ class publication
         ));
 
         return http\success([
-            "doublons" => $doublonsLines,
+            "doublons" => $doublons,
             "publications_non_utt" => $publisSansUTT
         ]);
 
