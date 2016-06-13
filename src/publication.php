@@ -751,7 +751,7 @@ class publication
         $publisAuteurs = $db->query(
             "SELECT publication_id, nom, prenom, organisation
             FROM RelationsAuteurs
-            JOIN auteurs ON auteurs.id = auteur_id
+            JOIN Auteurs ON Auteurs.id = auteur_id
             ORDER BY publication_id;",
             []
         );
