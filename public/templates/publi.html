@@ -2,7 +2,7 @@
     Echec de la connexion : {{errors}}
 </div>
 
-<h1>{{publi.titre}}</h1>
+<h2>{{publi.titre}}</h2>
 
 <button class="expand" ng-click="download()" ng-show="publi.fichier"><i class="material-icons">get_app</i> <b>Télécharger la publication</b> <span>({{publi.fichier.nom}}, {{publi.fichier.taille|bytes}})</span></button>
 <button class="expand" ng-click="goUpdate()" ng-show="isAuteur"><b>Mettre à jour</b></button>

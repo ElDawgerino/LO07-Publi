@@ -116,6 +116,11 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    font-family: 'Lato', sans-serif;
+    padding-top: 30px;
+}
+
 table {
     width: 100%;
 }
