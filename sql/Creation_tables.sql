@@ -52,7 +52,7 @@ create table Utilisateurs(
     id int not null primary key,
     login varchar(64) not null unique,
     mdp varchar(64) not null,
-    admin boolean default false,
+    admin boolean default false not null,
 
     /* Clé étrangère */
     foreign key(id) references Auteurs(id)

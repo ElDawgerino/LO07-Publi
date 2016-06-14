@@ -448,6 +448,8 @@ app.controller('Update', [
         $scope.hasConference = false;
         $scope.isAuteur = false;
 
+        $scope.statuts = ["Soumis", "En révision", "Publié"];
+        $scope.categories = ['RI', 'CI', 'RF', 'CF', 'OS', 'TD', 'BV', 'AP'];
         $scope.publi = {};
         $scope.publi.auteurs = [];
         $scope.auteur = {};
