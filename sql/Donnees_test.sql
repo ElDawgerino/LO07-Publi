@@ -1,8 +1,16 @@
+# README
+#
 # Utilisateurs déjà définis pour le site #
 #   login:        mdp:
 #   admin         t~$n7A5L      (compte administrateur)
 #   dupont1       Tb2~Gd6>
 #   dupont2       5r*u+H7F
+##########################################
+#
+# Après avoir importé ce SQL dans phpmyadmin, copier
+# le contenu du dossier "Donnees_test_uploads" dans
+# le dossier "uploads" du site web.
+#
 ##########################################
 
 --
