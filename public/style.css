@@ -281,7 +281,7 @@ form select:hover {
 }
 
 .display-search-box {
-    float: left;
+
 }
 
 .display-option-box {
@@ -289,4 +289,5 @@ form select:hover {
     margin-left: auto;
     max-width: 500px;
     text-align: right;
+    float: right;
 }

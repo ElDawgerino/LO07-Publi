@@ -1,8 +1,5 @@
 <div ng-show="liste.length > 0" class="projet-liste-publications">
     <div class="display-box">
-        <div class="display-search-box">
-            <input ng-model="search" placeholder="Recherche..." value=""/>
-        </div>
         <div class="display-option-box">
             <label>Grouper par :</label>
             <select ng-model="groupBy" ng-change="saveGroupByToLocalStorage()">
@@ -21,6 +18,9 @@
                 <option value="categorie">Catégorie ↓</option>
             </select>
             <button ng-click="reset()">Réinitialiser</button>
+        </div>
+        <div class="display-search-box">
+            <input ng-model="search" placeholder="Recherche..." value=""/>
         </div>
     </div>
     <div class="group-by-box" ng-repeat="(orderByLabel, subliste) in liste | filter: search | orderBy: orderBy | groupBy: groupBy">
