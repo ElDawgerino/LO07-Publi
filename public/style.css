@@ -262,19 +262,31 @@ form select:hover {
     color: rgb(100, 100, 255);
 }
 
+.display-box {
+    font-size: 10pt;
+    background-color: rgb(220, 220, 220);
+    padding: 2px;
+}
+
+.display-box button {
+    font-size: 10pt;
+}
+
+.display-box select {
+    font-size: 10pt;
+}
+
+.display-box input {
+
+}
+
+.display-search-box {
+    float: left;
+}
+
 .display-option-box {
     margin-right: 0;
     margin-left: auto;
     max-width: 500px;
     text-align: right;
-    font-size: 10pt;
-    background-color: rgb(220, 220, 220);
-}
-
-.display-option-box button {
-    font-size: 10pt;
-}
-
-.display-option-box select {
-    font-size: 10pt;
 }
