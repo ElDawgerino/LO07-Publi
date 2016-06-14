@@ -255,7 +255,8 @@ app.controller('Publi', [
     '$state',
     '$window',
     'publi',
-    function($scope, $stateParams, $rootScope, $state, $window, publi){
+    'auth',
+    function($scope, $stateParams, $rootScope, $state, $window, publi, auth){
         $scope.hasJournal = false;
         $scope.hasConference = false;
         $scope.isAuteur = false;
@@ -278,8 +279,18 @@ app.controller('Publi', [
                         $scope.isAuteur = true;
                     }
                 }
-            } else {
+            }
+            else {
                 $scope.errors = response.error;
+            }
+        });
+
+        auth.currentUser(function(response){
+            if(response.success) {
+                $scope.isAdmin = (response.admin == 1);
+            }
+            else {
+                $scope.isAdmin = false;
             }
         });
 
