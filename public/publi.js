@@ -6,7 +6,7 @@ app.factory('publi', [
     var publi = {};
 
     publi.getAll =function(then){
-        $http.get('publi').then(function(response){
+        $http.get('index.php/publi').then(function(response){
             then({success: true, content: response.data});
         }, function(response){
             if(response.status === 500){
@@ -19,7 +19,7 @@ app.factory('publi', [
     };
 
     publi.get = function(id, then){
-        $http.get('publi/' + id).then(function(response){
+        $http.get('index.php/publi/' + id).then(function(response){
                 then({success: true, content: response.data.publication});
             }, function(response){
                 if(response.status === 404) {
@@ -36,7 +36,7 @@ app.factory('publi', [
     };
 
     publi.post = function(content, then){
-        $http.post('publi', content).then(function(response){
+        $http.post('index.php/publi', content).then(function(response){
                 then({success: true, id: response.data.id});
             }, function(response){
                 if(response.status === 401){
@@ -53,7 +53,7 @@ app.factory('publi', [
     };
 
     publi.delete = function(id, then){
-        $http.delete('publi/' + id).then(function(respone){
+        $http.delete('index.php/publi/' + id).then(function(respone){
             then({success: true})
         }, function(response){
             if(response.status === 500){
@@ -67,7 +67,7 @@ app.factory('publi', [
     };
 
     publi.put = function(id, content, then){
-        $http.put('publi/' + id, content).then(function(response){
+        $http.put('index.php/publi/' + id, content).then(function(response){
             then({success: true, id: response.data.id});
         }, function(response){
             if(response.status === 401){
@@ -83,7 +83,7 @@ app.factory('publi', [
     };
 
     publi.search = function(params, then){
-        $http.post('recherche', params).then(function(response){
+        $http.post('index.php/recherche', params).then(function(response){
             then({success: true, content: response.data.resultat});
         }, function(response){
             if(response.status === 500){
@@ -96,7 +96,7 @@ app.factory('publi', [
     };
 
     publi.getAuteurs = function(then){
-        $http.get('auteurs').then(function(response){
+        $http.get('index.php/auteurs').then(function(response){
                 then({success: true, content: response.data.auteurs});
             }, function(response){
                 if(response.status === 500){
@@ -110,7 +110,7 @@ app.factory('publi', [
     };
 
     publi.getJournaux = function(then){
-        $http.get('journaux').then(function(response){
+        $http.get('index.php/journaux').then(function(response){
                 then({success: true, content: response.data.journaux});
             }, function(response){
                 if(response.status === 500){
@@ -124,7 +124,7 @@ app.factory('publi', [
     };
 
     publi.getConferences = function(then){
-        $http.get('conferences').then(function(response){
+        $http.get('index.php/conferences').then(function(response){
                 then({success: true, content: response.data.conferences});
             }, function(response){
                 if(response.status === 500){
@@ -138,7 +138,7 @@ app.factory('publi', [
     };
 
     publi.getAuteur = function(id, then){
-        $http.get('auteur/' + id).then(function(response){
+        $http.get('index.php/auteur/' + id).then(function(response){
                 then({success: true, auteur: response.data.auteur, publis: response.data.publis});
             }, function(response){
                 if(response.status === 404){

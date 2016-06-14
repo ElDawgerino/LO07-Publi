@@ -6,7 +6,7 @@ app.factory('admin', [
         var admin = {};
 
         admin.anomalies = function(then){
-            $http.get('anomalies').then(function(response){
+            $http.get('index.php/anomalies').then(function(response){
                 then({success: true, doublons: response.data.doublons, publications_non_utt: response.data.publications_non_utt});
             }, function(response){
                 if(response.status === 500){
@@ -19,7 +19,7 @@ app.factory('admin', [
         };
 
         admin.stats = function(then){
-            $http.get('stats').then(function(response){
+            $http.get('index.php/stats').then(function(response){
                 then({success: true, auteurs: response.data.auteurs, annees: response.data.annees});
             }, function(response){
                 if(response.status === 500){
@@ -32,7 +32,7 @@ app.factory('admin', [
         };
 
         admin.comptes = function(then){
-            $http.get('comptes').then(function(response){
+            $http.get('index.php/comptes').then(function(response){
                 then({success: true, utilisateurs: response.data})
             }, function(response){
                 if(response.status === 500){

@@ -14,7 +14,7 @@ app.factory('auth', [
             organisation: user.organisation,
             team: user.equipe
         };
-        return $http.post('register', user_info).then(function(response){
+        return $http.post('index.php/register', user_info).then(function(response){
                 then({success : true});
             },
             function(response){
@@ -34,7 +34,7 @@ app.factory('auth', [
             password: user.password
         };
 
-        return $http.post('login', user_info).then(function(response){
+        return $http.post('index.php/login', user_info).then(function(response){
                 then({success: true});
             },
             function(response){
@@ -52,7 +52,7 @@ app.factory('auth', [
     };
 
     auth.logout = function(then){
-        $http.get('logout').then(function(response){
+        $http.get('index.php/logout').then(function(response){
                 then({success: true});
             }, function(response){
                 then({success: false, error: "Impossible de vous déconnecter, vous n'êtes probablement pas connecté !"});
@@ -61,8 +61,8 @@ app.factory('auth', [
     };
 
     auth.currentUser = function(then){
-        $http.get('compte').then(function(response){
-                $http.get('compte/' + response.data.id).then(
+        $http.get('index.php/compte').then(function(response){
+                $http.get('index.php/compte/' + response.data.id).then(
                     function(response){
                         if(response.data.id == null){
                             if(response.status === 401){
@@ -96,7 +96,7 @@ app.factory('auth', [
     };
 
     auth.delete = function(id, then){
-        $http.delete('compte/' + id).then(function(response){
+        $http.delete('index.php/compte/' + id).then(function(response){
             then({success: true});
         }, function(response){
             if(response.status === 401){
