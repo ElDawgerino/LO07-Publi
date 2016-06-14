@@ -762,9 +762,9 @@ class publication
         //Calcul des publications sans auteurs
 
         $publiIdsSansAuteursUTTQuery = $db->query(
-            "SELECT ra.publication_id FROM RelationsAuteurs AS ra
+            "SELECT p.id FROM Publications AS p
             WHERE NOT EXISTS
-                ( SELECT * FROM Auteurs AS a WHERE a.id = ra.auteur_id AND (a.organisation = 'UTT' OR a.organisation = 'utt') );",
+                ( SELECT * FROM RelationsAuteurs AS ra, Auteurs AS a WHERE p.id = ra.publication_id AND a.id = ra.auteur_id AND (a.organisation = 'UTT' OR a.organisation = 'utt') );",
             []
         );
 
