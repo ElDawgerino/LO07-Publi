@@ -631,7 +631,8 @@ class publication
         );
     }
 
-    public static function getJournaux(){
+    public static function getJournaux()
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
@@ -650,7 +651,8 @@ class publication
         ]);
     }
 
-    public static function getConferences(){
+    public static function getConferences()
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
@@ -669,7 +671,8 @@ class publication
         ]);
     }
 
-    public static function search($params){
+    public static function search($params)
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
@@ -697,7 +700,8 @@ class publication
         ]);
     }
 
-    public static function stats(){
+    public static function stats()
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
@@ -728,7 +732,8 @@ class publication
         ]);
     }
 
-    public static function anomalies(){
+    public static function anomalies()
+    {
         $db = database_factory::get_db();
         if(!$db->is_ok()){
             return http\internal_error();
@@ -741,7 +746,7 @@ class publication
         //Calcul des publications en doublon
 
         $doublonsQuery = $db->query(
-            "SELECT p1.id FROM Publications AS p1
+            "SELECT DISTINCT p1.id FROM Publications AS p1
             WHERE EXISTS(
                 SELECT * FROM Publications AS p2
                 WHERE p1.titre = p2.titre AND p2.id <> p1.id
@@ -762,7 +767,7 @@ class publication
         //Calcul des publications sans auteurs
 
         $publiIdsSansAuteursUTTQuery = $db->query(
-            "SELECT p.id FROM Publications AS p
+            "SELECT DISTINCT p.id FROM Publications AS p
             WHERE NOT EXISTS
                 ( SELECT * FROM RelationsAuteurs AS ra, Auteurs AS a WHERE p.id = ra.publication_id AND a.id = ra.auteur_id AND (a.organisation = 'UTT' OR a.organisation = 'utt') );",
             []
@@ -785,13 +790,16 @@ class publication
 
     }
 
-    public static function deletePublication($id){
+    public static function deletePublication($id)
+    {
         $db = database_factory::get_db();
-        if(!$db->is_ok()){
+        if(!$db->is_ok())
+        {
             return http\internal_error();
         }
 
-        if(!user_management::check_connection()){
+        if(!user_management::check_connection())
+        {
             return http\unauthorized();
         }
 
@@ -799,13 +807,16 @@ class publication
             WHERE publication_id = :id", ["id" => $id]);
 
         $isAuteur = false;
-        foreach ($auteurCheck->fetchAll(PDO::FETCH_ASSOC) as $auteur) {
-            if($_SESSION["id"] == $auteur["auteur_id"]){
+        foreach ($auteurCheck->fetchAll(PDO::FETCH_ASSOC) as $auteur)
+        {
+            if($_SESSION["id"] == $auteur["auteur_id"])
+            {
                 $isAuteur = true;
             }
         }
 
-        if(!$isAuteur && !user_management::isAdmin()){
+        if(!$isAuteur || !user_management::isAdmin())
+        {
             return http\forbidden();
         }
 
@@ -816,10 +827,12 @@ class publication
         $db->query("DELETE FROM Publications WHERE id = :id;", ["id" => $id]);
 
         $successful = $db->commit();
-        if($successful){
+        if($successful)
+        {
             return http\success(["id" => $id]);
         }
-        else {
+        else
+        {
             return http\internal_error();
         }
     }
