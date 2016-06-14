@@ -1,22 +1,9 @@
-@font-face {
-    font-family: 'lato';
-    src: local('fonts/Lato-Regular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'lato';
-    src: local('fonts/Lato-Bold.ttf');
-    font-weight: bold;
-    font-style: normal;
-}
-
 .nav {
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
+    font-size: 12pt;
     background-color: #19191F;
 }
 
@@ -79,8 +66,12 @@
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: rgb(80, 80, 80);
-    font-size: 18px;
+    font-size: 12pt;
     background-color: rgb(240, 240, 240);
+}
+
+button {
+    font-size: 12pt;
 }
 
 footer {
@@ -278,16 +269,4 @@ form select:hover {
 
 .display-box input {
 
-}
-
-.display-search-box {
-
-}
-
-.display-option-box {
-    margin-right: 0;
-    margin-left: auto;
-    max-width: 500px;
-    text-align: right;
-    float: right;
 }

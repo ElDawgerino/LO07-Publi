@@ -1,27 +1,23 @@
 <div ng-show="liste.length > 0" class="projet-liste-publications">
     <div class="display-box">
-        <div class="display-option-box">
-            <label>Grouper par :</label>
-            <select ng-model="groupBy" ng-change="saveGroupByToLocalStorage()">
-                <option value="categorie">Catégories</option>
-                <option value="conference_nom">Conférences</option>
-                <option value="journal_titre">Journaux</option>
-                <option value="annee_publication">Années</option>
-            </select>
-            <label>Trier par :</label>
-            <select ng-model="orderBy" ng-change="saveOrderByToLocalStorage();">
-                <option value="-annee_publication">Années ↑</option>
-                <option value="annee_publication">Années ↓</option>
-                <option value="-titre">Titre ↑</option>
-                <option value="titre">Titre ↓</option>
-                <option value="-categorie">Catégorie ↑</option>
-                <option value="categorie">Catégorie ↓</option>
-            </select>
-            <button ng-click="reset()">Réinitialiser</button>
-        </div>
-        <div class="display-search-box">
-            <input ng-model="search" placeholder="Recherche..." value=""/>
-        </div>
+        <input ng-model="search" placeholder="Recherche..." value=""/>
+        <label>Grouper par :</label>
+        <select ng-model="groupBy" ng-change="saveGroupByToLocalStorage()">
+            <option value="categorie">Catégories</option>
+            <option value="conference_nom">Conférences</option>
+            <option value="journal_titre">Journaux</option>
+            <option value="annee_publication">Années</option>
+        </select>
+        <label>Trier par :</label>
+        <select ng-model="orderBy" ng-change="saveOrderByToLocalStorage();">
+            <option value="-annee_publication">Années ↑</option>
+            <option value="annee_publication">Années ↓</option>
+            <option value="-titre">Titre ↑</option>
+            <option value="titre">Titre ↓</option>
+            <option value="-categorie">Catégorie ↑</option>
+            <option value="categorie">Catégorie ↓</option>
+        </select>
+        <button ng-click="reset()">Réinitialiser</button>
     </div>
     <div class="group-by-box" ng-repeat="(orderByLabel, subliste) in liste | filter: search | orderBy: orderBy | groupBy: groupBy">
         <h3 onclick="Folding.toggleFolder(this);">
